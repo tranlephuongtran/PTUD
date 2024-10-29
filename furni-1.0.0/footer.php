@@ -30,54 +30,58 @@
             </div>
         </div>
 
-        <div class="row g-7 mb-7">
-            <div class="col-lg-4">
-                <div class="mb-4 footer-logo-wrap"><a href="#" class="footer-logo">Nhà sách A Plus</a>
-                </div>
-                <p class="mb-4">Chúng tôi tự hào là nơi cung cấp dịch vụ cho thuê sách đa dạng, từ truyện tranh đến các
-                    đầu sách chuyên ngành và tạp chí, phù hợp với mọi lứa tuổi và sở thích.</p>
-
-                <ul class="list-unstyled custom-social">
-                    <li><a href="#"><span class="fa fa-brands fa-facebook-f"></span></a></li>
-                    <li><a href="#"><span class="fa fa-brands fa-twitter"></span></a></li>
-                    <li><a href="#"><span class="fa fa-brands fa-instagram"></span></a></li>
-                    <li><a href="#"><span class="fa fa-brands fa-linkedin"></span></a></li>
-                </ul>
-            </div>
-
-            <div class="col-lg-4">
-                <div class="row links-wrap">
-                    <div class="col-12 col-sm-6 col-md-3">
-                        <ul class="list-unstyled">
-                            <li>
-                                <div style='position: relative; left: 80px;'><a href="#">Giới thiệu</a></div>
-                            </li>
-                            <li>
-                                <div style='position: relative; left: 80px;'>
-                                    <a href="#">Chính sách</a>
-                                </div>
-                            </li>
-                        </ul>
+        <div style="font-size: larger">
+            <div class="row g-7 mb-7">
+                <div class="col-lg-4">
+                    <div class="mb-4 footer-logo-wrap"><a href="#" class="footer-logo">Nhà sách A Plus</a>
                     </div>
+                    <p class="mb-4">Chúng tôi tự hào là nơi cung cấp dịch vụ cho thuê sách đa dạng, từ truyện tranh đến
+                        các
+                        đầu sách chuyên ngành và tạp chí, phù hợp với mọi lứa tuổi và sở thích.</p>
 
-                    <div class="col-6 col-sm-6 col-md-3">
-                        <ul class="list-unstyled">
-                            <li>
-                                <div style='position: relative; left: 120px;'><a href="#">Sản phẩm</a></div>
-                            </li>
-                            <li>
-                                <div style='position: relative; left: 120px;'><a href="#">Giỏ hàng</a></div>
-                            </li>
-                        </ul>
+                    <ul class="list-unstyled custom-social">
+                        <li><a href="#"><span class="fa fa-brands fa-facebook-f"></span></a></li>
+                        <li><a href="#"><span class="fa fa-brands fa-twitter"></span></a></li>
+                        <li><a href="#"><span class="fa fa-brands fa-instagram"></span></a></li>
+                        <li><a href="#"><span class="fa fa-brands fa-linkedin"></span></a></li>
+                    </ul>
+                </div>
 
+                <div class="col-lg-4">
+                    <div class="row links-wrap">
+                        <div class="col-12 col-sm-6 col-md-4">
+                            <ul class="list-unstyled">
+                                <li>
+                                    <div style='position: relative; left: 50px;'><a href="#">Giới thiệu</a></div>
+                                </li>
+                                <li>
+                                    <div style='position: relative; left: 50px;'>
+                                        <a href="#">Chính sách</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="col-6 col-sm-6 col-md-3">
+                            <ul class="list-unstyled">
+                                <li>
+                                    <div style='position: relative; left: 100px;'><a href="#">Sản phẩm</a></div>
+                                </li>
+                                <li>
+                                    <div style='position: relative; left: 100px;'><a href="#">Giỏ hàng</a></div>
+                                </li>
+                            </ul>
+
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-lg-4">
-                <div class="mb-4 footer-logo-wrap"><a href="#" class="footer-logo">Tại A Plus</a>
-                </div>Bạn sẽ dễ dàng tìm thấy những tác phẩm yêu thích mà không cần phải mua,
-                giúp tiết kiệm chi phí và bảo vệ môi trường. Đến ngay A Plus để thỏa mãn đam mê đọc sách và khám phá!
+                <div class="col-lg-4">
+                    <div class="mb-4 footer-logo-wrap"><a href="#" class="footer-logo">Tại A Plus</a>
+                    </div>Bạn sẽ dễ dàng tìm thấy những tác phẩm yêu thích mà không cần phải mua,
+                    giúp tiết kiệm chi phí và bảo vệ môi trường. Đến ngay A Plus để thỏa mãn đam mê đọc sách và khám
+                    phá!
+                </div>
             </div>
         </div>
 
