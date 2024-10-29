@@ -456,6 +456,7 @@ include('header.php')
 <!-- End Blog Section -->
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <!-- Start Footer Section -->
 <footer class="footer-section">
@@ -569,11 +570,14 @@ include('header.php')
 </footer>
 <!-- End Footer Section -->
 >>>>>>> b71d225 (change to php file)
+=======
+>>>>>>> bb4b4cc (done header footer)
 
 
 <script src="js/bootstrap.bundle.min.js"></script>
 <script src="js/tiny-slider.js"></script>
 <script src="js/custom.js"></script>
+<<<<<<< HEAD
 <<<<<<< HEAD
 <?php
 include('footer.php')
@@ -583,3 +587,8 @@ include('footer.php')
 
 </html>
 >>>>>>> b71d225 (change to php file)
+=======
+<?php
+include('footer.php')
+	?>
+>>>>>>> bb4b4cc (done header footer)

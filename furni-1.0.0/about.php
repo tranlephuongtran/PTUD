@@ -594,6 +594,7 @@ include('header.php')
 =======
 <!-- End Testimonial Slider -->
 
+<<<<<<< HEAD
 
 
 <!-- Start Footer Section -->
@@ -716,3 +717,8 @@ include('header.php')
 
 </html>
 >>>>>>> b71d225 (change to php file)
+=======
+<?php
+include('footer.php')
+	?>
+>>>>>>> bb4b4cc (done header footer)

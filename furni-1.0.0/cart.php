@@ -9,12 +9,17 @@
 <html lang="en">
 <?php
 <<<<<<< HEAD
+<<<<<<< HEAD
 include('header.php')
 	?>
 =======
 	include('header.php')
 		?>
 >>>>>>> b71d225 (change to php file)
+=======
+include('header.php')
+	?>
+>>>>>>> bb4b4cc (done header footer)
 
 <!-- Start Hero Section -->
 <div class="hero">
@@ -175,6 +180,7 @@ include('header.php')
 </div>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 <?php
 include('footer.php')
 	?>
@@ -292,10 +298,16 @@ include('footer.php')
 </footer>
 <!-- End Footer Section -->
 >>>>>>> b71d225 (change to php file)
+=======
+<?php
+include('footer.php')
+	?>
+>>>>>>> bb4b4cc (done header footer)
 
 
 <script src="js/bootstrap.bundle.min.js"></script>
 <script src="js/tiny-slider.js"></script>
+<<<<<<< HEAD
 <<<<<<< HEAD
 <script src="js/custom.js"></script>
 =======
@@ -304,3 +316,6 @@ include('footer.php')
 
 </html>
 >>>>>>> b71d225 (change to php file)
+=======
+<script src="js/custom.js"></script>
+>>>>>>> bb4b4cc (done header footer)
