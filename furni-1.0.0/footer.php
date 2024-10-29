@@ -10,14 +10,14 @@
             <div class="col-lg-8">
                 <div class="subscription-form">
                     <h3 class="d-flex align-items-center"><span class="me-1"><img src="images/envelope-outline.svg"
-                                alt="Image" class="img-fluid"></span><span>Subscribe to Newsletter</span></h3>
+                                alt="Image" class="img-fluid"></span><span>Liên hệ với chúng tôi</span></h3>
 
                     <form action="#" class="row g-3">
                         <div class="col-auto">
-                            <input type="text" class="form-control" placeholder="Enter your name">
+                            <input type="text" class="form-control" placeholder="Tên của bạn">
                         </div>
                         <div class="col-auto">
-                            <input type="email" class="form-control" placeholder="Enter your email">
+                            <input type="email" class="form-control" placeholder="Email của bạn">
                         </div>
                         <div class="col-auto">
                             <button class="btn btn-primary">
@@ -86,9 +86,8 @@
                 <div class="col-lg-6">
                     <p class="mb-2 text-center text-lg-start">Copyright &copy;
                         <script>document.write(new Date().getFullYear());</script>. All Rights Reserved. &mdash;
-                        Designed with love by <a href="https://untree.co">Untree.co</a> Distributed By <a
-                            hreff="https://themewagon.com">ThemeWagon</a>
-                        <!-- License information: https://untree.co/license/ -->
+                        Designed with love by A Plus. Distributed By A Plus
+
                     </p>
                 </div>
 
