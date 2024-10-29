@@ -336,8 +336,11 @@ include('header.php')
 
 			</div>
 		</div>
-		<!-- </form> -->
 	</div>
+
+
+	<!-- </form> -->
+</div>
 </div>
 <?php
 include('footer.php')
@@ -346,3 +349,6 @@ include('footer.php')
 <script src="js/bootstrap.bundle.min.js"></script>
 <script src="js/tiny-slider.js"></script>
 <script src="js/custom.js"></script>
+</body>
+
+</html>
