@@ -736,6 +736,7 @@ textarea {
 .activenav{
   color: red;
 }
+<<<<<<< HEAD
 #videoOverlay {
 	width: 100% !important;
 	height: auto !important;
@@ -747,3 +748,5 @@ textarea {
   height: auto;
   size: 30px;
 }
+=======
+>>>>>>> b71d225 (change to php file)

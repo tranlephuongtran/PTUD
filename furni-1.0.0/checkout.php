@@ -8,8 +8,13 @@
 <!doctype html>
 <html lang="en">
 <?php
+<<<<<<< HEAD
 include('header.php')
 	?>
+=======
+	include('header.php')
+		?>
+>>>>>>> b71d225 (change to php file)
 
 <!-- Start Hero Section -->
 <div class="hero">
@@ -336,10 +341,15 @@ include('header.php')
 
 			</div>
 		</div>
+<<<<<<< HEAD
 	</div>
 
 
 	<!-- </form> -->
+=======
+		<!-- </form> -->
+	</div>
+>>>>>>> b71d225 (change to php file)
 </div>
 
 <!-- Start Footer Section -->
@@ -457,4 +467,11 @@ include('header.php')
 
 <script src="js/bootstrap.bundle.min.js"></script>
 <script src="js/tiny-slider.js"></script>
+<<<<<<< HEAD
 <script src="js/custom.js"></script>
+=======
+<script src="js/custom.js"></script>
+</body>
+
+</html>
+>>>>>>> b71d225 (change to php file)
