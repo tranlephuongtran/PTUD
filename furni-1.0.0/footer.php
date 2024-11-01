@@ -3,7 +3,7 @@
     <div class="container relative">
 
         <div class="sofa-img">
-            <img src="images/sofa.png" alt="Image" class="img-fluid">
+            <img src="images/sach.png" alt="Image" class="img-fluid">
         </div>
 
         <div class="row">
@@ -49,26 +49,26 @@
 
                 <div class="col-lg-4">
                     <div class="row links-wrap">
-                        <div class="col-12 col-sm-6 col-md-4">
+                        <div class="col-12 col-sm-6 col-md-6">
                             <ul class="list-unstyled">
                                 <li>
-                                    <div style='position: relative; left: 50px;'><a href="#">Giới thiệu</a></div>
+                                    <div style='position: relative; left: 30px;'><a href="#">Giới thiệu</a></div>
                                 </li>
                                 <li>
-                                    <div style='position: relative; left: 50px;'>
+                                    <div style='position: relative; left: 30px;'>
                                         <a href="#">Chính sách</a>
                                     </div>
                                 </li>
                             </ul>
                         </div>
 
-                        <div class="col-6 col-sm-6 col-md-3">
+                        <div class="col-6 col-sm-6 col-md-6">
                             <ul class="list-unstyled">
                                 <li>
-                                    <div style='position: relative; left: 100px;'><a href="#">Sản phẩm</a></div>
+                                    <div style='position: relative; left: 10px;'><a href="#">Sản phẩm</a></div>
                                 </li>
                                 <li>
-                                    <div style='position: relative; left: 100px;'><a href="#">Giỏ hàng</a></div>
+                                    <div style='position: relative; left: 10px;'><a href="#">Giỏ hàng</a></div>
                                 </li>
                             </ul>
 
