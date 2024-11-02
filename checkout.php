@@ -69,7 +69,7 @@ include('header.php')
 
 				</div>
 			</div>
-			<div class="col-md-5git">
+			<div class="col-md-5">
 				<!-- <div class="row mb-5">
 					<div class="col-md-12">
 						<h2 class="h3 mb-3 text-black">Coupon Code</h2>
