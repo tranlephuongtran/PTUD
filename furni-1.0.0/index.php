@@ -16,6 +16,7 @@ include('header.php')
 	<div class="container">
 		<div class="row justify-content-between">
 <<<<<<< HEAD
+<<<<<<< HEAD
 			<div class="col-lg-5">  <!-- Cập nhật lại Tiếng Việt  -->
 				<div class="intro-excerpt">
 					<h1>Thế Giới Sách <span clsas="d-block">Của Bạn</span></h1>
@@ -36,18 +37,34 @@ include('header.php')
 					<img src="images/stand.png" class="stand" alt="">
 =======
 			<div class="col-lg-5">
+=======
+			<div class="col-lg-5"> <!-- Cập nhật lại Tiếng Việt  -->
+>>>>>>> a529eaa (Huy3)
 				<div class="intro-excerpt">
-					<h1>Modern Interior <span clsas="d-block">Design Studio</span></h1>
-					<p class="mb-4">Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam
-						vulputate velit imperdiet dolor tempor tristique.</p>
-					<p><a href="" class="btn btn-secondary me-2">Shop Now</a><a href="#"
-							class="btn btn-white-outline">Explore</a></p>
+					<h1>Thế Giới Sách <span clsas="d-block">Của Bạn</span></h1>
+					<p class="mb-4">Khám phá hàng ngàn cuốn sách hấp dẫn từ mọi thể loại, giúp bạn mở rộng kiến thức và
+						khơi nguồn cảm hứng.</p>
+					<p><a href="" class="btn btn-secondary me-2">Mua Ngay</a><a href="#"
+							class="btn btn-white-outline">Khám Phá</a></p>
 				</div>
 			</div>
 			<div class="col-lg-7">
+<<<<<<< HEAD
 				<div class="hero-img-wrap">
 					<img src="images/couch.png" class="img-fluid">
 >>>>>>> b71d225 (change to php file)
+=======
+				<div class="hero books-slider">
+					<div class="swiper-wrapper">
+						<a href="#" class="swiper-slide"><img src="images/book1.png" alt=""></a>
+						<a href="#" class="swiper-slide"><img src="images/book2.png" alt=""></a>
+						<a href="#" class="swiper-slide"><img src="images/book3.png" alt=""></a>
+						<a href="#" class="swiper-slide"><img src="images/book4.png" alt=""></a>
+						<a href="#" class="swiper-slide"><img src="images/book5.png" alt=""></a>
+						<a href="#" class="swiper-slide"><img src="images/book6.png" alt=""></a>
+					</div>
+					<img src="images/stand.png" class="stand" alt="">
+>>>>>>> a529eaa (Huy3)
 				</div>
 			</div>
 		</div>
@@ -59,6 +76,7 @@ include('header.php')
 <div class="product-section">
 	<div class="container">
 		<div class="row">
+<<<<<<< HEAD
 <<<<<<< HEAD
 <!-- Sửa lại Tiếng Việt và tinh chỉnh vài chi tiết -->
 			<!-- Start Column 1 -->
@@ -75,12 +93,22 @@ include('header.php')
 					velit imperdiet dolor tempor tristique. </p>
 				<p><a href="shop.html" class="btn">Explore</a></p>
 >>>>>>> b71d225 (change to php file)
+=======
+			<!-- Sửa lại Tiếng Việt và tinh chỉnh vài chi tiết -->
+			<!-- Start Column 1 -->
+			<div class="col-md-12 col-lg-3 mb-5 mb-lg-0">
+				<h2 class="mb-4 section-title">Sách chất lượng, đọc thả ga.</h2>
+				<p class="mb-4">Thư viện với hàng ngàn đầu sách đa dạng thể loại, từ văn học kinh điển đến truyện tranh
+					hiện đại, đáp ứng mọi nhu cầu đọc của bạn. </p>
+				<p><a href="shop.html" class="btn">Khám phá ngay</a></p>
+>>>>>>> a529eaa (Huy3)
 			</div>
 			<!-- End Column 1 -->
 
 			<!-- Start Column 2 -->
 			<div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
 				<a class="product-item" href="cart.html">
+<<<<<<< HEAD
 <<<<<<< HEAD
 					<img src="images/book7.png" class="img-fluid product-thumbnail">
 					<h3 class="product-title">Văn học</h3>
@@ -90,6 +118,11 @@ include('header.php')
 					<h3 class="product-title">Nordic Chair</h3>
 					<strong class="product-price">$50.00</strong>
 >>>>>>> b71d225 (change to php file)
+=======
+					<img src="images/book7.png" class="img-fluid product-thumbnail">
+					<h3 class="product-title">Văn học</h3>
+					<strong class="product-price">$12.00</strong>
+>>>>>>> a529eaa (Huy3)
 
 					<span class="icon-cross">
 						<img src="images/cross.svg" class="img-fluid">
@@ -102,6 +135,7 @@ include('header.php')
 			<div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
 				<a class="product-item" href="cart.html">
 <<<<<<< HEAD
+<<<<<<< HEAD
 					<img src="images/book8.png" class="img-fluid product-thumbnail">
 					<h3 class="product-title">Lịch Sử</h3>
 					<strong class="product-price">$18.00</strong>
@@ -110,6 +144,11 @@ include('header.php')
 					<h3 class="product-title">Kruzo Aero Chair</h3>
 					<strong class="product-price">$78.00</strong>
 >>>>>>> b71d225 (change to php file)
+=======
+					<img src="images/book8.png" class="img-fluid product-thumbnail">
+					<h3 class="product-title">Lịch Sử</h3>
+					<strong class="product-price">$18.00</strong>
+>>>>>>> a529eaa (Huy3)
 
 					<span class="icon-cross">
 						<img src="images/cross.svg" class="img-fluid">
@@ -122,6 +161,7 @@ include('header.php')
 			<div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
 				<a class="product-item" href="cart.html">
 <<<<<<< HEAD
+<<<<<<< HEAD
 					<img src="images/book9.png" class="img-fluid product-thumbnail">
 					<h3 class="product-title">Âm Nhạc</h3>
 					<strong class="product-price">$15.00</strong>
@@ -130,6 +170,11 @@ include('header.php')
 					<h3 class="product-title">Ergonomic Chair</h3>
 					<strong class="product-price">$43.00</strong>
 >>>>>>> b71d225 (change to php file)
+=======
+					<img src="images/book9.png" class="img-fluid product-thumbnail">
+					<h3 class="product-title">Âm Nhạc</h3>
+					<strong class="product-price">$15.00</strong>
+>>>>>>> a529eaa (Huy3)
 
 					<span class="icon-cross">
 						<img src="images/cross.svg" class="img-fluid">
