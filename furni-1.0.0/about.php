@@ -8,6 +8,9 @@
 <!doctype html>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> a529eaa1ca2cc1aa4bf5c4451730937efc877fc9
 <div lang="en">
 
 	<?php
@@ -245,6 +248,7 @@
 	<!-- End Testimonial Slider -->
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 			<!-- Start Team Section -->
 			<!-- <div class="untree_co-section" style="position: relative; bottom: 120px">
 <<<<<<< HEAD
@@ -255,6 +259,10 @@
 	<!-- Start Team Section -->
 	<!-- <div class="untree_co-section" style="position: relative; bottom: 120px">
 >>>>>>> e6ae16a (done Tran about)
+=======
+	<!-- Start Team Section -->
+	<!-- <div class="untree_co-section" style="position: relative; bottom: 120px">
+>>>>>>> a529eaa1ca2cc1aa4bf5c4451730937efc877fc9
 				<div class="container">
 					<div class="row mb-5">
 						<div class="col-lg-5 mx-auto text-center">
@@ -326,6 +334,7 @@
 
 
 						</div> -->
+<<<<<<< HEAD
 <<<<<<< HEAD
 			<!-- End Column 4
 <<<<<<< HEAD
@@ -652,6 +661,9 @@
 =======
 	<!-- End Column 4
 >>>>>>> e6ae16a (done Tran about)
+=======
+	<!-- End Column 4
+>>>>>>> a529eaa1ca2cc1aa4bf5c4451730937efc877fc9
 
 
 
@@ -662,6 +674,7 @@
 	</div>
 </div>
 <!-- End Team Section -->
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -934,3 +947,8 @@ include('footer.php')
 	include('footer.php')
 		?>
 >>>>>>> e6ae16a (done Tran about)
+=======
+	<?php
+	include('footer.php')
+		?>
+>>>>>>> a529eaa1ca2cc1aa4bf5c4451730937efc877fc9

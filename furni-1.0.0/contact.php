@@ -251,8 +251,6 @@ include('header.php')
 	</div>
 </footer>
 <!-- End Footer Section -->
-<<<<<<< HEAD
-<<<<<<< HEAD
 <?php
 include('footer.php')
 	?>
@@ -260,22 +258,3 @@ include('footer.php')
 <script src="js/bootstrap.bundle.min.js"></script>
 <script src="js/tiny-slider.js"></script>
 <script src="js/custom.js"></script>
-=======
-
-
-<script src="js/bootstrap.bundle.min.js"></script>
-<script src="js/tiny-slider.js"></script>
-<script src="js/custom.js"></script>
-</body>
-
-</html>
->>>>>>> b71d225 (change to php file)
-=======
-<?php
-include('footer.php')
-	?>
-
-<script src="js/bootstrap.bundle.min.js"></script>
-<script src="js/tiny-slider.js"></script>
-<script src="js/custom.js"></script>
->>>>>>> bb4b4cc (done header footer)

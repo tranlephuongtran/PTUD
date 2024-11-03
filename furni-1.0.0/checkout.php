@@ -8,18 +8,8 @@
 <!doctype html>
 <html lang="en">
 <?php
-<<<<<<< HEAD
-<<<<<<< HEAD
 include('header.php')
 	?>
-=======
-	include('header.php')
-		?>
->>>>>>> b71d225 (change to php file)
-=======
-include('header.php')
-	?>
->>>>>>> bb4b4cc (done header footer)
 
 <!-- Start Hero Section -->
 <div class="hero">
@@ -187,23 +177,11 @@ include('header.php')
 				</div>
 			</div>
 		</div>
-<<<<<<< HEAD
-<<<<<<< HEAD
-	</div>
-
-
-	<!-- </form> -->
-=======
-		<!-- </form> -->
-	</div>
->>>>>>> b71d225 (change to php file)
-=======
 	</div>
 
 
 	<!-- </form> -->
 </div>
->>>>>>> 521253e (merge Quan)
 </div>
 <?php
 include('footer.php')
@@ -211,15 +189,4 @@ include('footer.php')
 
 <script src="js/bootstrap.bundle.min.js"></script>
 <script src="js/tiny-slider.js"></script>
-<<<<<<< HEAD
-<<<<<<< HEAD
 <script src="js/custom.js"></script>
-=======
-<script src="js/custom.js"></script>
-</body>
-
-</html>
->>>>>>> b71d225 (change to php file)
-=======
-<script src="js/custom.js"></script>
->>>>>>> bb4b4cc (done header footer)
