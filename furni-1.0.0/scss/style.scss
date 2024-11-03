@@ -5,8 +5,7 @@
 * License: https://creativecommons.org/licenses/by/3.0/
 */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
 
 // Create SCSS variables
 $white: #ffffff;
@@ -41,7 +40,7 @@ body {
 
 a {
 	text-decoration: none;
-	transition: .3s all ease;
+	transition: 0.3s all ease;
 	color: $dark;
 	text-decoration: underline;
 	&:hover {
@@ -54,19 +53,20 @@ a {
 }
 
 .custom-navbar {
-	background: $primary!important;
+	background: $primary !important;
 	padding-top: 20px;
 	padding-bottom: 20px;
 	.navbar-brand {
 		font-size: 32px;
 		font-weight: 600;
 		> span {
-			opacity: .4;
+			opacity: 0.4;
 		}
 	}
 	.navbar-toggler {
 		border-color: transparent;
-		&:active, &:focus {
+		&:active,
+		&:focus {
 			box-shadow: none;
 			outline: none;
 		}
@@ -79,9 +79,9 @@ a {
 			}
 			a {
 				font-weight: 500;
-				color: $white!important;
-				opacity: .5;
-				transition: .3s all ease;
+				color: $white !important;
+				opacity: 0.5;
+				transition: 0.3s all ease;
 				position: relative;
 				&:before {
 					@media (min-width: $md) {
@@ -95,7 +95,7 @@ a {
 						opacity: 1;
 						visibility: visible;
 						width: 0;
-						transition: .15s all ease-out;
+						transition: 0.15s all ease-out;
 					}
 				}
 				&:hover {
@@ -116,10 +116,10 @@ a {
 		}
 	}
 	.custom-navbar-cta {
-		margin-left: 0!important;
+		margin-left: 0 !important;
 		flex-direction: row;
 		@media (min-width: $md) {
-			margin-left: 40px!important;
+			margin-left: 40px !important;
 		}
 		li {
 			margin-left: 0px;
@@ -131,7 +131,7 @@ a {
 	}
 }
 
-// Hero 
+// Hero
 .hero {
 	background: $primary;
 	padding: calc(4rem - 30px) 0 0rem 0;
@@ -141,9 +141,8 @@ a {
 	@media (min-width: $lg) {
 		padding: calc(8rem - 30px) 0 8rem 0;
 	}
-	
+
 	.intro-excerpt {
-		
 		position: relative;
 		z-index: 4;
 		@media (min-width: $lg) {
@@ -160,7 +159,7 @@ a {
 		}
 	}
 	p {
-		color: rgba($white, .5);
+		color: rgba($white, 0.5);
 		margin-botom: 30px;
 	}
 	.hero-img-wrap {
@@ -175,7 +174,6 @@ a {
 			@media (min-width: $md) {
 				right: 0px;
 				left: -100px;
-
 			}
 			@media (min-width: $lg) {
 				left: 0px;
@@ -186,17 +184,16 @@ a {
 			@media (min-width: $xl) {
 				left: 0px;
 				top: -80px;
-		
+
 				right: -100px;
 			}
-			
 		}
 		&:after {
 			content: "";
 			position: absolute;
 			width: 255px;
 			height: 217px;
-			background-image: url('../images/dots-light.svg');
+			background-image: url("../images/dots-light.svg");
 			background-size: contain;
 			background-repeat: no-repeat;
 			right: -100px;
@@ -208,7 +205,7 @@ a {
 	}
 }
 
-// Button 
+// Button
 .btn {
 	font-weight: 600;
 	padding: 12px 30px;
@@ -221,8 +218,9 @@ a {
 		background: darken($dark, 5%);
 		border-color: darken($dark, 5%);
 	}
-	&:active, &:focus {
-		outline: none!important;
+	&:active,
+	&:focus {
+		outline: none !important;
 		box-shadow: none;
 	}
 	&.btn-primary {
@@ -245,7 +243,7 @@ a {
 	&.btn-white-outline {
 		background: transparent;
 		border-width: 2px;
-		border-color: rgba($white, .3);
+		border-color: rgba($white, 0.3);
 		&:hover {
 			border-color: rgba($white, 1);
 			color: $white;
@@ -272,17 +270,18 @@ a {
 			margin-bottom: 30px;
 			position: relative;
 			top: 0;
-			transition: .3s all ease;
+			transition: 0.3s all ease;
 		}
 		h3 {
 			font-weight: 600;
 			font-size: 16px;
 		}
 		strong {
-			font-weight: 800!important;
-			font-size: 18px!important;
+			font-weight: 800 !important;
+			font-size: 18px !important;
 		}
-		h3, strong {
+		h3,
+		strong {
 			color: $dark;
 			text-decoration: none;
 		}
@@ -299,7 +298,7 @@ a {
 			border-radius: 50%;
 			opacity: 0;
 			visibility: hidden;
-			transition: .3s all ease;
+			transition: 0.3s all ease;
 			img {
 				position: absolute;
 				left: 50%;
@@ -317,7 +316,7 @@ a {
 			height: 0%;
 			z-index: -1;
 			border-radius: 10px;
-			transition: .3s all ease;
+			transition: 0.3s all ease;
 		}
 		&:hover {
 			.product-thumbnail {
@@ -335,7 +334,6 @@ a {
 	}
 }
 
-
 // Why Choose us section
 .why-choose-section {
 	padding: 7rem 0;
@@ -347,7 +345,7 @@ a {
 			content: "";
 			width: 255px;
 			height: 217px;
-			background-image: url('../images/dots-yellow.svg');
+			background-image: url("../images/dots-yellow.svg");
 			background-repeat: no-repeat;
 			background-size: contain;
 			transform: translate(-40%, -40%);
@@ -371,12 +369,11 @@ a {
 			width: 33px;
 			height: 33px;
 			position: absolute;
-			background: rgba($primary, .2);
+			background: rgba($primary, 0.2);
 			border-radius: 50%;
 			right: -8px;
 			bottom: 0;
 		}
-
 	}
 	h3 {
 		font-size: 14px;
@@ -401,7 +398,7 @@ a {
 			content: "";
 			width: 255px;
 			height: 217px;
-			background-image: url('../images/dots-green.svg');
+			background-image: url("../images/dots-green.svg");
 			background-size: contain;
 			background-repeat: no-repeat;
 			transform: translate(-40%, -40%);
@@ -427,10 +424,9 @@ a {
 				grid-row: 6 / span 27;
 				padding-top: 20px;
 			}
-
 		}
 	}
-}	
+}
 
 .custom-list {
 	width: 100%;
@@ -464,9 +460,9 @@ a {
 		a {
 			text-decoration: none;
 			color: $dark;
-			transition: .3s all ease;
+			transition: 0.3s all ease;
 			&:hover {
-				color: rgba($dark, .5);
+				color: rgba($dark, 0.5);
 			}
 		}
 		p {
@@ -528,7 +524,6 @@ a {
 					margin-bottom: 0;
 				}
 			}
-
 		}
 	}
 	#testimonial-nav {
@@ -547,9 +542,9 @@ a {
 			height: 58px;
 			line-height: 58px;
 			border-radius: 50%;
-			background: rgba($primary, .1);
+			background: rgba($primary, 0.1);
 			color: $dark;
-			transition: .3s all ease;
+			transition: 0.3s all ease;
 			&:hover {
 				background: $primary;
 				color: $white;
@@ -572,11 +567,13 @@ a {
 			border: none;
 			display: inline-block;
 			position: relative;
-			width: 0!important;
-			height: 7px!important;
+			width: 0 !important;
+			height: 7px !important;
 			margin: 2px;
 
-			&:active, &:focus, &:hover {
+			&:active,
+			&:focus,
+			&:hover {
 				outline: none;
 				box-shadow: none;
 				background: none;
@@ -591,10 +588,11 @@ a {
 				position: absolute;
 				content: "";
 				border-radius: 50%;
-				transition: .3s all ease;
+				transition: 0.3s all ease;
 				background-color: darken(#efefef, 10%);
 			}
-			&:hover, &.tns-nav-active {
+			&:hover,
+			&.tns-nav-active {
 				&:before {
 					background-color: $primary;
 				}
@@ -605,7 +603,7 @@ a {
 
 // Blog Section
 .before-footer-section {
-	padding: 7rem 0 12rem 0!important;
+	padding: 7rem 0 12rem 0 !important;
 }
 .blog-section {
 	padding: 7rem 0 12rem 0;
@@ -618,7 +616,7 @@ a {
 			margin-bottom: 20px;
 			img {
 				border-radius: 20px;
-				transition: .3s all ease;
+				transition: 0.3s all ease;
 			}
 		}
 		.post-content-entry {
@@ -637,10 +635,11 @@ a {
 				}
 			}
 		}
-		&:hover, &:focus {
+		&:hover,
+		&:focus {
 			.post-thumbnail {
 				img {
-					opacity: .7;
+					opacity: 0.7;
 				}
 			}
 		}
@@ -657,9 +656,9 @@ a {
 	a {
 		text-decoration: none;
 		color: $dark;
-		transition: .3s all ease;
+		transition: 0.3s all ease;
 		&:hover {
-			color: rgba($dark, .5);
+			color: rgba($dark, 0.5);
 		}
 	}
 	.subscription-form {
@@ -680,11 +679,12 @@ a {
 			height: 50px;
 			border-radius: 10px;
 			font-family: $font-family;
-			&:active, &:focus {
+			&:active,
+			&:focus {
 				outline: none;
 				box-shadow: none;
 				border-color: $primary;
-				box-shadow: 0 1px 4px 0 rgba($black, .2);
+				box-shadow: 0 1px 4px 0 rgba($black, 0.2);
 			}
 			&::-webkit-input-placeholder {
 				font-size: 14px;
@@ -700,7 +700,7 @@ a {
 			}
 		}
 		.btn {
-			border-radius: 10px!important;
+			border-radius: 10px !important;
 		}
 	}
 
@@ -756,27 +756,25 @@ a {
 	.border-top {
 		border-color: $light;
 		&.copyright {
-			font-size: 14px!important;
+			font-size: 14px !important;
 		}
 	}
-
 }
-
 
 .untree_co-section {
 	padding: 7rem 0;
 }
 
-
 .form-control {
 	height: 50px;
 	border-radius: 10px;
 	font-family: $font-family;
-	&:active, &:focus {
+	&:active,
+	&:focus {
 		outline: none;
 		box-shadow: none;
 		border-color: $primary;
-		box-shadow: 0 1px 4px 0 rgba($black, .2);
+		box-shadow: 0 1px 4px 0 rgba($black, 0.2);
 	}
 	&::-webkit-input-placeholder {
 		font-size: 14px;
@@ -808,9 +806,8 @@ a {
 }
 
 textarea {
-	height: auto!important;
+	height: auto !important;
 }
-
 
 .site-blocks-table {
 	overflow: auto;
@@ -824,9 +821,9 @@ textarea {
 		th {
 			padding: 30px;
 			text-align: center;
-			border-width: 0px!important;
+			border-width: 0px !important;
 			vertical-align: middle;
-			color: rgba($black, .8);
+			color: rgba($black, 0.8);
 			font-size: 18px;
 		}
 	}
@@ -834,47 +831,46 @@ textarea {
 		padding: 20px;
 		text-align: center;
 		vertical-align: middle;
-		color: rgba($black, .8);
+		color: rgba($black, 0.8);
 	}
 	tbody {
 		tr {
 			&:first-child {
 				td {
-					border-top: 1px solid $primary!important;
+					border-top: 1px solid $primary !important;
 				}
 			}
 		}
 	}
 
 	.btn {
-		background: none!important;
+		background: none !important;
 		color: $black;
 		border: none;
-		height: auto!important;
+		height: auto !important;
 	}
 }
 
 .site-block-order-table {
 	th {
-		border-top: none!important;
-		border-bottom-width: 1px!important;
+		border-top: none !important;
+		border-bottom-width: 1px !important;
 	}
-	td, th {
+	td,
+	th {
 		color: $black;
 	}
 }
 
-
 .couponcode-wrap {
 	input {
-		border-radius: 10px!important;
+		border-radius: 10px !important;
 	}
 	.btn {
-
 	}
 }
 .text-primary {
-	color: $primary!important;
+	color: $primary !important;
 }
 .thankyou-icon {
 	position: relative;
@@ -884,8 +880,8 @@ textarea {
 		content: "";
 		width: 50px;
 		height: 50px;
-		
+
 		border-radius: 50%;
-		background:rgba($primary, .2);
+		background: rgba($primary, 0.2);
 	}
 }
