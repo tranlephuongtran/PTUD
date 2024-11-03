@@ -17,16 +17,22 @@ include('header.php')
 		<div class="row justify-content-between">
 			<div class="col-lg-5">
 				<div class="intro-excerpt">
-					<h1>Modern Interior <span clsas="d-block">Design Studio</span></h1>
-					<p class="mb-4">Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam
-						vulputate velit imperdiet dolor tempor tristique.</p>
-					<p><a href="" class="btn btn-secondary me-2">Shop Now</a><a href="#"
-							class="btn btn-white-outline">Explore</a></p>
+					<h1>Thế Giới Sách <span clsas="d-block">Của Bạn</span></h1>
+					<p class="mb-4">Khám phá hàng ngàn cuốn sách hấp dẫn từ mọi thể loại, giúp bạn mở rộng kiến thức và khơi nguồn cảm hứng.</p>
+                    <p><a href="" class="btn btn-secondary me-2">Mua Ngay</a><a href="#" class="btn btn-white-outline">Khám Phá</a></p>
 				</div>
 			</div>
 			<div class="col-lg-7">
-				<div class="hero-img-wrap">
-					<img src="images/couch.png" class="img-fluid">
+				<div class="hero-books-slider">
+					<div class="hero-wrapper">
+						<a href="#" class="hero-slide"><img src="images/book-1.png" alt=""></a>
+						<a href="#" class="hero-slide"><img src="images/book-2.png" alt=""></a>
+						<a href="#" class="hero-slide"><img src="images/book-3.png" alt=""></a>
+						<a href="#" class="hero-slide"><img src="images/book-4.png" alt=""></a>
+						<a href="#" class="hero-slide"><img src="images/book-5.png" alt=""></a>
+						<a href="#" class="hero-slide"><img src="images/book-6.png" alt=""></a>
+					</div>
+					<img src="images/stand.png" class="stand" alt="">
 				</div>
 			</div>
 		</div>
