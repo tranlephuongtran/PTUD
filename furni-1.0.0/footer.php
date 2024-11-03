@@ -2,8 +2,8 @@
 <footer class="footer-section">
     <div class="container relative">
 
-        <div class="sofa-img">
-            <img src="images/sach.png" alt="Image" class="img-fluid">
+        <div class="sofa-img" style="margin-top: 170px; margin-right: 130px; ">
+            <img src="images/sach.png" alt="Image" class="img-fluid" style="width: 300px">
         </div>
 
         <div class="row">
