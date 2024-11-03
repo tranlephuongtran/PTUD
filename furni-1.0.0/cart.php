@@ -38,23 +38,24 @@ include('header.php')
 					<table class="table">
 						<thead>
 							<tr>
-								<th class="product-thumbnail">Image</th>
-								<th class="product-name">Product</th>
-								<th class="product-price">Price</th>
-								<th class="product-quantity">Quantity</th>
-								<th class="product-total">Total</th>
-								<th class="product-remove">Remove</th>
+								<th class="product-thumbnail">Hình Ảnh</th>
+								<th class="product-name">Tên Sách</th>
+								<th class="product-price">Giá Thuê</th>
+								<th class="product-quantity">Số lượng</th>
+								<th class="product-total">Tiền cọc</th>
+								<th class="product-remove">Thao tác</th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody style="font-size: larger">
 							<tr>
 								<td class="product-thumbnail">
-									<img src="images/product-1.png" alt="Image" class="img-fluid">
+									<img src="images/CayCamNgotCuaToi.png" style="width: 120px;height: 160px;"
+										alt="Image" class="img-fluid">
 								</td>
 								<td class="product-name">
-									<h2 class="h5 text-black">Product 1</h2>
+									<h2 class="h5 text-black">Cây Cam Ngọt Của Tôi</h2>
 								</td>
-								<td>$49.00</td>
+								<td>17.000 VND</td>
 								<td>
 									<div class="input-group mb-3 d-flex align-items-center quantity-container"
 										style="max-width: 120px;">
@@ -71,18 +72,19 @@ include('header.php')
 									</div>
 
 								</td>
-								<td>$49.00</td>
-								<td><a href="#" class="btn btn-black btn-sm">X</a></td>
+								<td>102.000 VND</td>
+								<td><a href="#" class="btn btn-black btn-sm"><button>Xóa</button></a></td>
 							</tr>
 
 							<tr>
 								<td class="product-thumbnail">
-									<img src="images/product-2.png" alt="Image" class="img-fluid">
+									<img src="images/KhongGiaDinh.png" style="width: 120px;height: 160px;" alt=" Image"
+										class="img-fluid">
 								</td>
 								<td class="product-name">
-									<h2 class="h5 text-black">Product 2</h2>
+									<h2 class="h5 text-black">Không Gia Đình</h2>
 								</td>
-								<td>$49.00</td>
+								<td>35.000 VND</td>
 								<td>
 									<div class="input-group mb-3 d-flex align-items-center quantity-container"
 										style="max-width: 120px;">
@@ -99,8 +101,8 @@ include('header.php')
 									</div>
 
 								</td>
-								<td>$49.00</td>
-								<td><a href="#" class="btn btn-black btn-sm">X</a></td>
+								<td>210.000 VND</td>
+								<td><a href="#" class="btn btn-black btn-sm"><button>Xóa</button></a></td>
 							</tr>
 						</tbody>
 					</table>
@@ -110,56 +112,45 @@ include('header.php')
 
 		<div class="row">
 			<div class="col-md-6">
-				<div class="row mb-5">
-					<div class="col-md-6 mb-3 mb-md-0">
-						<button class="btn btn-black btn-sm btn-block">Update Cart</button>
-					</div>
-					<div class="col-md-6">
-						<button class="btn btn-outline-black btn-sm btn-block">Continue Shopping</button>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-12">
-						<label class="text-black h4" for="coupon">Coupon</label>
-						<p>Enter your coupon code if you have one.</p>
-					</div>
-					<div class="col-md-8 mb-3 mb-md-0">
-						<input type="text" class="form-control py-3" id="coupon" placeholder="Coupon Code">
-					</div>
-					<div class="col-md-4">
-						<button class="btn btn-black">Apply Coupon</button>
-					</div>
-				</div>
+				<!-- TRỐNG ND-->
 			</div>
 			<div class="col-md-6 pl-5">
 				<div class="row justify-content-end">
 					<div class="col-md-7">
 						<div class="row">
 							<div class="col-md-12 text-right border-bottom mb-5">
-								<h3 class="text-black h4 text-uppercase">Cart Totals</h3>
+								<h3 class="text-black h4 text-uppercase">Tổng</h3>
 							</div>
 						</div>
 						<div class="row mb-3">
 							<div class="col-md-6">
-								<span class="text-black">Subtotal</span>
+								<span class="text-black">Tổng tiền cọc</span>
 							</div>
 							<div class="col-md-6 text-right">
-								<strong class="text-black">$230.00</strong>
+								<strong class="text-black">312.000 VND</strong>
 							</div>
 						</div>
 						<div class="row mb-5">
 							<div class="col-md-6">
-								<span class="text-black">Total</span>
+								<span class="text-black">Tổng tiền thuê</span>
 							</div>
 							<div class="col-md-6 text-right">
-								<strong class="text-black">$230.00</strong>
+								<strong class="text-black">52.000 VND</strong>
+							</div>
+						</div>
+						<div class="row mb-5">
+							<div class="col-md-6">
+								<span class="text-black"><b>TỔNG TIỀN PHẢI TRẢ</b></span>
+							</div>
+							<div class="col-md-6 text-right">
+								<strong class="text-black">364.000 VND</strong>
 							</div>
 						</div>
 
 						<div class="row">
 							<div class="col-md-12">
 								<button class="btn btn-black btn-lg py-3 btn-block"
-									onclick="window.location='checkout.html'">Proceed To Checkout</button>
+									onclick="window.location='checkout.php'">THUÊ SÁCH</button>
 							</div>
 						</div>
 					</div>
