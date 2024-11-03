@@ -245,6 +245,9 @@
 			<!-- Start Team Section -->
 			<!-- <div class="untree_co-section" style="position: relative; bottom: 120px">
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c945647 (done about)
 				<div class="container">
 					<div class="row mb-5">
 						<div class="col-lg-5 mx-auto text-center">
@@ -317,6 +320,7 @@
 
 						</div> -->
 			<!-- End Column 4
+<<<<<<< HEAD
 
 
 
@@ -635,6 +639,8 @@
 
 						</div> -->
 			<!-- End Column 4
+=======
+>>>>>>> c945647 (done about)
 
 
 
@@ -645,6 +651,7 @@
 	</div>
 </div>
 <!-- End Team Section -->
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 
@@ -905,3 +912,8 @@ include('footer.php')
 			include('footer.php')
 				?>
 >>>>>>> 3149c0f (done Tran)
+=======
+			<?php
+			include('footer.php')
+				?>
+>>>>>>> c945647 (done about)
