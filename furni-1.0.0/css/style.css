@@ -5,6 +5,7 @@
 * License: https://creativecommons.org/licenses/by/3.0/
 */
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600&display=swap');
 body {
   overflow-x: hidden;
   position: relative; }
@@ -159,33 +160,23 @@ a {
       @media (min-width: 1200px) {
         .hero .hero-img-wrap:after {
           top: -40px; } } */
-    .hero .container .row .hero-books-slider {
+    .hero .container .row .books-slider{
       flex:1 1 42rem;
       text-align: center;
       margin-top: 2rem;
+    
     }
-    .hero .container .row .hero-books-slider a img {
+
+    .hero .container .row .books-slider a img{
       height: 25rem;
     }
-    .hero .container .row .hero-books-slider a:hover img {
+    .hero .container .row .books-slider a:hover img{
       transform: scale(.9);
     }
-    .hero .container .row .hero-books-slider .stand {
+    .hero .container .row .books-slider .stand{
       width:100%;
       margin-top: -2rem;
     }
-
-/* .home .row .books-slider{
-}
-
-.home .row .books-slider a img{
-}
-
-.home .row .books-slider a:hover img{
-}
-
-.home .row .books-slider .stand{
-} */
 
 .btn {
   font-weight: 600;
@@ -345,7 +336,7 @@ a {
   .we-help-section .imgs-grid {
     display: -ms-grid;
     display: grid;
-    -ms-grid-columns: (1fr)[27];
+    /* -ms-grid-columns: (1fr)[27]; */
     grid-template-columns: repeat(27, 1fr);
     position: relative; }
     .we-help-section .imgs-grid:before {
