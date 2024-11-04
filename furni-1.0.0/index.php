@@ -14,7 +14,7 @@ include('header.php')
 <!-- Start Hero Section -->
 <div class="hero">
 	<div class="container">
-		<div class="row justify-content-between">
+		<div class="row "> <!-- justify-content-between -->
 			<div class="col-lg-5">  <!-- Cập nhật lại Tiếng Việt  -->
 				<div class="intro-excerpt">
 					<h1>Thế Giới Sách <span clsas="d-block">Của Bạn</span></h1>
@@ -24,6 +24,25 @@ include('header.php')
 			</div>
 			<div class="col-lg-7">
 				<div class="hero books-slider">
+					<div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+						<div class="carousel-inner">
+							<div class="carousel-item active">
+								<a href="#" class="swiper-slide"><img src="images/book1.png" alt=""></a>
+								<a href="#" class="swiper-slide"><img src="images/book2.png" alt=""></a>
+								<a href="#" class="swiper-slide"><img src="images/book3.png" alt=""></a>
+							</div>
+
+							<div class="carousel-item">
+								<a href="#" class="swiper-slide"><img src="images/book4.png" alt=""></a>
+								<a href="#" class="swiper-slide"><img src="images/book5.png" alt=""></a>
+								<a href="#" class="swiper-slide"><img src="images/book6.png" alt=""></a>
+							</div>
+							
+						</div>
+					</div>
+					<img src="images/stand.png" class="stand" alt="">
+				</div>
+				<!-- <div class="hero books-slider">
 					<div class="swiper-wrapper">
 						<a href="#" class="swiper-slide"><img src="images/book1.png" alt=""></a>
 						<a href="#" class="swiper-slide"><img src="images/book2.png" alt=""></a>
@@ -33,7 +52,7 @@ include('header.php')
 						<a href="#" class="swiper-slide"><img src="images/book6.png" alt=""></a>
 					</div>
 					<img src="images/stand.png" class="stand" alt="">
-				</div>
+				</div> -->
 			</div>
 		</div>
 	</div>
@@ -44,7 +63,7 @@ include('header.php')
 <div class="product-section">
 	<div class="container">
 		<div class="row">
-<!-- Sửa lại Tiếng Việt và tinh chỉnh vài chi tiết -->
+			<!-- Sửa lại Tiếng Việt và tinh chỉnh vài chi tiết -->
 			<!-- Start Column 1 -->
 			<div class="col-md-12 col-lg-3 mb-5 mb-lg-0">
 				<h2 class="mb-4 section-title">Sách	chất lượng, đọc thả ga.</h2>
@@ -54,47 +73,112 @@ include('header.php')
 			<!-- End Column 1 -->
 
 			<!-- Start Column 2 -->
-			<div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-				<a class="product-item" href="cart.html">
-					<img src="images/book7.png" class="img-fluid product-thumbnail">
-					<h3 class="product-title">Văn học</h3>
-					<strong class="product-price">$12.00</strong>
+			<div class="col-lg-9 col-md-8">
+				<div class="carousel-container">
+					<div id="carouselExampleRide" class="carousel slide" data-bs-ride="true">
+						<div class="carousel-inner">
+							<!-- Slide 1 with three products -->
+							<div class="carousel-item active">
+								<div class="row">
+									<div class="col-md-4">
+										<a class="product-item" href="cart.html">
+											<img src="images/book7.png" class="img-fluid product-thumbnail">
+											<h3 class="product-title">Văn học</h3>
+											<strong class="product-price">$12.00</strong>
 
-					<span class="icon-cross">
-						<img src="images/cross.svg" class="img-fluid">
-					</span>
-				</a>
+											<span class="icon-cross">
+												<img src="images/cross.svg" class="img-fluid">
+											</span>
+										</a>
+										<!-- End Column 2 -->
+									</div>						
+
+									<!-- Start Column 3 -->
+									<div class="col-md-4">										
+										<a class="product-item" href="cart.html">
+											<img src="images/book8.png" class="img-fluid product-thumbnail">
+											<h3 class="product-title">Lịch Sử</h3>
+											<strong class="product-price">$18.00</strong>
+
+											<span class="icon-cross">
+												<img src="images/cross.svg" class="img-fluid">
+											</span>
+										</a>
+										<!-- End Column 3 -->
+									</div>
+
+									<!-- Start Column 4 -->
+									<div class="col-md-4">								
+										<a class="product-item" href="cart.html">
+											<img src="images/book9.png" class="img-fluid product-thumbnail">
+											<h3 class="product-title">Âm Nhạc</h3>
+											<strong class="product-price">$15.00</strong>
+
+											<span class="icon-cross">
+												<img src="images/cross.svg" class="img-fluid">
+											</span>
+										</a>
+										<!-- End Column 4 -->
+									</div>
+								</div>
+							</div>
+							<!-- Slide 2 with three more products -->
+							<div class="carousel-item">
+								<div class="row">
+									<div class="col-md-4">										
+										<a class="product-item" href="cart.html">
+											<img src="images/book11.png" class="img-fluid product-thumbnail">
+											<h3 class="product-title">Văn Thơ</h3>
+											<strong class="product-price">$12.00</strong>
+
+											<span class="icon-cross">
+												<img src="images/cross.svg" class="img-fluid">
+											</span>
+										</a>
+										
+									</div>
+
+									<div class="col-md-4">										
+										<a class="product-item" href="cart.html">
+											<img src="images/book12.png" class="img-fluid product-thumbnail">
+											<h3 class="product-title">Văn Thơ</h3>
+											<strong class="product-price">$12.00</strong>
+
+											<span class="icon-cross">
+												<img src="images/cross.svg" class="img-fluid">
+											</span>
+										</a>
+										
+									</div>
+
+									<div class="col-md-4">										
+										<a class="product-item" href="cart.html">
+											<img src="images/book13.png" class="img-fluid product-thumbnail">
+											<h3 class="product-title">Văn Thơ</h3>
+											<strong class="product-price">$12.00</strong>
+
+											<span class="icon-cross">
+												<img src="images/cross.svg" class="img-fluid">
+											</span>
+										</a>
+										
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!--Nút điều khiển trước (carousel-control-prev) & sau (carousel-control-next) -->
+						<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleRide" data-bs-slide="prev">
+							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+							<span class="visually-hidden">Previous</span>
+						</button>
+						<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleRide" data-bs-slide="next">
+							<span class="carousel-control-next-icon" aria-hidden="true"></span>
+							<span class="visually-hidden">Next</span>
+						</button>
+					</div>
+				</div>
 			</div>
-			<!-- End Column 2 -->
-
-			<!-- Start Column 3 -->
-			<div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-				<a class="product-item" href="cart.html">
-					<img src="images/book8.png" class="img-fluid product-thumbnail">
-					<h3 class="product-title">Lịch Sử</h3>
-					<strong class="product-price">$18.00</strong>
-
-					<span class="icon-cross">
-						<img src="images/cross.svg" class="img-fluid">
-					</span>
-				</a>
-			</div>
-			<!-- End Column 3 -->
-
-			<!-- Start Column 4 -->
-			<div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-				<a class="product-item" href="cart.html">
-					<img src="images/book9.png" class="img-fluid product-thumbnail">
-					<h3 class="product-title">Âm Nhạc</h3>
-					<strong class="product-price">$15.00</strong>
-
-					<span class="icon-cross">
-						<img src="images/cross.svg" class="img-fluid">
-					</span>
-				</a>
-			</div>
-			<!-- End Column 4 -->
-
 		</div>
 	</div>
 </div>
@@ -105,9 +189,9 @@ include('header.php')
 	<div class="container">
 		<div class="row justify-content-between">
 			<div class="col-lg-6">
-				<h2 class="section-title">Why Choose Us</h2>
-				<p>Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate velit
-					imperdiet dolor tempor tristique.</p>
+				<h2 class="section-title">Tại sao chọn chúng tôi</h2>
+				<p>Đừng lo lắng, hãy chọn sự an toàn và chất lượng. Chúng tôi cam kết mang đến dịch vụ 
+					cho thuê sách tốt nhất với sự hài lòng của khách hàng là ưu tiên hàng đầu.</p>
 
 				<div class="row my-5">
 					<div class="col-6 col-md-6">
@@ -115,9 +199,8 @@ include('header.php')
 							<div class="icon">
 								<img src="images/truck.svg" alt="Image" class="imf-fluid">
 							</div>
-							<h3>Fast &amp; Free Shipping</h3>
-							<p>Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate.
-							</p>
+							<h3>Fast &amp; Miễn Phí Vận Chuyển</h3>
+							<p>	Dành cho đơn hàng có giá trị lớn hơn 200k	</p>
 						</div>
 					</div>
 
@@ -126,9 +209,8 @@ include('header.php')
 							<div class="icon">
 								<img src="images/bag.svg" alt="Image" class="imf-fluid">
 							</div>
-							<h3>Easy to Shop</h3>
-							<p>Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate.
-							</p>
+							<h3>Thanh toán an toàn</h3>
+							<p>	Thanh toán 100% an toàn	</p>
 						</div>
 					</div>
 
@@ -137,9 +219,8 @@ include('header.php')
 							<div class="icon">
 								<img src="images/support.svg" alt="Image" class="imf-fluid">
 							</div>
-							<h3>24/7 Support</h3>
-							<p>Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate.
-							</p>
+							<h3>Hỗ trợ 24/7</h3>
+							<p> Gọi cho chúng tôi bất cứ lúc nào</p>
 						</div>
 					</div>
 
@@ -148,9 +229,8 @@ include('header.php')
 							<div class="icon">
 								<img src="images/return.svg" alt="Image" class="imf-fluid">
 							</div>
-							<h3>Hassle Free Returns</h3>
-							<p>Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate.
-							</p>
+							<h3>Trả hàng dễ dàng</h3>
+							<p> Trả hàng trong vòng 10 ngày	</p>
 						</div>
 					</div>
 
@@ -159,7 +239,7 @@ include('header.php')
 
 			<div class="col-lg-5">
 				<div class="img-wrap">
-					<img src="images/why-choose-us-img.jpg" alt="Image" class="img-fluid">
+					<img src="images/Bookshelf.jpg" alt="Image" class="img-fluid">
 				</div>
 			</div>
 
@@ -168,18 +248,18 @@ include('header.php')
 </div>
 <!-- End Why Choose Us Section -->
 
-<!-- Start We Help Section -->
+<!-- Start Featured Books -->
 <div class="we-help-section">
 	<div class="container">
 		<div class="row justify-content-between">
-			<div class="col-lg-7 mb-5 mb-lg-0">
+			<div class="col-lg-12 mb-5 mb-lg-0">
 				<div class="imgs-grid">
-					<div class="grid grid-1"><img src="images/img-grid-1.jpg" alt="Untree.co"></div>
+					<!-- <div class="grid grid-1"><img src="images/img-grid-1.jpg" alt="Untree.co"></div>
 					<div class="grid grid-2"><img src="images/img-grid-2.jpg" alt="Untree.co"></div>
-					<div class="grid grid-3"><img src="images/img-grid-3.jpg" alt="Untree.co"></div>
+					<div class="grid grid-3"><img src="images/img-grid-3.jpg" alt="Untree.co"></div> -->
 				</div>
 			</div>
-			<div class="col-lg-5 ps-lg-5">
+			<!-- <div class="col-lg-5 ps-lg-5">
 				<h2 class="section-title mb-4">We Help You Make Modern Interior Design</h2>
 				<p>Donec facilisis quam ut purus rutrum lobortis. Donec vitae odio quis nisl dapibus malesuada. Nullam
 					ac aliquet velit. Aliquam vulputate velit imperdiet dolor tempor tristique. Pellentesque habitant
@@ -192,14 +272,14 @@ include('header.php')
 					<li>Donec vitae odio quis nisl dapibus malesuada</li>
 				</ul>
 				<p><a herf="#" class="btn">Explore</a></p>
-			</div>
+			</div> -->
 		</div>
 	</div>
 </div>
-<!-- End We Help Section -->
+<!-- End Featured Books -->
 
 <!-- Start Popular Product -->
-<div class="popular-product">
+<!-- <div class="popular-product">
 	<div class="container">
 		<div class="row">
 
@@ -244,15 +324,15 @@ include('header.php')
 
 		</div>
 	</div>
-</div>
+</div> -->
 <!-- End Popular Product -->
 
-<!-- Start Testimonial Slider -->
+<!-- Start Review Customer's Slider -->
 <div class="testimonial-section">
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-7 mx-auto text-center">
-				<h2 class="section-title">Testimonials</h2>
+				<h2 class="section-title">Các Đánh Giá Của Khách Hàng</h2>
 			</div>
 		</div>
 
@@ -362,10 +442,10 @@ include('header.php')
 	<div class="container">
 		<div class="row mb-5">
 			<div class="col-md-6">
-				<h2 class="section-title">Recent Blog</h2>
+				<h2 class="section-title">Bài Viết Của Chúng Tôi</h2>
 			</div>
 			<div class="col-md-6 text-start text-md-end">
-				<a href="#" class="more">View All Posts</a>
+				<a href="#" class="more">Xem tất cả</a>
 			</div>
 		</div>
 
@@ -373,11 +453,11 @@ include('header.php')
 
 			<div class="col-12 col-sm-6 col-md-4 mb-4 mb-md-0">
 				<div class="post-entry">
-					<a href="#" class="post-thumbnail"><img src="images/post-1.jpg" alt="Image" class="img-fluid"></a>
+					<a href="#" class="post-thumbnail"><img src="images/review_sach.jpg" alt="Image" class="img-fluid"></a>
 					<div class="post-content-entry">
-						<h3><a href="#">First Time Home Owner Ideas</a></h3>
+						<h3><a href="#">Review sách Gambit Hậu - Walter Tevis</a></h3>
 						<div class="meta">
-							<span>by <a href="#">Kristin Watson</a></span> <span>on <a href="#">Dec 19, 2021</a></span>
+							<span>by <a href="#">Kristin Watson</a></span> <span>on <a href="#">04/08/2024 16:43</a></span>
 						</div>
 					</div>
 				</div>
@@ -385,9 +465,9 @@ include('header.php')
 
 			<div class="col-12 col-sm-6 col-md-4 mb-4 mb-md-0">
 				<div class="post-entry">
-					<a href="#" class="post-thumbnail"><img src="images/post-2.jpg" alt="Image" class="img-fluid"></a>
+					<a href="#" class="post-thumbnail"><img src="images/baihoctuditimlesong.jpg" alt="Image" class="img-fluid"></a>
 					<div class="post-content-entry">
-						<h3><a href="#">How To Keep Your Furniture Clean</a></h3>
+						<h3><a href="#">3 bài học từ "Đi tìm lẽ sống" giúp bạn sống trọn vẹn</a></h3>
 						<div class="meta">
 							<span>by <a href="#">Robert Fox</a></span> <span>on <a href="#">Dec 15, 2021</a></span>
 						</div>
@@ -397,9 +477,9 @@ include('header.php')
 
 			<div class="col-12 col-sm-6 col-md-4 mb-4 mb-md-0">
 				<div class="post-entry">
-					<a href="#" class="post-thumbnail"><img src="images/post-3.jpg" alt="Image" class="img-fluid"></a>
+					<a href="#" class="post-thumbnail"><img src="images/Sachphihucau.jpg" alt="Image" class="img-fluid"></a>
 					<div class="post-content-entry">
-						<h3><a href="#">Small Space Furniture Apartment Ideas</a></h3>
+						<h3><a href="#">Tại sao sách phi hư cấu khó đọc? Hãy thử cải thiện bằng những mẹo này!</a></h3>
 						<div class="meta">
 							<span>by <a href="#">Kristin Watson</a></span> <span>on <a href="#">Dec 12, 2021</a></span>
 						</div>
