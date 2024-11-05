@@ -42,7 +42,9 @@
                     <li><a class="nav-link" href="services.php">Chính sách</a></li>
                 </ul>
 
-                <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
+                <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-2">
+                    <li><a class="nav-link" href="#">Đăng ký</a></li>
+                    <li><a class="nav-link" href="#">Đăng nhập</a></li>
                     <li><a class="nav-link" href="#"><img src="images/user.svg"></a></li>
                     <li><a class="nav-link" href="cart.php"><img src="images/cart.svg"></a></li>
                 </ul>
