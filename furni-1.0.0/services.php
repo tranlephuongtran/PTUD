@@ -123,16 +123,16 @@ include('header.php')
 				<div class="intro-excerpt">
 					<h1>Chính sách</h1>
 					<p class="mb-4">
-						Cảm ơn bạn đã chọn Aplus cho trải nghiệm thuê sách của mình. Tại đây cung cấp thông tin chi tiết
-						về quyền lợi, trách nhiệm của bạn và các quy định nhằm đảm bảo giao dịch minh bạch, an toàn.
-					</p>
-					<p><a href="" class="btn btn-secondary me-2">Shop Now</a><a href="#"
-							class="btn btn-white-outline">Explore</a></p>
+					Cảm ơn bạn đã chọn Aplus cho trải nghiệm thuê sách của mình. Tại đây cung cấp thông tin chi tiết về quyền lợi, trách nhiệm của bạn và các quy định nhằm đảm bảo giao dịch minh bạch, an toàn.
+					</p> <br>
+					<!--<p><a href="" class="btn btn-secondary me-2">Shop Now</a><a href="#"
+							class="btn btn-white-outline">Explore</a></p>-->
 				</div>
 			</div>
 			<div class="col-lg-7">
 				<div class="hero-img-wrap">
-					<img src="images/couch.png" class="img-fluid">
+					<img src="images/ChinhSachHeader.png" class="img-fluid">
+		<!-- couch.png-->
 				</div>
 			</div>
 		</div>
@@ -201,9 +201,13 @@ include('header.php')
 </div>
 
 
+
+
+<!-- Start Footer Section -->
 <?php
 include('footer.php')
 	?>
+<!-- End Footer Section -->
 
 
 <script src="js/bootstrap.bundle.min.js"></script>
