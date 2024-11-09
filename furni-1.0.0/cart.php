@@ -53,12 +53,12 @@ include('header.php')
 										alt="Image" class="img-fluid">
 								</td>
 								<td class="product-name">
-									<h2 class="h5 text-black">Cây Cam Ngọt Của Tôi</h2>
+									<h2 class="h5 text-black mt-2">Cây Cam Ngọt Của Tôi</h2>
 								</td>
 								<td>17.000 VND</td>
 								<td>
 									<div class="input-group mb-3 d-flex align-items-center quantity-container"
-										style="max-width: 120px;">
+										style="max-width: 120px;margin-left: 35px;">
 										<div class="input-group-prepend">
 											<button class="btn btn-outline-black decrease"
 												type="button">&minus;</button>
@@ -73,7 +73,8 @@ include('header.php')
 
 								</td>
 								<td>102.000 VND</td>
-								<td><a href="#" class="btn btn-black btn-sm"><button>Xóa</button></a></td>
+								<td><a href="#" class="btn btn-black btn-sm"><button
+											style="border-radius: 7px; width: 60px;height: 30px;">Xóa</button></a></td>
 							</tr>
 
 							<tr>
@@ -82,12 +83,12 @@ include('header.php')
 										class="img-fluid">
 								</td>
 								<td class="product-name">
-									<h2 class="h5 text-black">Không Gia Đình</h2>
+									<h2 class="h5 text-black  mt-2" style="margin-top: 9px;">Không Gia Đình</h2>
 								</td>
 								<td>35.000 VND</td>
 								<td>
 									<div class="input-group mb-3 d-flex align-items-center quantity-container"
-										style="max-width: 120px;">
+										style="max-width: 120px;margin-left: 35px;">
 										<div class="input-group-prepend">
 											<button class="btn btn-outline-black decrease"
 												type="button">&minus;</button>
@@ -102,7 +103,9 @@ include('header.php')
 
 								</td>
 								<td>210.000 VND</td>
-								<td><a href="#" class="btn btn-black btn-sm"><button>Xóa</button></a></td>
+								<td><a href="#" class="btn btn-black btn-sm"><button
+											style="border-radius: 7px; width: 60px;height: 30px;">Xóa</button></a>
+								</td>
 							</tr>
 						</tbody>
 					</table>
@@ -123,26 +126,26 @@ include('header.php')
 							</div>
 						</div>
 						<div class="row mb-3">
-							<div class="col-md-6">
+							<div class="col-md-7">
 								<span class="text-black">Tổng tiền cọc</span>
 							</div>
-							<div class="col-md-6 text-right">
+							<div class="col-md-5" style="text-align: right;">
 								<strong class="text-black">312.000 VND</strong>
 							</div>
 						</div>
 						<div class="row mb-5">
-							<div class="col-md-6">
+							<div class="col-md-7">
 								<span class="text-black">Tổng tiền thuê</span>
 							</div>
-							<div class="col-md-6 text-right">
+							<div class="col-md-5" style="text-align: right;">
 								<strong class="text-black">52.000 VND</strong>
 							</div>
 						</div>
 						<div class="row mb-5">
-							<div class="col-md-6">
+							<div class="col-md-7">
 								<span class="text-black"><b>TỔNG TIỀN PHẢI TRẢ</b></span>
 							</div>
-							<div class="col-md-6 text-right">
+							<div class="col-md-5" style="text-align: right;">
 								<strong class="text-black">364.000 VND</strong>
 							</div>
 						</div>
