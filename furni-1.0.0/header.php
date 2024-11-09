@@ -83,6 +83,7 @@
                     <div id="userMenu" class="dropdown-menu">
                         <a class="dropdown-item" href="update_profile.php">Cập nhật thông tin</a>
                         <a class="dropdown-item" href="change_password.php">Đổi mật khẩu</a>
+                        <a class="dropdown-item" href="XemLichSuThue.php">Xem lịch sử thuê sách</a>
                         <a class="dropdown-item" href="logout.php">Đăng xuất</a>
                     </div>
                     </li>
