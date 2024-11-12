@@ -28,6 +28,8 @@ if (isset($_GET['about'])) {
     $page = 'shop';
 } else if (isset($_GET['updateProfile'])) {
     $page = 'updateProfile';
+} else {
+    $page = 'home';
 }
 include("page/" . $page . "/index.php");
 include("layout/footer.php");

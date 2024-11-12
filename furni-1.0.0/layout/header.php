@@ -13,36 +13,72 @@
     <link href="layout/css/style.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <title>A Plus BookStore</title>
+    <!-- CSS Dropdown Menu -->
     <style>
-        /* Ẩn dropdown mặc định
-        .dropdown-content {
+        /* CSS for Hover Dropdown */
+        #avatarIcon {
+            cursor: pointer;
+        }
+
+        .nav-item.dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        .dropdown-menu {
             display: none;
             position: absolute;
-            top: 100%;
-            left: -25px;
-            background-color: #a76d49;
-            box-shadow: 0 4px 8px #f9bf29;
-            padding: 10px;
+            right: 10px;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            min-width: 150px;
             z-index: 1000;
         }
 
-        /* Hiển thị dropdown khi hover vào li chứa nó */
-        /* .nav-item:hover .dropdown-content {
-            display: flex;
-            flex-direction: column;
-        } */
+        .dropdown-item {
+            padding: 10px;
+            color: brown;
+            text-decoration: none;
+            display: block;
+        }
 
-        /* .nav-item {
-            position: relative;
-        } */
+        .dropdown-item:hover {
+            background-color: #f1f1f1;
+        }
 
-        /* Đặt lại màu nền khi hover vào dropdown item */
-        /* .dropdown-content a.dropdown-item:hover {
-            color: #ffffff !important; */
-        /* Giữ màu nâu khi hover */
-        /* background-color: transparent !important; */
-        /* Loại bỏ màu nền xám */
-        /* }  */
+        #sanPham {
+            cursor: pointer;
+        }
+
+        .nav-item.dropdown:hover .dropdown-menusp {
+            display: block;
+        }
+
+        .dropdown-menusp {
+            display: none;
+            position: absolute;
+            right: -65px;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            min-width: 250px;
+            z-index: 1000;
+            color: brown !important;
+
+        }
+
+        .dropdown-itemsp {
+            padding: 10px;
+            color: brown !important;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-itemsp:hover {
+            background-color: #f1f1f1;
+        }
     </style>
 </head>
 
@@ -59,9 +95,20 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link" href="index.php?shop" id="sanPham">Sản phẩm</a>
                         <div id="userMenuSP" class="dropdown-menusp">
-                            <a href="#" class="dropdown-itemsp">Danh mục A</a>
-                            <a href="#" class="dropdown-itemsp">Danh mục B</a>
-                            <a href="#" class="dropdown-itemsp">Danh mục C</a>
+                            <?php
+                            $conn = mysqli_connect("localhost", "nhomptud", "123456", "ptud");
+                            if ($conn) {
+                                $str = "SELECT *FROM danhmuc";
+                                $result = $conn->query($str);
+                                if (mysqli_num_rows($result) > 0) {
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        echo "<a href='index.php?danhmuc={$row['maDM']}' class='dropdown-itemsp'>";
+                                        echo "{$row['ten']}";
+                                        echo "</a>";
+                                    }
+                                }
+                            }
+                            ?>
                         </div>
                     </li>
                     <li class="nav-item">
@@ -96,70 +143,3 @@
     </nav>
     <!-- End Header/Navigation -->
 </body>
-
-<!-- CSS Dropdown Menu -->
-<style>
-    /* CSS for Hover Dropdown */
-    #avatarIcon {
-        cursor: pointer;
-    }
-
-    .nav-item.dropdown:hover .dropdown-menu {
-        display: block;
-    }
-
-    .dropdown-menu {
-        display: none;
-        position: absolute;
-        right: 10px;
-        background-color: #ffffff;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-        min-width: 150px;
-        z-index: 1000;
-    }
-
-    .dropdown-item {
-        padding: 10px;
-        color: brown;
-        text-decoration: none;
-        display: block;
-    }
-
-    .dropdown-item:hover {
-        background-color: #f1f1f1;
-    }
-
-    #sanPham {
-        cursor: pointer;
-    }
-
-    .nav-item.dropdown:hover .dropdown-menusp {
-        display: block;
-    }
-
-    .dropdown-menusp {
-        display: none;
-        position: absolute;
-        right: -25px;
-        background-color: #ffffff;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-        min-width: 150px;
-        z-index: 1000;
-        color: brown !important;
-    }
-
-    .dropdown-itemsp {
-        padding: 10px;
-        color: brown !important;
-        text-decoration: none;
-        display: block;
-    }
-
-    .dropdown-itemsp:hover {
-        background-color: #f1f1f1;
-    }
-</style>
