@@ -102,7 +102,7 @@
                                 $result = $conn->query($str);
                                 if (mysqli_num_rows($result) > 0) {
                                     while ($row = mysqli_fetch_assoc($result)) {
-                                        echo "<a href='index.php?danhmuc={$row['maDM']}' class='dropdown-itemsp'>";
+                                        echo "<a href='index.php?cate={$row['maDM']}' class='dropdown-itemsp'>";
                                         echo "{$row['ten']}";
                                         echo "</a>";
                                     }

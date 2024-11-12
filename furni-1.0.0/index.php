@@ -28,6 +28,10 @@ if (isset($_GET['about'])) {
     $page = 'shop';
 } else if (isset($_GET['updateProfile'])) {
     $page = 'updateProfile';
+} else if (isset($_GET['product'])) {
+    $page = 'productdetails';
+} else if (isset($_GET['cate'])) {
+    $page = 'category';
 } else {
     $page = 'home';
 }

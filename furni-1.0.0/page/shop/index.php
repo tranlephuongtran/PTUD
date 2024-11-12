@@ -7,6 +7,11 @@
 */ -->
 <!doctype html>
 <html lang="en">
+<style>
+	a {
+		text-decoration: none;
+	}
+</style>
 <?php
 if (!isset($_GET['shop'])) {
 	$shop = 1;
@@ -32,38 +37,34 @@ if (!isset($_GET['shop'])) {
 </div>
 <!-- End Hero Section -->
 
-
-
 <div class="untree_co-section product-section before-footer-section">
 	<div class="container">
 		<div class="row">
+			<?php
+			$conn = mysqli_connect("localhost", "nhomptud", "123456", "ptud");
+			if ($conn) {
+				$str = "SELECT *FROM dausach d Join sach s on d.maDauSach = s.maDauSach GROUP BY d.maDauSach";
+				$result = $conn->query($str);
+				if (mysqli_num_rows($result) > 0) {
+					while ($row = mysqli_fetch_assoc($result)) {
+						$gia = number_format($row['giaThue'], 0, '.', '.');
 
-			<!-- Start Column 1 -->
-			<div class="col-12 col-md-4 col-lg-3 mb-5">
-				<div class="product-item" onclick="window.location='productdetails.php'">
-					<img src="layout/images/CayCamNgotCuaToi.png" class="img-fluid product-thumbnail">
-					<h3 class="product-title">Cây Cam Ngọt của Tôi</h3>
-					<strong class="product-price">17.000 VND</strong>
+						echo "<div class='col-12 col-md-4 col-lg-3 mb-5'>
+						<a href = 'index.php?product={$row['maDauSach']}'>
+				<div class='product-item'>
+					<img src='layout/images/{$row['hinhAnh']}' class='img-fluid product-thumbnail'>
+					<h3 class='product-title'>{$row['tenDauSach']}</h3>
+					<strong class='product-price'>$gia VND</strong>
 
-					<span class="icon-cross">
-						<img src="layout/images/cross.svg" class="img-fluid">
+					<span class='icon-cross'>
+						<img src='layout/images/cross.svg' class='img-fluid'>
 					</span>
 				</div>
-			</div>
-			<!-- End Column 1 -->
-			<div class="col-12 col-md-4 col-lg-3 mb-5">
-				<div class="product-item" onclick="window.location='productdetails.php'">
-					<img src="layout/images/KhongGiaDinh.png" class="img-fluid product-thumbnail">
-					<h3 class="product-title">Không Gia Đình</h3>
-					<strong class="product-price">35.000 VND</strong>
-
-					<span class="icon-cross">
-						<img src="layout/images/cross.svg" class="img-fluid">
-					</span>
-				</div>
-			</div>
-			<!-- End Column 4 -->
-
+			</div></a>";
+					}
+				}
+			}
+			?>
 
 
 			<!-- End Column 4 -->
