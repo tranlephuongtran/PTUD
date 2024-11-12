@@ -8,12 +8,13 @@
     <!-- Bootstrap CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link href="css/tiny-slider.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <title>A Plus BookStore</title>
     <style>
-        /* Ẩn dropdown mặc định */
+        /* Ẩn dropdown mặc định
         .dropdown-content {
             display: none;
             position: absolute;
@@ -26,23 +27,22 @@
         }
 
         /* Hiển thị dropdown khi hover vào li chứa nó */
-        .nav-item:hover .dropdown-content {
+        /* .nav-item:hover .dropdown-content {
             display: flex;
             flex-direction: column;
-            color: #964B00;
-        }
+        } */
 
-        .nav-item {
+        /* .nav-item {
             position: relative;
-        }
+        } */
 
         /* Đặt lại màu nền khi hover vào dropdown item */
-        .dropdown-content a.dropdown-item:hover {
-            color: #ffffff !important;
-            /* Giữ màu nâu khi hover */
-            background-color: transparent !important;
-            /* Loại bỏ màu nền xám */
-        }
+        /* .dropdown-content a.dropdown-item:hover {
+            color: #ffffff !important; */
+        /* Giữ màu nâu khi hover */
+        /* background-color: transparent !important; */
+        /* Loại bỏ màu nền xám */
+        /* }  */
     </style>
 </head>
 
@@ -56,12 +56,12 @@
                     <li class="nav-item">
                         <a class="nav-link" href="index.php">Trang chủ</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="shop.php">Sản phẩm</a>
-                        <div class="dropdown-content">
-                            <a href="#" class="dropdown-item">Danh mục A</a>
-                            <a href="#" class="dropdown-item">Danh mục B</a>
-                            <a href="#" class="dropdown-item">Danh mục C</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="shop.php" id="sanPham">Sản phẩm</a>
+                        <div id="userMenuSP" class="dropdown-menusp">
+                            <a href="#" class="dropdown-itemsp">Danh mục A</a>
+                            <a href="#" class="dropdown-itemsp">Danh mục B</a>
+                            <a href="#" class="dropdown-itemsp">Danh mục C</a>
                         </div>
                     </li>
                     <li class="nav-item">
@@ -73,18 +73,19 @@
                 </ul>
                 <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-2"
                     style="font-weight: 500 !important; font-size: large">
-                    <li class="nav-item"><a class="nav-link" href="#">Đăng ký</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Đăng nhập</a></li>
+                    <li class="nav-item"><a class="nav-link" href="register.php">Đăng ký</a></li>
+                    <li class="nav-item"><a class="nav-link" href="login.php">Đăng nhập</a></li>
                     <li class="nav-item dropdown">
-                    <a class="nav-link" href="#" onclick="toggleMenu()">
-                        <img src="images/user.svg" id="avatarIcon" alt="User Icon">
-                    </a>
-                    <!-- Dropdown Menu -->
-                    <div id="userMenu" class="dropdown-menu">
-                        <a class="dropdown-item" href="update_profile.php">Cập nhật thông tin</a>
-                        <a class="dropdown-item" href="change_password.php">Đổi mật khẩu</a>
-                        <a class="dropdown-item" href="logout.php">Đăng xuất</a>
-                    </div>
+                        <a class="nav-link" href="#">
+                            <img src="images/user.svg" id="avatarIcon" alt="User Icon">
+                        </a>
+                        <!-- Dropdown Menu -->
+                        <div id="userMenu" class="dropdown-menu">
+                            <a class="dropdown-item" href="update_profile.php">Cập nhật thông tin</a>
+                            <a class="dropdown-item" href="change_password.php">Đổi mật khẩu</a>
+                            <a class="dropdown-item" href="XemLichSuThue.php">Xem lịch sử thuê sách</a>
+                            <a class="dropdown-item" href="logout.php">Đăng xuất</a>
+                        </div>
                     </li>
                     <li class="nav-item"><a class="nav-link" href="cart.php"><img src="images/cart.svg"></a></li>
                 </ul>
@@ -93,32 +94,18 @@
     </nav>
     <!-- End Header/Navigation -->
 </body>
-<!-- javascript menu thông tin khách hàng  -->
-<script>
-    function toggleMenu() {
-        const menu = document.getElementById('userMenu');
-        menu.classList.toggle('show');
-    }
-
-    // Close the dropdown menu if clicked outside
-    window.onclick = function(event) {
-        if (!event.target.matches('#avatarIcon')) {
-            const dropdowns = document.getElementsByClassName("dropdown-menu");
-            for (let i = 0; i < dropdowns.length; i++) {
-                const openDropdown = dropdowns[i];
-                if (openDropdown.classList.contains('show')) {
-                    openDropdown.classList.remove('show');
-                }
-            }
-        }
-    }
-</script>
 
 <!-- CSS Dropdown Menu -->
 <style>
+    /* CSS for Hover Dropdown */
     #avatarIcon {
         cursor: pointer;
     }
+
+    .nav-item.dropdown:hover .dropdown-menu {
+        display: block;
+    }
+
     .dropdown-menu {
         display: none;
         position: absolute;
@@ -130,16 +117,47 @@
         min-width: 150px;
         z-index: 1000;
     }
-    .dropdown-menu.show {
-        display: block;
-    }
+
     .dropdown-item {
         padding: 10px;
-        color: #333;
+        color: brown;
         text-decoration: none;
         display: block;
     }
+
     .dropdown-item:hover {
+        background-color: #f1f1f1;
+    }
+
+    #sanPham {
+        cursor: pointer;
+    }
+
+    .nav-item.dropdown:hover .dropdown-menusp {
+        display: block;
+    }
+
+    .dropdown-menusp {
+        display: none;
+        position: absolute;
+        right: -25px;
+        background-color: #ffffff;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        min-width: 150px;
+        z-index: 1000;
+        color: brown !important;
+    }
+
+    .dropdown-itemsp {
+        padding: 10px;
+        color: brown !important;
+        text-decoration: none;
+        display: block;
+    }
+
+    .dropdown-itemsp:hover {
         background-color: #f1f1f1;
     }
 </style>
