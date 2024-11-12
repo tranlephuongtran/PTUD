@@ -8,15 +8,15 @@
 <!doctype html>
 <html lang="en">
 <?php
-	include('header.php')
-		?>
+include('header.php')
+    ?>
 
 
 <!-- Start Register -->
 <div class="register-form-container">
     <div class="form-register">
         <form action="" method="post">
-            <h1>Đăng  Ký</h1>
+            <h1>Đăng Ký</h1>
             <div class="input-box">
                 <div class="input-field">
                     <input type="text" name="" placeholder="Họ và tên" id="" required>
@@ -47,7 +47,8 @@
                     <i class='bx bxs-lock-alt'></i>
                 </div>
             </div>
-            <label><input type="checkbox"> Tôi xin cam đoan rằng các thông tin đã cung cấp ở trên là đúng và chính xác.</label>
+            <label><input type="checkbox"> Tôi xin cam đoan rằng các thông tin đã cung cấp ở trên là đúng và chính
+                xác.</label>
             <button type="submit" class="btn">Đăng ký</button>
 
         </form>
@@ -61,7 +62,7 @@
 
 <?php
 include('footer.php')
-	?>
+    ?>
 
 <script src="js/bootstrap.bundle.min.js"></script>
 <script src="js/tiny-slider.js"></script>
