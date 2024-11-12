@@ -7,100 +7,96 @@
     <title>Đổi Mật Khẩu - A Plus BookStore</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #f7f8fa;
-            font-family: Arial, sans-serif;
-        }
-
-        .container {
-            max-width: 500px;
-            background-color: #ffffff;
-            border-radius: 8px;
-            padding: 30px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin-top: 50px;
-        }
-
-        h2 {
-            font-weight: bold;
-            color: #333;
-        }
-
-        label {
-            font-weight: 500;
-            color: #555;
-        }
-
-        .form-control {
-            border-radius: 5px;
-            box-shadow: none;
-            border-color: #ced4da;
-        }
-
-        .form-control:focus {
-            border-color: #007bff;
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-        }
-
-        .btn-primary {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            font-weight: bold;
-            border-radius: 5px;
-            background-color: #007bff;
-            border: none;
-        }
-
-        .btn-primary:hover {
-            background-color: #0056b3;
-        }
-
-        .btn-secondary {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            font-weight: bold;
-            border-radius: 5px;
-            background-color: #6c757d;
-            border: none;
-            margin-top: 10px;
-        }
-    </style>
 </head>
+<style>
+    .container-main {
+        margin-top: 15px;
+        margin-bottom: 20px;
+    }
+
+    .tnb {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .menu {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .menu ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .menu ul li {
+        margin-bottom: 10px;
+    }
+
+    .menu ul li a {
+        color: #333;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .menu ul li a:hover {
+        color: #007bff;
+    }
+</style>
 
 <body>
     <?php
-    if (!isset($_GET['change_password'])) {
-        $change_password = 1;
-    } else {
-        $change_password = $_GET['change_password'];
-    }
-    ?>
-    <div class="container">
-        <h2 class="mb-4">Đổi Mật Khẩu</h2>
-        <form method="POST" action="process_change_password.php">
-            <div class="mb-3">
-                <label for="current_password" class="form-label">Mật khẩu cũ</label>
-                <input type="password" class="form-control" id="current_password" name="current_password" required
-                    placeholder="Nhập mật khẩu cũ">
+    include('header.php')
+        ?>
+    <div class="container container-main">
+        <div class="row">
+            <!-- Menu bên trái -->
+            <div class="col-md-3">
+                <div class="menu">
+                    <ul>
+                        <li><a href="index.php">Trang chủ</a></li>
+                        <li><a href="#">Lịch Sử Mua Hàng</a></li>
+                        <li><a href="update_profile.php">Cập nhật thông tin</a></li>
+                        <li><a href="#">Đăng Xuất</a></li>
+                    </ul>
+                </div>
             </div>
-            <div class="mb-3">
-                <label for="new_password" class="form-label">Mật khẩu mới</label>
-                <input type="password" class="form-control" id="new_password" name="new_password" required
-                    placeholder="Nhập mật khẩu mới">
+
+            <!-- Form đổi mật khẩu -->
+            <div class="col-md-9">
+                <div class="tnb">
+                    <h2 class="mb-4">Đổi Mật Khẩu</h2>
+                    <form method="POST" action="process_change_password.php">
+                        <div class="mb-3">
+                            <label for="current_password" class="form-label">Mật khẩu cũ</label>
+                            <input type="password" class="form-control" id="current_password" name="current_password"
+                                required placeholder="Nhập mật khẩu cũ">
+                        </div>
+                        <div class="mb-3">
+                            <label for="new_password" class="form-label">Mật khẩu mới</label>
+                            <input type="password" class="form-control" id="new_password" name="new_password" required
+                                placeholder="Nhập mật khẩu mới">
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirm_new_password" class="form-label">Nhập lại mật khẩu mới</label>
+                            <input type="password" class="form-control" id="confirm_new_password"
+                                name="confirm_new_password" required placeholder="Nhập lại mật khẩu mới">
+                        </div>
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn btn-primary">Đổi Mật Khẩu</button>
+                        <a href="index.php" class="btn btn-secondary"> Quay về trang chủ</a>
+                    </form>
+                </div>
             </div>
-            <div class="mb-3">
-                <label for="confirm_new_password" class="form-label">Nhập lại mật khẩu mới</label>
-                <input type="password" class="form-control" id="confirm_new_password" name="confirm_new_password"
-                    required placeholder="Nhập lại mật khẩu mới">
-            </div>
-            <!-- Submit Button -->
-            <button type="submit" class="btn btn-primary">Đổi Mật Khẩu</button>
-            <a href="index.php" class="btn btn-secondary"> Quay về trang chủ</a>
-        </form>
+        </div>
     </div>
+    <?php
+    include('footer.php')
+        ?>
 </body>
 
 </html>
