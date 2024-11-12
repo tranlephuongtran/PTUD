@@ -84,6 +84,7 @@
                             <a class="dropdown-item" href="index.php?updateProfile">Cập nhật thông tin</a>
                             <a class="dropdown-item" href="index.php?change_password">Đổi mật khẩu</a>
                             <a class="dropdown-item" href="index.php?history">Xem lịch sử thuê sách</a>
+                            <a class="dropdown-item" href="index.php?history">Thanh toán</a>
                             <a class="dropdown-item" href="#">Đăng xuất</a>
                         </div>
                     </li>
