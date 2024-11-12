@@ -5,8 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cập Nhật Thông Tin Khách Hàng - A Plus BookStore</title>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
 </head>
 <style>
     .container-main {
@@ -50,17 +48,20 @@
 
 <body>
     <?php
-    include('header.php')
-        ?>
+    if (!isset($_GET['updateProfile'])) {
+        $updateProfile = 1;
+    } else {
+        $updateProfile = $_GET['updateProfile'];
+    }
+    ?>
     <div class="container container-main mt-5">
         <div class="row">
             <!-- Menu bên trái -->
             <div class="col-md-3">
                 <div class="menu">
                     <ul>
-                        <li><a href="index.php">Trang chủ</a></li>
-                        <li><a href="#">Lịch Sử Mua Hàng</a></li>
-                        <li><a href="change_password.php">Đổi Mật khẩu </a></li>
+                        <li><a href="index.php?updateProfile">Cập nhật thông tin</a></li>
+                        <li><a href="index.php?change_password">Đổi Mật khẩu </a></li>
                         <li><a href="#">Đăng Xuất</a></li>
 
                     </ul>
@@ -99,9 +100,6 @@
             </div>
         </div>
     </div>
-    <?php
-    include('footer.php')
-        ?>
 </body>
 
 </html>

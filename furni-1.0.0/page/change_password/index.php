@@ -50,17 +50,20 @@
 
 <body>
     <?php
-    include('header.php')
-        ?>
+    if (!isset($_GET['change_password'])) {
+        $change_password = 1;
+    } else {
+        $change_password = $_GET['change_password'];
+    }
+    ?>
     <div class="container container-main">
         <div class="row">
             <!-- Menu bên trái -->
             <div class="col-md-3">
                 <div class="menu">
                     <ul>
-                        <li><a href="index.php">Trang chủ</a></li>
-                        <li><a href="#">Lịch Sử Mua Hàng</a></li>
-                        <li><a href="update_profile.php">Cập nhật thông tin</a></li>
+                        <li><a href="index.php?updateProfile">Cập nhật thông tin</a></li>
+                        <li><a href="index.php?change_password">Đổi Mật khẩu </a></li>
                         <li><a href="#">Đăng Xuất</a></li>
                     </ul>
                 </div>
@@ -94,9 +97,6 @@
             </div>
         </div>
     </div>
-    <?php
-    include('footer.php')
-        ?>
 </body>
 
 </html>
