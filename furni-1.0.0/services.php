@@ -5,115 +5,150 @@
 * Template URI: https://untree.co/
 * License: https://creativecommons.org/licenses/by/3.0/
 */ -->
+<?php
+// Kết nối cơ sở dữ liệu
+$servername = "127.0.0.1";
+$username = "root"; // thay bằng tên đăng nhập thực tế
+$password = ""; // thay bằng mật khẩu thực tế
+$dbname = "ptud";
+
+// Tạo kết nối
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Kiểm tra kết nối
+if ($conn->connect_error) {
+    die("Kết nối thất bại: " . $conn->connect_error);
+}
+
+// Truy vấn dữ liệu từ bảng chinhsach
+$sql = "SELECT * FROM chinhsach";
+$result = $conn->query($sql);
+
+// Lấy mã của chính sách đầu tiên để hiển thị mặc định
+$firstPolicyId = null;
+if ($result->num_rows > 0) {
+    $firstRow = $result->fetch_assoc();
+    $firstPolicyId = $firstRow["maChinhSach"];
+    $result->data_seek(0); // Đặt lại con trỏ để duyệt lại từ đầu
+}
+?>
+
 <!doctype html>
 <html lang="en">
 <?php
 include('header.php')
 	?>
 <style>
-	#ChinhSach {
-		display: flex;
-		justify-content: space-between;
-		padding: 20px;
-		border: 5px;
-	}
+			#ChinhSach {
+				display: flex;
+				justify-content: space-between;
+				padding: 20px;
+				border: 5px;
+			}
 
-	#ChinhSachMenu {
-		width: 20%;
-		background-color: #f2f2f2;
-		text-align: left;
-		padding: 20px;
-		border-radius: 8px;
-		box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-		/* Đổ bóng để menu nổi bật */
-	}
+			#ChinhSachMenu{
+				width: 20%;
+				background-color: #f9c784;
+				color: #333;
+				text-align: left;
+				padding: 20px;
+				border-radius: 8px;
+				box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2); /* Đổ bóng để menu nổi bật */
+			} 
+			#ChinhSachMenu h3 {
+				font-size: 28px;
+				color: #FFFFFF;
+				font-weight: bold;
+				margin-bottom: 20px;
+				text-align: left;
+			}
+			#ChinhSachMenu ul {
+				list-style-type: none; /* Bỏ dấu chấm đầu dòng */
+				padding: 0;
+			}
 
-	#ChinhSachMenu h3 {
-		font-size: 28px;
-		color: #333;
-		margin-bottom: 15px;
-		text-align: left;
-	}
+			#ChinhSachMenu ul li {
+				margin-bottom: 10px;
+			}
 
-	#ChinhSachMenu ul {
-		list-style-type: none;
-		/* Bỏ dấu chấm đầu dòng */
-		padding: 0;
-	}
+			#ChinhSachMenu ul li a {
+				text-decoration: none; /* Bỏ gạch chân */
+				color: #FFFFFF;
+				font-size: 18px;
+				font-weight: bold;
+				display: flex;
+				align-items: center;
+				transition: color 0.3s; /* Hiệu ứng chuyển màu khi hover */
+			}
 
-	#ChinhSachMenu ul li {
-		margin-bottom: 10px;
-	}
+			#ChinhSachMenu ul li a:hover {
+				color: #a76c4a; /* Đổi màu chữ khi hover */
+				transform: translateX(5px); /* Hiệu ứng di chuyển nhẹ */
+			}
+			#ChinhSachND {
+				width: 80%;
+				background-color: #e6e6e6;
+				text-align: left;
+				padding: 30px;
+				border-radius: 8px; /* Bo tròn góc */
+				box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ */
+				color: #333; /* Màu chữ dễ đọc */
+				line-height: 1.6; /* Tăng khoảng cách giữa các dòng chữ */
+				padding-bottom: 50px;
+				background-size: cover;
+    			background-blend-mode: lighten;
 
-	#ChinhSachMenu ul li a {
-		text-decoration: none;
-		/* Bỏ gạch chân */
-		color: #333;
-		font-size: 18px;
-		transition: color 0.3s;
-		/* Hiệu ứng chuyển màu khi hover */
-	}
+			}
+			#ChinhSachND h1 {
+				font-size: 32px; /* Kích thước chữ lớn cho tiêu đề */
+				color: #4CAF50; /* Màu chữ nổi bật cho tiêu đề */
+				margin-bottom: 20px; /* Khoảng cách dưới tiêu đề */
+				text-align: left;
+			}
 
-	#ChinhSachMenu ul li a:hover {
-		color: #a76c4a;
-		/* Đổi màu chữ khi hover */
-	}
+			#ChinhSachND p {
+				font-size: 18px; /* Kích thước chữ vừa phải cho nội dung */
+				margin-bottom: 15px; /* Khoảng cách dưới mỗi đoạn văn */
+				opacity: 0;
+    			animation: fadeIn 1s ease-in-out forwards;
+			}
 
-	#ChinhSachND {
-		width: 80%;
-		background-color: #e6e6e6;
-		text-align: left;
-		padding: 30px;
-		border-radius: 8px;
-		/* Bo tròn góc */
-		box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-		/* Đổ bóng nhẹ */
-		color: #333;
-		/* Màu chữ dễ đọc */
-		line-height: 1.6;
-		/* Tăng khoảng cách giữa các dòng chữ */
-		padding-bottom: 50px;
-	}
+			#ChinhSachND ul {
+				margin-top: 20px; /* Khoảng cách trên cho danh sách */
+				padding-left: 20px; /* Thụt lề để làm rõ danh sách */
+			}
 
-	#ChinhSachND h1 {
-		font-size: 32px;
-		/* Kích thước chữ lớn cho tiêu đề */
-		color: #4CAF50;
-		/* Màu chữ nổi bật cho tiêu đề */
-		margin-bottom: 20px;
-		/* Khoảng cách dưới tiêu đề */
-		text-align: left;
-	}
+			#ChinhSachND ul li {
+				margin-bottom: 10px; /* Khoảng cách dưới mỗi mục trong danh sách */
+			}
 
-	#ChinhSachND p {
-		font-size: 18px;
-		/* Kích thước chữ vừa phải cho nội dung */
-		margin-bottom: 15px;
-		/* Khoảng cách dưới mỗi đoạn văn */
-	}
-
-	#ChinhSachND ul {
-		margin-top: 20px;
-		/* Khoảng cách trên cho danh sách */
-		padding-left: 20px;
-		/* Thụt lề để làm rõ danh sách */
-	}
-
-	#ChinhSachND ul li {
-		margin-bottom: 10px;
-		/* Khoảng cách dưới mỗi mục trong danh sách */
-	}
-
-	#ChinhSachND ul li::before {
-		content: "•";
-		/* Thêm ký hiệu đầu dòng cho danh sách */
-		color: #4CAF50;
-		/* Màu xanh cho ký hiệu đầu dòng */
-		font-weight: bold;
-		display: inline-block;
-		width: 1em;
-		margin-left: -1em;
-	}
+			#ChinhSachND ul li::before {
+				content: "•"; /* Thêm ký hiệu đầu dòng cho danh sách */
+				color: #4CAF50; /* Màu xanh cho ký hiệu đầu dòng */
+				font-weight: bold;
+				display: inline-block;
+				width: 1em;
+				margin-left: -1em;
+			}
+			#title_ChinhSach{
+				border-bottom: 1px solid gray;
+				color: #ff8a00;
+				text-decoration: underline;
+				margin-bottom: 20px;
+			}
+			#title_Muc{
+				border-bottom: 1px solid gray;
+			}
+			@keyframes fadeIn {
+				0% {
+					opacity: 0;
+					transform: translateY(10px);
+				}
+				100% {
+					opacity: 1;
+					transform: translateY(0);
+				}
+			}
 </style>
 <!-- Start Hero Section -->
 <div class="hero">
@@ -141,65 +176,54 @@ include('header.php')
 <!-- End Hero Section -->
 
 
-<!-- End Hero Section -->
-<div class="why-choose-section" id="ChinhSach">
-	<div class="container" id="ChinhSachMenu">
-		<h3>Menu</h3>
-		<ul>
-			<li><a href="#">Chính sách bảo mật</a></li>
-			<li><a href="#">Chính sách thuê sách</a></li>
-		</ul>
-	</div>
-	<div class="container" id="ChinhSachND">
-		<h3>Chính sách bảo mật</h3>
-		<p>
-			Việc bảo lưu thông tin cá nhân của quý khách nhằm giúp chúng tôi có điều kiện nâng cao chất lượng dịch vụ để
-			phục vụ quý khách hàng ngày một tốt hơn. APlus cam kết sử dụng thông tin khách hàng một cách hợp lý và bảo
-			mật nhất. <br>
-			<b>● Về Việc Bảo Lưu Thông Tin Khách Hàng</b> <br>
-			Để sử dụng và trải nghiệm các dịch vụ của Nhà sách Phương Nam, bạn cần đăng ký tài khoản và cung cấp một số
-			thông tin như: email, họ tên, số điện thoại, địa chỉ và một số thông tin khác.
-			Bạn có thể tùy chọn không cung cấp cho chúng tôi một số thông tin nhất định nhưng sẽ có một chút bất tiện vì
-			khi đó, bạn sẽ không thể được hưởng một số tiện ích mà những tính năng của chúng tôi cung cấp. <br>
-			Mọi thông tin bạn nhập trên website sẽ được lưu trữ để sử dụng cho mục đích phản hồi yêu cầu của khách hàng,
-			đưa ra những gợi ý phù hợp cho từng khách hàng khi mua sắm tại website, nâng cao chất lượng hàng hóa dịch vụ
-			và liên lạc với khách hàng khi cần thiết. <br>
-			<b>● Mục Đích Sử Dụng Thông Tin</b> <br>
-			Mục đích của việc bảo lưu thông tin là nhằm xây dựng nhasachphuongnam.com trở thành một website bán hàng
-			trực tuyến mang lại nhiều tiện ích nhất cho khách hàng. Vì thế, việc sử dụng thông tin sẽ phục vụ những hoạt
-			động sau: <br>
-			- Gửi newsletter giới thiệu sản phẩm mới và những chương trình khuyến mãi của Nhà sách Phương Nam. <br>
-			- Cung cấp một số tiện ích, dịch vụ hỗ trợ khách hàng. <br>
-			- Nâng cao chất lượng dịch vụ khách hàng của Nhà sách Phương Nam. <br>
-			- Làm cơ sở giải quyết các vấn đề khiếu nại, tranh chấp phát sinh liên quan đến việc sử dụng sản phẩm, dịch
-			vụ tại website Nhà sách Phương Nam. <br>
-			- Ngăn chặn những hoạt động vi phạm pháp luật Việt Nam <br>
-			<b>● Chia Sẻ Thông Tin</b> <br>
-			Chúng tôi sẽ không chia sẻ thông tin của bạn trừ những trường hợp cụ thể sau đây: <br>
-			- Để bảo vệ Nhà sách Phương Nam và các bên thứ ba khác: Chúng tôi chỉ đưa ra thông tin tài khoản và những
-			thông tin cá nhân khác khi tin chắc rằng việc đưa những thông tin đó là phù hợp với luật pháp, bảo vệ quyền
-			lợi, tài sản của người sử dụng dịch vụ, của Nhà sách Phương Nam và các bên thứ ba khác. <br>
-			- Theo yêu cầu pháp lý từ một cơ quan chính phủ hoặc khi chúng tôi tin rằng việc làm đó là cần thiết và phù
-			hợp nhằm tuân theo các yêu cầu pháp lý. <br>
-			- Trong những trường hợp còn lại, chúng tôi sẽ có thông báo cụ thể cho bạn khi phải tiết lộ thông tin cho
-			một bên thứ ba và thông tin này chỉ được cung cấp khi được sự phản hồi đồng ý từ phía bạn. <br>
-			<b>● Chính Sách Cam Kết Bảo Mật Thông Tin Khách Hàng</b> <br>
-			- Chúng tôi cam kết không tiết lộ thông tin khách hàng, không bán hoặc chia sẻ thông tin khách hàng của Nhà
-			sách Phương Nam cho bên thứ ba nào khác vì mục đích thương mại. <br>
-			- Chúng tôi cam kết mọi thông tin thanh toán giao dịch trực tuyến của khách hàng đều được bảo mật và an
-			toàn. Các thông tin tài khoản ngân hàng, thông tin thẻ tín dụng hay thông tin tài chính đều không bị lưu lại
-			dưới bất kỳ hình thức nào. <br>
-			- Quý khách không nên trao đổi những thông tin cá nhân và thông tin thanh toán của mình cho bên thứ ba nào
-			khác để tránh rò rỉ thông tin. Khi sử dụng chung máy tính với nhiều người, vui lòng thoát khỏi tài khoản sau
-			khi sử dụng dịch vụ của website chúng tôi để tự bảo vệ thông tin về mật khẩu truy cập của mình. <br>
-			Nhà sách Phương Nam hiểu rằng quyền lợi của bạn trong việc bảo vệ thông tin cá nhân cũng chính là trách
-			nhiệm của chúng tôi nên trong bất kỳ trường hợp có thắc mắc, góp ý nào liên quan đến chính sách bảo mật của
-			Nhà sách Phương Nam, vui lòng liên hệ với chúng tôi qua số điện thoại <b style="color: red;">1900 6656</b>
-			để được phúc đáp, giải quyết thắc mắc trong thời gian sớm nhất. <br> <br> <br> <br>
-		</p>
-	</div>
-</div>
+		<!-- End Hero Section -->
+		<div class="why-choose-section" id="ChinhSach">
+			<div class="container" id="ChinhSachMenu">
+				<h3>Chính sách A Plus</h3>
+				<ul>
+					<?php
+					// Duyệt qua kết quả truy vấn và hiển thị danh sách chính sách với liên kết tới từng nội dung
+					if ($result->num_rows > 0) {
+						while($row = $result->fetch_assoc()) {
+							echo '<li><a href="javascript:void(0);" onclick="showPolicy(\'policy' . $row["maChinhSach"] . '\')">' . $row["ten"] . '</a></li>';
+						}
+					}
+					?>
+				</ul>
+			</div>
 
+			<div class="container" id="ChinhSachND">
+				<?php
+				// Đặt lại con trỏ để đọc lại từ đầu
+				$result->data_seek(0);
+
+				// Hiển thị nội dung chi tiết của từng chính sách và ẩn tất cả, chỉ hiện khi được chọn
+				if ($result->num_rows > 0) {
+					while($row = $result->fetch_assoc()) {
+						// Lấy nội dung và xử lý dấu "●"
+						$noiDung = nl2br($row["noiDung"]); // Chuyển đổi ký tự xuống dòng thành thẻ <br>
+						
+						// Bọc nội dung đã xử lý trong thẻ <ul> nếu có mục
+						if (strpos($noiDung, '<li>') !== false) {
+							$noiDung = '<ul>' . $noiDung . '</ul>';
+						}
+
+						// Kiểm tra xem có phải là chính sách đầu tiên không và thêm style hiển thị mặc định
+						$displayStyle = ($row["maChinhSach"] == $firstPolicyId) ? 'block' : 'none';
+						echo '<div class="policy-content" id="policy' . $row["maChinhSach"] . '" style="display: ' . $displayStyle . ';">';
+						echo '<header id="title_ChinhSach"><h2>' . $row["ten"] . '</h2></header>';
+						echo '<p>' . $noiDung . '</p> <br>'; // Hiển thị nội dung đã được định dạng
+						echo '</div>';
+							}
+				} else {
+					echo "<p>Không có chính sách nào để hiển thị.</p>";
+				}
+				// Đóng kết nối cơ sở dữ liệu
+				$conn->close();
+				?>
+			</div>
+		</div>
+	
 
 
 
@@ -209,6 +233,27 @@ include('footer.php')
 	?>
 <!-- End Footer Section -->
 
+<script>
+function showPolicy(policyId) {
+    // Ẩn tất cả các nội dung chính sách
+    const policies = document.querySelectorAll('.policy-content');
+    policies.forEach(policy => {
+        policy.style.display = 'none';
+    });
+
+    // Hiển thị nội dung của chính sách được chọn
+    document.getElementById(policyId).style.display = 'block';
+
+	// Tự động hiển thị chính sách đầu tiên khi tải trang
+	document.addEventListener("DOMContentLoaded", function() {
+		const firstPolicyId = "<?php echo $firstPolicyId; ?>";
+		if (firstPolicyId) {
+			showPolicy('policy' + firstPolicyId);
+		}
+	});
+
+}
+</script>
 
 <script src="js/bootstrap.bundle.min.js"></script>
 <script src="js/tiny-slider.js"></script>
