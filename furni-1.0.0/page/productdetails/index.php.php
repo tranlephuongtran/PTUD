@@ -8,8 +8,12 @@
 <!doctype html>
 <html lang="en">
 <?php
-include('header.php')
-    ?>
+if (!isset($_GET['productdetails'])) {
+    $productdetails = 1;
+} else {
+    $productdetails = $_GET['productdetails'];
+}
+?>
 
 <!-- Start Hero Section -->
 <div class="hero">
@@ -150,9 +154,7 @@ include('header.php')
         <!-- </form> -->
     </div>
 </div>
-<?php
-include('footer.php')
-    ?>
+
 
 <script src="js/bootstrap.bundle.min.js"></script>
 <script src="js/tiny-slider.js"></script>

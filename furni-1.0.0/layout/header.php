@@ -6,11 +6,11 @@
     <meta name="description" content="" />
     <meta name="keywords" content="bootstrap, bootstrap4" />
     <!-- Bootstrap CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="layout/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link href="css/tiny-slider.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
+    <link href="layout/css/tiny-slider.css" rel="stylesheet">
+    <link href="layout/css/style.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <title>A Plus BookStore</title>
     <style>
@@ -54,10 +54,10 @@
             <div class="collapse navbar-collapse" id="navbarsFurni">
                 <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.php">Trang chủ</a>
+                        <a class="nav-link" href="index.php?home">Trang chủ</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link" href="shop.php" id="sanPham">Sản phẩm</a>
+                        <a class="nav-link" href="index.php?shop" id="sanPham">Sản phẩm</a>
                         <div id="userMenuSP" class="dropdown-menusp">
                             <a href="#" class="dropdown-itemsp">Danh mục A</a>
                             <a href="#" class="dropdown-itemsp">Danh mục B</a>
@@ -65,29 +65,30 @@
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="about.php">Giới thiệu</a>
+                        <a class="nav-link" href="index.php?about">Giới thiệu</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="services.php">Chính sách</a>
+                        <a class="nav-link" href="index.php?services">Chính sách</a>
                     </li>
                 </ul>
                 <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-2"
                     style="font-weight: 500 !important; font-size: large">
-                    <li class="nav-item"><a class="nav-link" href="register.php">Đăng ký</a></li>
-                    <li class="nav-item"><a class="nav-link" href="login.php">Đăng nhập</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php?register">Đăng ký</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php?login">Đăng nhập</a></li>
                     <li class="nav-item dropdown">
                         <a class="nav-link" href="#">
-                            <img src="images/user.svg" id="avatarIcon" alt="User Icon">
+                            <img src="layout/images/user.svg" id="avatarIcon" alt="User Icon">
                         </a>
                         <!-- Dropdown Menu -->
                         <div id="userMenu" class="dropdown-menu">
-                            <a class="dropdown-item" href="update_profile.php">Cập nhật thông tin</a>
-                            <a class="dropdown-item" href="change_password.php">Đổi mật khẩu</a>
-                            <a class="dropdown-item" href="XemLichSuThue.php">Xem lịch sử thuê sách</a>
-                            <a class="dropdown-item" href="logout.php">Đăng xuất</a>
+                            <a class="dropdown-item" href="index.php?updateProfile">Cập nhật thông tin</a>
+                            <a class="dropdown-item" href="index.php?change_password">Đổi mật khẩu</a>
+                            <a class="dropdown-item" href="index.php?history">Xem lịch sử thuê sách</a>
+                            <a class="dropdown-item" href="#">Đăng xuất</a>
                         </div>
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="cart.php"><img src="images/cart.svg"></a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php?cart"><img
+                                src="layout/images/cart.svg"></a></li>
                 </ul>
             </div>
         </div>

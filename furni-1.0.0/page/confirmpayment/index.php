@@ -8,8 +8,12 @@
 <!doctype html>
 <html lang="en">
 <?php
-include('header.php')
-    ?>
+if (!isset($_GET['confirmpayment'])) {
+    $confirmpayment = 1;
+} else {
+    $confirmpayment = $_GET['confirmpayment'];
+}
+?>
 
 <!-- Start Hero Section -->
 <div class="hero">
@@ -35,7 +39,7 @@ include('header.php')
                 <!-- <h2 class="h3 mb-3 text-black">THÔNG TIN ĐƠN HÀNG</h2> -->
                 <div class="p-3 p-lg-5 border bg-white text-center">
                     <h2 class=" mb-3 text-black">BẠN CÓ MUỐN THANH TOÁN NGAY KHÔNG ?</h2>
-                    <button class="btn btn-primary btn-block" onclick="window.location='payment.php'">Thanh
+                    <button class="btn btn-primary btn-block" onclick="window.location='index.php?payment'">Thanh
                         toán</button>
                     <button class="btn btn-primary btn-block" style="width: 150px;" onclick="window.location='#'">Để
                         sau</button>
@@ -50,9 +54,7 @@ include('header.php')
     <!-- </form> -->
 </div>
 </div>
-<?php
-include('footer.php')
-    ?>
+
 
 <script src="js/bootstrap.bundle.min.js"></script>
 <script src="js/tiny-slider.js"></script>

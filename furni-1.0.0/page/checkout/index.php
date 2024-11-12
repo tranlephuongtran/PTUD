@@ -8,8 +8,12 @@
 <!doctype html>
 <html lang="en">
 <?php
-include('header.php')
-	?>
+if (!isset($_GET['checkout'])) {
+	$checkout = 1;
+} else {
+	$checkout = $_GET['checkout'];
+}
+?>
 
 <!-- Start Hero Section -->
 <div class="hero">
@@ -166,7 +170,7 @@ include('header.php')
 
 							<div class="form-group">
 								<button class="btn btn-black btn-lg py-3 btn-block"
-									onclick="window.location='confirmpayment.php'">Xác nhận</button>
+									onclick="window.location='index.php?confirmpayment'">Xác nhận</button>
 							</div>
 
 						</div>
@@ -180,9 +184,7 @@ include('header.php')
 	<!-- </form> -->
 </div>
 </div>
-<?php
-include('footer.php')
-	?>
+
 
 <script src="js/bootstrap.bundle.min.js"></script>
 <script src="js/tiny-slider.js"></script>

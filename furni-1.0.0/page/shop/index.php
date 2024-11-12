@@ -8,8 +8,12 @@
 <!doctype html>
 <html lang="en">
 <?php
-include('header.php')
-	?>
+if (!isset($_GET['shop'])) {
+	$shop = 1;
+} else {
+	$shop = $_GET['shop'];
+}
+?>
 
 <!-- Start Hero Section -->
 <div class="hero">
@@ -37,24 +41,24 @@ include('header.php')
 			<!-- Start Column 1 -->
 			<div class="col-12 col-md-4 col-lg-3 mb-5">
 				<div class="product-item" onclick="window.location='productdetails.php'">
-					<img src="images/CayCamNgotCuaToi.png" class="img-fluid product-thumbnail">
+					<img src="layout/images/CayCamNgotCuaToi.png" class="img-fluid product-thumbnail">
 					<h3 class="product-title">Cây Cam Ngọt của Tôi</h3>
 					<strong class="product-price">17.000 VND</strong>
 
 					<span class="icon-cross">
-						<img src="images/cross.svg" class="img-fluid">
+						<img src="layout/images/cross.svg" class="img-fluid">
 					</span>
 				</div>
 			</div>
 			<!-- End Column 1 -->
 			<div class="col-12 col-md-4 col-lg-3 mb-5">
 				<div class="product-item" onclick="window.location='productdetails.php'">
-					<img src="images/KhongGiaDinh.png" class="img-fluid product-thumbnail">
+					<img src="layout/images/KhongGiaDinh.png" class="img-fluid product-thumbnail">
 					<h3 class="product-title">Không Gia Đình</h3>
 					<strong class="product-price">35.000 VND</strong>
 
 					<span class="icon-cross">
-						<img src="images/cross.svg" class="img-fluid">
+						<img src="layout/images/cross.svg" class="img-fluid">
 					</span>
 				</div>
 			</div>
@@ -69,9 +73,6 @@ include('header.php')
 </div>
 
 
-<?php
-include("footer.php")
-	?>
 <!-- End Footer Section -->
 
 

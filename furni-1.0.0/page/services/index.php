@@ -6,6 +6,11 @@
 * License: https://creativecommons.org/licenses/by/3.0/
 */ -->
 <?php
+if (!isset($_GET['services'])) {
+	$services = 1;
+} else {
+	$services = $_GET['services'];
+}
 // Kết nối cơ sở dữ liệu
 $servername = "127.0.0.1";
 $username = "root"; // thay bằng tên đăng nhập thực tế
@@ -35,9 +40,7 @@ if ($result->num_rows > 0) {
 
 <!doctype html>
 <html lang="en">
-<?php
-include('header.php')
-	?>
+
 <style>
 	#ChinhSach {
 		display: flex;
@@ -195,7 +198,7 @@ include('header.php')
 			</div>
 			<div class="col-lg-7">
 				<div class="hero-img-wrap">
-					<img src="images/ChinhSachHeader.png" class="img-fluid">
+					<img src="layout/images/ChinhSachHeader.png" class="img-fluid">
 					<!-- couch.png-->
 				</div>
 			</div>
@@ -257,9 +260,7 @@ include('header.php')
 
 
 <!-- Start Footer Section -->
-<?php
-include('footer.php')
-	?>
+
 <!-- End Footer Section -->
 
 <script>

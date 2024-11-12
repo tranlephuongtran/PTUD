@@ -8,8 +8,12 @@
 <!doctype html>
 <div lang="en">
     <?php
-    include('header.php')
-        ?>
+    if (!isset($_GET['paymentlate'])) {
+        $paymentlate = 1;
+    } else {
+        $paymentlate = $_GET['paymentlate'];
+    }
+    ?>
     <style>
         #payCode {
             text-decoration: none;
@@ -73,7 +77,3 @@
         </div>
     </div>
     <!-- End Testimonial Slider -->
-
-    <?php
-    include('footer.php')
-        ?>

@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cập Nhật Thông Tin Khách Hàng - A Plus BookStore</title>
+    <title>Đổi Mật Khẩu - A Plus BookStore</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
     <style>
-        /*  CSS trang cập nhật thông tin */
         body {
             background-color: #f7f8fa;
             font-family: Arial, sans-serif;
         }
 
         .container {
-            max-width: 600px;
+            max-width: 500px;
             background-color: #ffffff;
             border-radius: 8px;
             padding: 30px;
@@ -49,12 +49,12 @@
             font-size: 16px;
             font-weight: bold;
             border-radius: 5px;
-            background-color: #003366;
+            background-color: #007bff;
             border: none;
         }
 
         .btn-primary:hover {
-            background-color: #002244;
+            background-color: #0056b3;
         }
 
         .btn-secondary {
@@ -67,37 +67,40 @@
             border: none;
             margin-top: 10px;
         }
-
-        .btn-secondary:hover {
-            background-color: #565e64;
-        }
     </style>
 </head>
+
 <body>
-    <div class="container mt-5">
-        <h2 class="mb-4">Cập Nhật Thông Tin </h2>
-        <form method="POST" action="process_update_profile.php">
+    <?php
+    if (!isset($_GET['change_password'])) {
+        $change_password = 1;
+    } else {
+        $change_password = $_GET['change_password'];
+    }
+    ?>
+    <div class="container">
+        <h2 class="mb-4">Đổi Mật Khẩu</h2>
+        <form method="POST" action="process_change_password.php">
             <div class="mb-3">
-                <label for="name" class="form-label">Tên</label>
-                <input type="text" class="form-control" id="name" name="name" required placeholder="Phạm Quang Trường">
+                <label for="current_password" class="form-label">Mật khẩu cũ</label>
+                <input type="password" class="form-control" id="current_password" name="current_password" required
+                    placeholder="Nhập mật khẩu cũ">
             </div>
             <div class="mb-3">
-                <label for="address" class="form-label">Địa chỉ</label>
-                <input type="text" class="form-control" id="address" name="address" required placeholder="57/Lê Lợi/ Phường 5/ Gò Vấp/Hcm">
+                <label for="new_password" class="form-label">Mật khẩu mới</label>
+                <input type="password" class="form-control" id="new_password" name="new_password" required
+                    placeholder="Nhập mật khẩu mới">
             </div>
             <div class="mb-3">
-                <label for="phone" class="form-label">Số điện thoại</label>
-                <input type="tel" class="form-control" id="phone" name="phone" required placeholder="012343243243">
-            </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" name="email" required placeholder="trjkas@gmail.com">
+                <label for="confirm_new_password" class="form-label">Nhập lại mật khẩu mới</label>
+                <input type="password" class="form-control" id="confirm_new_password" name="confirm_new_password"
+                    required placeholder="Nhập lại mật khẩu mới">
             </div>
             <!-- Submit Button -->
-            <button type="submit" class="btn btn-primary">Cập Nhật Thông Tin</button>
+            <button type="submit" class="btn btn-primary">Đổi Mật Khẩu</button>
             <a href="index.php" class="btn btn-secondary"> Quay về trang chủ</a>
         </form>
     </div>
-
 </body>
+
 </html>

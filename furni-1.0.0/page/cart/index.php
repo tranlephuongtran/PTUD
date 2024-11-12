@@ -8,8 +8,12 @@
 <!doctype html>
 <html lang="en">
 <?php
-include('header.php')
-	?>
+if (!isset($_GET['cart'])) {
+	$cart = 1;
+} else {
+	$cart = $_GET['cart'];
+}
+?>
 
 <!-- Start Hero Section -->
 <div class="hero">
@@ -49,8 +53,8 @@ include('header.php')
 						<tbody style="font-size: larger">
 							<tr>
 								<td class="product-thumbnail">
-									<img src="images/CayCamNgotCuaToi.png" style="width: 120px;height: 160px;"
-										alt="Image" class="img-fluid">
+									<img src="layout/
+									images/CayCamNgotCuaToi.png" style="width: 120px;height: 160px;" alt="Image" class="img-fluid">
 								</td>
 								<td class="product-name">
 									<h2 class="h5 text-black mt-2">Cây Cam Ngọt Của Tôi</h2>
@@ -79,8 +83,8 @@ include('header.php')
 
 							<tr>
 								<td class="product-thumbnail">
-									<img src="images/KhongGiaDinh.png" style="width: 120px;height: 160px;" alt=" Image"
-										class="img-fluid">
+									<img src="layout/images/KhongGiaDinh.png" style="width: 120px;height: 160px;"
+										alt=" Image" class="img-fluid">
 								</td>
 								<td class="product-name">
 									<h2 class="h5 text-black  mt-2" style="margin-top: 9px;">Không Gia Đình</h2>
@@ -153,7 +157,7 @@ include('header.php')
 						<div class="row">
 							<div class="col-md-12">
 								<button class="btn btn-black btn-lg py-3 btn-block"
-									onclick="window.location='checkout.php'">THUÊ SÁCH</button>
+									onclick="window.location='index.php?checkout'">THUÊ SÁCH</button>
 							</div>
 						</div>
 					</div>
@@ -163,9 +167,7 @@ include('header.php')
 	</div>
 </div>
 
-<?php
-include('footer.php')
-	?>
+
 
 
 <script src="js/bootstrap.bundle.min.js"></script>

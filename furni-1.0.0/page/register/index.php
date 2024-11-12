@@ -8,8 +8,12 @@
 <!doctype html>
 <html lang="en">
 <?php
-include('header.php')
-    ?>
+if (!isset($_GET['register'])) {
+    $register = 1;
+} else {
+    $register = $_GET['register'];
+}
+?>
 
 
 <!-- Start Register -->
@@ -60,9 +64,7 @@ include('header.php')
 
 <!-- End Register -->
 
-<?php
-include('footer.php')
-    ?>
+
 
 <script src="js/bootstrap.bundle.min.js"></script>
 <script src="js/tiny-slider.js"></script>

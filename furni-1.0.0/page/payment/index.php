@@ -8,8 +8,12 @@
 <!doctype html>
 <html lang="en">
 <?php
-include('header.php')
-    ?>
+if (!isset($_GET['payment'])) {
+    $payment = 1;
+} else {
+    $payment = $_GET['payment'];
+}
+?>
 
 <!-- Start Hero Section -->
 <div class="hero">
@@ -95,7 +99,7 @@ include('header.php')
                                                 <td class="text-black font-weight-bold"><strong>QR cửa hàng</strong>
                                                 </td>
                                                 <td class="text-black font-weight-bold"><img
-                                                        src="images/QR-thanhtoan.png" alt=""
+                                                        src="layout/images/QR-thanhtoan.png" alt=""
                                                         style="width: 200px;height: 200px;"></td>
                                             </tr>
                                             <tr>
@@ -129,9 +133,6 @@ include('header.php')
         <!-- </form> -->
     </div>
 </div>
-<?php
-include('footer.php')
-    ?>
 
 <script src="js/bootstrap.bundle.min.js"></script>
 <script src="js/tiny-slider.js"></script>

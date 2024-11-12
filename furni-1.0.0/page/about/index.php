@@ -7,15 +7,16 @@
 */ -->
 <!doctype html>
 <div lang="en">
-
 	<?php
-	include('header.php')
-		?>
-
+	if (!isset($_GET['about'])) {
+		$about = 1;
+	} else {
+		$about = $_GET['about'];
+	}
+	?>
 	<video id="videoOverlay" autoplay loop muted>
-		<source src="images/185096-874643413_medium_1.mp4" type="video/mp4">
+		<source src="layout/images/185096-874643413_medium_1.mp4" type="video/mp4">
 	</video>
-
 	<!-- Start Why Choose Us Section -->
 	<div class="why-choose-section">
 		<div class="container">
@@ -31,7 +32,7 @@
 						<div class="col-6 col-md-6">
 							<div class="feature">
 								<div class="icon">
-									<img src="images/return.svg" alt="Image" class="imf-fluid">
+									<img src="layout/images/return.svg" alt="Image" class="imf-fluid">
 								</div>
 								<h3>Thư viện sách phong phú</h3>
 								<p>Từ sách kinh tế, khoa học đến truyện tranh, văn học cổ điển và hiện đại, chúng tôi tự
@@ -43,7 +44,7 @@
 						<div class="col-6 col-md-6">
 							<div class="feature">
 								<div class="icon">
-									<img src="images/bag.svg" alt="Image" class="imf-fluid">
+									<img src="layout/images/bag.svg" alt="Image" class="imf-fluid">
 								</div>
 								<h3>Tiết kiệm chi phí</h3>
 								<p>Với dịch vụ cho thuê, bạn không cần chi quá nhiều tiền để sở hữu một cuốn sách mà vẫn
@@ -55,7 +56,7 @@
 						<div class="col-6 col-md-6">
 							<div class="feature">
 								<div class="icon">
-									<img src="images/truck.svg" alt="Image" class="imf-fluid">
+									<img src="layout/images/truck.svg" alt="Image" class="imf-fluid">
 								</div>
 								<h3>Không cần di chuyển</h3>
 								<p>Nhà sách A Plus giao hàng tận nơi, giúp bạn tiết kiệm thời gian và công sức. </p>
@@ -65,7 +66,7 @@
 						<div class="col-6 col-md-6">
 							<div class="feature">
 								<div class="icon">
-									<img src="images/support.svg" alt="Image" class="imf-fluid">
+									<img src="layout/images/support.svg" alt="Image" class="imf-fluid">
 								</div>
 								<h3>Chương trình ưu đãi</h3>
 								<p>các gói thuê dài hạn và chương trình tích điểm, giúp bạn có giá thuê hấp dẫn</p>
@@ -77,7 +78,7 @@
 
 				<div class="col-lg-5">
 					<div class="img-wrap">
-						<img src="images/book-store.jpg" alt="Image" class="img-fluid">
+						<img src="layout/images/book-store.jpg" alt="Image" class="img-fluid">
 					</div>
 				</div>
 			</div>
@@ -90,7 +91,7 @@
 				<div class="row justify-content-between align-items-center">
 					<div class="col-lg-5">
 						<div class="img-wrap">
-							<img src="images/book-store1.jpg" alt="Image" class="img-fluid">
+							<img src="layout/images/book-store1.jpg" alt="Image" class="img-fluid">
 						</div>
 					</div>
 					<div class="col-lg-6">
@@ -161,7 +162,7 @@
 
 													<div class="author-info">
 														<div class="author-pic">
-															<img src="images/minh-hang.jpg" alt="Maria Jones"
+															<img src="layout/images/minh-hang.jpg" alt="Maria Jones"
 																class="img-fluid">
 														</div>
 														<h3 class="font-weight-bold">Nguyễn Minh Hằng</h3>
@@ -190,7 +191,7 @@
 
 													<div class="author-info">
 														<div class="author-pic">
-															<img src="images/bui-anh-tuan.png" alt="Maria Jones"
+															<img src="layout/images/bui-anh-tuan.png" alt="Maria Jones"
 																class="img-fluid">
 														</div>
 														<h3 class="font-weight-bold">Huỳnh Minh Tuấn</h3>
@@ -220,7 +221,8 @@
 
 													<div class="author-info">
 														<div class="author-pic">
-															<img src="images/amee.jpg" alt="Amee" class="img-fluid">
+															<img src="layout/images/amee.jpg" alt="Amee"
+																class="img-fluid">
 														</div>
 														<h3 class="font-weight-bold">Lê Thị Thanh Mai</h3>
 													</div>
@@ -326,6 +328,3 @@
 	</div>
 </div>
 <!-- End Team Section -->
-	<?php
-	include('footer.php')
-		?>
