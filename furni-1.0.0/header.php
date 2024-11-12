@@ -74,8 +74,8 @@
                 </ul>
                 <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-2"
                     style="font-weight: 500 !important; font-size: large">
-                    <li class="nav-item"><a class="nav-link" href="#">Đăng ký</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Đăng nhập</a></li>
+                    <li class="nav-item"><a class="nav-link" href="login.php">Đăng ký</a></li>
+                    <li class="nav-item"><a class="nav-link" href="register.php">Đăng nhập</a></li>
                     <li class="nav-item dropdown">
                         <a class="nav-link" href="#" onclick="toggleMenu()">
                             <img src="images/user.svg" id="avatarIcon" alt="User Icon">
