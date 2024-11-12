@@ -104,9 +104,6 @@ include('header.php')
 												style="border-radius: 10px;width: 200px;height: 30px;">
 												<option value="0">Vui lòng chọn</option>
 												<option value="1">Khuyến mãi 10%</option>
-												<option value="2">Khuyến mãi 10%</option>
-												<option value="3">Khuyến mãi 10%</option>
-												<option value="4">Khuyến mãi 10%</option>
 											</select>
 										</td>
 
@@ -169,7 +166,7 @@ include('header.php')
 
 							<div class="form-group">
 								<button class="btn btn-black btn-lg py-3 btn-block"
-									onclick="window.location='thankyou.html'">Thuê Sách</button>
+									onclick="window.location='confirmpayment.php'">Xác nhận</button>
 							</div>
 
 						</div>
