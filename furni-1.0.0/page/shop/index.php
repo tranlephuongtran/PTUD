@@ -11,12 +11,61 @@
 	a {
 		text-decoration: none;
 	}
+
+	.pagination {
+		display: flex;
+		justify-content: center;
+		/* Căn giữa các nút theo chiều ngang */
+		margin-top: 10px;
+	}
+
+	.pagination a {
+		text-decoration: none;
+		width: 50px;
+		/* Tăng chiều rộng */
+		height: 50px;
+		/* Tăng chiều cao */
+		border: 2px solid #ccc;
+		/* Thêm đường viền sáng */
+		padding: 10px;
+		/* Tăng không gian xung quanh chữ */
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 18px;
+		/* Tăng kích thước chữ */
+		border-radius: 5px;
+		/* Thêm bo góc */
+		margin: 5px;
+		/* Khoảng cách giữa các nút */
+		transition: all 0.3s ease;
+		/* Thêm hiệu ứng chuyển động */
+	}
+
+	.pagination a:hover {
+		background-color: #a76d49;
+		/* Thêm hiệu ứng nền khi hover */
+		color: white;
+		/* Thay đổi màu chữ khi hover */
+		transform: scale(1.1);
+		/* Phóng to nút khi hover */
+	}
+
+	.pagination .active {
+		background-color: #a76d49;
+		/* Nền trang hiện tại */
+		color: white;
+		font-weight: bold;
+		/* In đậm chữ */
+		border-color: #a76d49;
+		/* Thêm đường viền cùng màu với nền */
+	}
 </style>
 <?php
 if (!isset($_GET['shop'])) {
 	$shop = 1;
 } else {
-	$shop = $_GET['shop'];
+	$shop = intval($_GET['shop']);
 }
 ?>
 
@@ -42,8 +91,17 @@ if (!isset($_GET['shop'])) {
 		<div class="row">
 			<?php
 			$conn = mysqli_connect("localhost", "nhomptud", "123456", "ptud");
+			$results_per_page = 8;
 			if ($conn) {
 				$str = "SELECT *FROM dausach d Join sach s on d.maDauSach = s.maDauSach GROUP BY d.maDauSach";
+				$result = $conn->query($str);
+				$number_of_result = mysqli_num_rows($result);
+				$number_of_page = ceil($number_of_result / $results_per_page);
+				$page_first_result = ($shop - 1) * $results_per_page;
+				if ($page_first_result < 0) {
+					$page_first_result = 0; // Đảm bảo rằng page_first_result không âm
+				}
+				$str = "SELECT *FROM dausach d Join sach s on d.maDauSach = s.maDauSach GROUP BY d.maDauSach LIMIT $page_first_result, $results_per_page";
 				$result = $conn->query($str);
 				if (mysqli_num_rows($result) > 0) {
 					while ($row = mysqli_fetch_assoc($result)) {
@@ -62,6 +120,16 @@ if (!isset($_GET['shop'])) {
 				</div>
 			</div></a>";
 					}
+					// Phân trang
+					echo "<div class='pagination' style='text-align: center; margin-top: 10px;'>";
+					for ($i = 1; $i <= $number_of_page; $i++) {
+						if ($i == $shop) {
+							echo '<a class="active" href="index.php?shop=' . $i . '">' . $i . '</a> ';
+						} else {
+							echo '<a href="index.php?shop=' . $i . '">' . $i . '</a> ';
+						}
+					}
+					echo "</div>";
 				}
 			}
 			?>

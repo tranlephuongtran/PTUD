@@ -58,7 +58,7 @@
         .dropdown-menusp {
             display: none;
             position: absolute;
-            right: -65px;
+            right: -75px;
             background-color: #ffffff;
             border: 1px solid #ddd;
             border-radius: 4px;
