@@ -66,8 +66,8 @@ a.more {
 }
 .custom-navbar .custom-navbar-nav li a {
   font-weight: 500;
-  color: #ffffff !important;
-  opacity: 0.5;
+  color: #ffffff ;
+  opacity: 1;
   -webkit-transition: 0.3s all ease;
   -o-transition: 0.3s all ease;
   transition: 0.3s all ease;
