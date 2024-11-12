@@ -8,6 +8,7 @@
     <!-- Bootstrap CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link href="css/tiny-slider.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -76,15 +77,15 @@
                     <li class="nav-item"><a class="nav-link" href="#">Đăng ký</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Đăng nhập</a></li>
                     <li class="nav-item dropdown">
-                    <a class="nav-link" href="#" onclick="toggleMenu()">
-                        <img src="images/user.svg" id="avatarIcon" alt="User Icon">
-                    </a>
-                    <!-- Dropdown Menu -->
-                    <div id="userMenu" class="dropdown-menu">
-                        <a class="dropdown-item" href="update_profile.php">Cập nhật thông tin</a>
-                        <a class="dropdown-item" href="change_password.php">Đổi mật khẩu</a>
-                        <a class="dropdown-item" href="logout.php">Đăng xuất</a>
-                    </div>
+                        <a class="nav-link" href="#" onclick="toggleMenu()">
+                            <img src="images/user.svg" id="avatarIcon" alt="User Icon">
+                        </a>
+                        <!-- Dropdown Menu -->
+                        <div id="userMenu" class="dropdown-menu">
+                            <a class="dropdown-item" href="update_profile.php">Cập nhật thông tin</a>
+                            <a class="dropdown-item" href="change_password.php">Đổi mật khẩu</a>
+                            <a class="dropdown-item" href="logout.php">Đăng xuất</a>
+                        </div>
                     </li>
                     <li class="nav-item"><a class="nav-link" href="cart.php"><img src="images/cart.svg"></a></li>
                 </ul>
@@ -101,7 +102,7 @@
     }
 
     // Close the dropdown menu if clicked outside
-    window.onclick = function(event) {
+    window.onclick = function (event) {
         if (!event.target.matches('#avatarIcon')) {
             const dropdowns = document.getElementsByClassName("dropdown-menu");
             for (let i = 0; i < dropdowns.length; i++) {
@@ -119,6 +120,7 @@
     #avatarIcon {
         cursor: pointer;
     }
+
     .dropdown-menu {
         display: none;
         position: absolute;
@@ -130,15 +132,18 @@
         min-width: 150px;
         z-index: 1000;
     }
+
     .dropdown-menu.show {
         display: block;
     }
+
     .dropdown-item {
         padding: 10px;
         color: #333;
         text-decoration: none;
         display: block;
     }
+
     .dropdown-item:hover {
         background-color: #f1f1f1;
     }
