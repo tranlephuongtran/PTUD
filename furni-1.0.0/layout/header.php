@@ -93,7 +93,7 @@
                         <a class="nav-link" href="index.php?home">Trang chủ</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link" href="index.php?shop" id="sanPham">Sản phẩm</a>
+                        <a class="nav-link" href="index.php?shop=1" id="sanPham">Sản phẩm</a>
                         <div id="userMenuSP" class="dropdown-menusp">
                             <?php
                             $conn = mysqli_connect("localhost", "nhomptud", "123456", "ptud");
