@@ -35,49 +35,47 @@ if (!isset($_GET['payment'])) {
     <div class="container">
         <div class="row">
             <div class="col-md-4">
-                <div class="row mb-5">
-                    <div class="col-md-12">
-                        <h2 class="h3 mb-3 text-black">PHƯƠNG THỨC THANH TOÁN</h2>
-                        <div class=" p-5 border bg-white">
-                            <div class="border  mb-3">
-                                <table class="table">
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <input class="form-check-input" type="radio" name="paymentMethod"
-                                                    value="banking" onchange="updatePaymentInfo('banking')">
-                                                <label class="form-check-label" for="banking">
-                                                    <img style="width: 90px;height: 40px;"
-                                                        src="layout/images/nganhang.png" alt="">Thanh toán ngân hàng
-                                                </label>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <input class="form-check-input" type="radio" name="paymentMethod"
-                                                    value="momo" onchange="updatePaymentInfo('momo')">
-                                                <label class="form-check-label" for="banking">
-                                                    <img style="width: 40px;height: 40px;margin-left: 20px;margin-right: 30px;"
-                                                        src="layout/images/logo-momo.png" alt="">Ví Momo
-                                                </label>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <input class="form-check-input" type="radio" name="paymentMethod"
-                                                    value="zalopay" onchange="updatePaymentInfo('zalopay')">
-                                                <label class="form-check-label" for="banking">
-                                                    <img style="width: 50px;height: 50px;margin-left: 20px;margin-right: 30px;"
-                                                        src="layout/images/logo-zalopay.png" alt="">Ví ZaloPay
-                                                </label>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+
+                <h2 class="h3 mb-3 text-black">PHƯƠNG THỨC THANH TOÁN</h2>
+                <div class=" p-5 border bg-white">
+                    <div class="border mb-3">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <input class="form-check-input" type="radio" name="paymentMethod"
+                                            value="banking" onchange="updatePaymentInfo('banking')">
+                                        <label class="form-check-label" for="banking">
+                                            <img style="width: 90px;height: 40px;" src="layout/images/logonganhang.png"
+                                                alt="">Thanh toán ngân hàng
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input class="form-check-input" type="radio" name="paymentMethod" value="momo"
+                                            onchange="updatePaymentInfo('momo')">
+                                        <label class="form-check-label" for="banking">
+                                            <img style="width: 40px;height: 40px;margin-left: 20px;margin-right: 30px;"
+                                                src="layout/images/logomomo.png" alt="">Ví Momo
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input class="form-check-input" type="radio" name="paymentMethod"
+                                            value="zalopay" onchange="updatePaymentInfo('zalopay')">
+                                        <label class="form-check-label" for="banking">
+                                            <img style="width: 50px;height: 50px;margin-left: 12px;margin-right: 30px;"
+                                                src="layout/images/logozalopay.png" alt="">Ví ZaloPay
+                                        </label>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
+
             </div>
 
             <div class="col-md-8">
@@ -113,8 +111,8 @@ if (!isset($_GET['payment'])) {
 
                                 <!-- QR Code Image -->
                                 <div class="col-md-6 d-flex align-items-center justify-content-center">
-                                    <img id="qr-code" src="layout/images/QR-thanhtoannganhang.png"
-                                        alt="QR Code for Payment" width="100%" height="100%">
+                                    <img id="qr-code" src="layout/images/QR-nganhang.png" alt="QR Code for Payment"
+                                        width="100%" height="100%">
                                 </div>
                             </div>
                         </div>
@@ -132,16 +130,16 @@ if (!isset($_GET['payment'])) {
 
         switch (paymentMethod) {
             case 'banking':
-                qrCodeImage.src = 'layout/images/QR-thanhtoannganhang.png';
+                qrCodeImage.src = 'layout/images/QR-nganhang.png';
                 break;
             case 'momo':
-                qrCodeImage.src = 'layout/images/QR-thanhtoanmomo.png';
+                qrCodeImage.src = 'layout/images/QR-momo.png';
                 break;
             case 'zalopay':
-                qrCodeImage.src = 'layout/images/QR-thanhtoanzalopay.png';
+                qrCodeImage.src = 'layout/images/QR-zalopay.png';
                 break;
             default:
-                qrCodeImage.src = 'layout/images/QR-thanhtoannganhang.png';
+                qrCodeImage.src = 'layout/images/QR-nganhang.png';
         }
     }
 </script>
