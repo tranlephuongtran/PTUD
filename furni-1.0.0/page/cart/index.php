@@ -14,7 +14,14 @@ if (!isset($_GET['cart'])) {
 	$cart = $_GET['cart'];
 }
 ?>
-
+<?php
+$total_deposit = 0;
+$total_rent = 0;
+foreach ($_SESSION['cart'] as $cart_item) {
+    $total_deposit += $cart_item['deposit'];
+    $total_rent += $cart_item['price'];
+}
+?>
 <!-- Start Hero Section -->
 <div class="hero">
 	<div class="container">
@@ -51,66 +58,34 @@ if (!isset($_GET['cart'])) {
 							</tr>
 						</thead>
 						<tbody style="font-size: larger">
-							<tr>
-								<td class="product-thumbnail">
-									<img src="layout/
-									images/CayCamNgotCuaToi.png" style="width: 120px;height: 160px;" alt="Image" class="img-fluid">
-								</td>
-								<td class="product-name">
-									<h2 class="h5 text-black mt-2">Cây Cam Ngọt Của Tôi</h2>
-								</td>
-								<td>17.000 VND</td>
-								<td>
-									<div class="input-group mb-3 d-flex align-items-center quantity-container"
-										style="max-width: 120px;margin-left: 35px;">
-										<div class="input-group-prepend">
-											<button class="btn btn-outline-black decrease"
-												type="button">&minus;</button>
-										</div>
-										<input type="text" class="form-control text-center quantity-amount" value="1"
-											placeholder="" aria-label="Example text with button addon"
-											aria-describedby="button-addon1">
-										<div class="input-group-append">
-											<button class="btn btn-outline-black increase" type="button">&plus;</button>
-										</div>
-									</div>
-
-								</td>
-								<td>102.000 VND</td>
-								<td><a href="#" class="btn btn-black btn-sm"><button
-											style="border-radius: 7px; width: 60px;height: 30px;">Xóa</button></a></td>
-							</tr>
-
-							<tr>
-								<td class="product-thumbnail">
-									<img src="layout/images/KhongGiaDinh.png" style="width: 120px;height: 160px;"
-										alt=" Image" class="img-fluid">
-								</td>
-								<td class="product-name">
-									<h2 class="h5 text-black  mt-2" style="margin-top: 9px;">Không Gia Đình</h2>
-								</td>
-								<td>35.000 VND</td>
-								<td>
-									<div class="input-group mb-3 d-flex align-items-center quantity-container"
-										style="max-width: 120px;margin-left: 35px;">
-										<div class="input-group-prepend">
-											<button class="btn btn-outline-black decrease"
-												type="button">&minus;</button>
-										</div>
-										<input type="text" class="form-control text-center quantity-amount" value="1"
-											placeholder="" aria-label="Example text with button addon"
-											aria-describedby="button-addon1">
-										<div class="input-group-append">
-											<button class="btn btn-outline-black increase" type="button">&plus;</button>
-										</div>
-									</div>
-
-								</td>
-								<td>210.000 VND</td>
-								<td><a href="#" class="btn btn-black btn-sm"><button
-											style="border-radius: 7px; width: 60px;height: 30px;">Xóa</button></a>
-								</td>
-							</tr>
+							<?php if (isset($_SESSION['cart']) && count($_SESSION['cart']) > 0): ?>
+								<?php foreach ($_SESSION['cart'] as $cart_item): ?>
+									<tr>
+										<td class="product-thumbnail">
+											<img src="layout/images/<?php echo htmlspecialchars($cart_item['image']); ?>" style="width: 120px;height: 160px;" alt="Image" class="img-fluid">
+										</td>
+										<td class="product-name">
+											<h2 class="h5 text-black mt-2"><?php echo htmlspecialchars($cart_item['name']); ?></h2>
+										</td>
+										<td><?php echo number_format($cart_item['price'], 0, '.', '.'); ?> VND</td>
+										<td>
+											<div class="input-group mb-3 d-flex align-items-center quantity-container" style="max-width: 120px;margin-left: 35px;">
+												<?php echo $cart_item['quantity']; ?>
+											</div>
+										</td>
+										<td><?php echo number_format($cart_item['deposit'], 0, '.', '.'); ?> VND</td>
+										<td>
+											<a href="cart/index.php?remove=<?php echo $cart_item['id']; ?>" class="btn btn-black btn-sm">
+												<button style="border-radius: 7px; width: 60px;height: 30px;">Xóa</button>
+											</a>
+										</td>
+									</tr>
+								<?php endforeach; ?>
+							<?php else: ?>
+								<tr>
+									<td colspan="6" class="text-center">Giỏ hàng trống</td>
+								</tr>
+							<?php endif; ?>
 						</tbody>
 					</table>
 				</div>
@@ -130,19 +105,20 @@ if (!isset($_GET['cart'])) {
 							</div>
 						</div>
 						<div class="row mb-3">
+						<div class="row mb-3">
 							<div class="col-md-7">
 								<span class="text-black">Tổng tiền cọc</span>
 							</div>
 							<div class="col-md-5" style="text-align: right;">
-								<strong class="text-black">312.000 VND</strong>
+								<strong class="text-black"><?php echo number_format($total_deposit, 0, '.', '.'); ?> VND</strong>
 							</div>
 						</div>
-						<div class="row mb-5">
+						<div class="row mb-3">
 							<div class="col-md-7">
 								<span class="text-black">Tổng tiền thuê</span>
 							</div>
 							<div class="col-md-5" style="text-align: right;">
-								<strong class="text-black">52.000 VND</strong>
+								<strong class="text-black"><?php echo number_format($total_rent, 0, '.', '.'); ?> VND</strong>
 							</div>
 						</div>
 						<div class="row mb-5">
@@ -150,10 +126,9 @@ if (!isset($_GET['cart'])) {
 								<span class="text-black"><b>TỔNG TIỀN PHẢI TRẢ</b></span>
 							</div>
 							<div class="col-md-5" style="text-align: right;">
-								<strong class="text-black">364.000 VND</strong>
+								<strong class="text-black"><?php echo number_format($total_deposit + $total_rent, 0, '.', '.'); ?> VND</strong>
 							</div>
 						</div>
-
 						<div class="row">
 							<div class="col-md-12">
 								<button class="btn btn-black btn-lg py-3 btn-block"
