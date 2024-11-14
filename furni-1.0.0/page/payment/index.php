@@ -14,7 +14,6 @@ if (!isset($_GET['payment'])) {
     $payment = $_GET['payment'];
 }
 ?>
-
 <!-- Start Hero Section -->
 <div class="hero">
     <div class="container">
@@ -32,108 +31,115 @@ if (!isset($_GET['payment'])) {
 </div>
 <!-- End Hero Section -->
 
-<div class="untree_co-section">
+<div class="mt-5">
     <div class="container">
         <div class="row">
-            <div class="col-md-5 mb-5 mb-md-0">
+            <div class="col-md-4">
+
                 <h2 class="h3 mb-3 text-black">PHƯƠNG THỨC THANH TOÁN</h2>
-                <div class="p-3 p-lg-5 border bg-white">
-                    <table>
-                        <form>
-                            <table>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="paymentMethod" value="banking">
-                                    <label class="form-check-label" for="banking">
-                                        Thanh toán ngân hàng
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="paymentMethod" value="momo">
-                                    <label class="form-check-label" for="momo">
-                                        Ví Momo
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="paymentMethod" value="zalopay">
-                                    <label class="form-check-label" for="zalopay">
-                                        ZaloPay
-                                    </label>
-                                </div>
-
-                                <button type="submit" class="btn btn-primary mt-3">Xác Nhận</button>
-                            </table>
-                        </form>
-                    </table>
-
-
-
+                <div class=" p-5 border bg-white">
+                    <div class="border mb-3">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <input class="form-check-input" type="radio" name="paymentMethod"
+                                            value="banking" onchange="updatePaymentInfo('banking')">
+                                        <label class="form-check-label" for="banking">
+                                            <img style="width: 90px;height: 40px;" src="layout/images/logonganhang.png"
+                                                alt="">Thanh toán ngân hàng
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input class="form-check-input" type="radio" name="paymentMethod" value="momo"
+                                            onchange="updatePaymentInfo('momo')">
+                                        <label class="form-check-label" for="banking">
+                                            <img style="width: 40px;height: 40px;margin-left: 20px;margin-right: 30px;"
+                                                src="layout/images/logomomo.png" alt="">Ví Momo
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input class="form-check-input" type="radio" name="paymentMethod"
+                                            value="zalopay" onchange="updatePaymentInfo('zalopay')">
+                                        <label class="form-check-label" for="banking">
+                                            <img style="width: 50px;height: 50px;margin-left: 12px;margin-right: 30px;"
+                                                src="layout/images/logozalopay.png" alt="">Ví ZaloPay
+                                        </label>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+
             </div>
-            <div class="col-md-7">
+
+            <div class="col-md-8">
                 <div class="row mb-5">
                     <div class="col-md-12">
-                        <h2 class="h3 mb-3 text-black">THÔNG TIN THANH TOÁN</h2>
-                        <div class=" p-5 border bg-white">
+                        <h2 class="h3 mb-3 text-black text-center">THÔNG TIN THANH TOÁN</h2>
+                        <div class="p-5  bg-white">
+                            <div class="row">
+                                <!-- Payment Information Table -->
+                                <div class="col-md-6">
+                                    <div class="card-body">
+                                        <form>
+                                            <div class="mb-3">
+                                                <label for="amount" class="form-label">Số tiền</label>
+                                                <input type="text" class="form-control" id="amount" value="378.000 VND">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="account" class="form-label">Nội dung chuyển khoản</label>
+                                                <input type="text" class="form-control" id="account"
+                                                    value="MDH01112024">
+                                            </div>
 
-                            <div class="border  mb-3">
-                                <div class="col-md-12">
-                                    <table class="table site-block-order-table mb-5">
-                                        <tbody>
-                                            <tr>
-                                                <td class="text-black font-weight-bold"><strong>Số tiền cần thanh
-                                                        toán</strong>
-                                                </td>
-                                                <td class="text-black font-weight-bold">
-                                                    378.800
-                                                    VND</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-black font-weight-bold"><strong>Nội dung chuyển
-                                                        khoản</strong>
-                                                </td>
-                                                <td class="text-black font-weight-bold">
-                                                    MDTS011024
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-black font-weight-bold"><strong>QR cửa hàng</strong>
-                                                </td>
-                                                <td class="text-black font-weight-bold"><img
-                                                        src="layout/images/QR-thanhtoan.png" alt=""
-                                                        style="width: 200px;height: 200px;"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-black font-weight-bold"><strong>Upload Bill</strong>
-                                                </td>
-                                                <td><input style="height: 35px;" type="file" class="form-control"
-                                                        id="uploadBill" accept="image/*" required ">
-                                                </td>
-                                            </tr>
+                                            <div class="mb-3">
+                                                <label for="bill" class="form-label">Tải hóa đơn lên</label>
+                                                <input type="file" class="form-control" id="bill" style="height: 38px;">
+                                            </div>
 
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-
-
-                            <div class=" form-group">
-                                                    <button class="btn btn-primary mt-3"
-                                                        onclick="window.location='#'">Xác
-                                                        nhận</button>
+                                            <button type="submit" class="btn btn-primary"
+                                                style="border-radius: 10px;">Xác nhận</button>
+                                        </form>
+                                    </div>
                                 </div>
 
+                                <!-- QR Code Image -->
+                                <div class="col-md-6 d-flex align-items-center justify-content-center">
+                                    <img id="qr-code" src="layout/images/QR-nganhang.png" alt="QR Code for Payment"
+                                        width="100%" height="100%">
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
-
-
-        <!-- </form> -->
     </div>
 </div>
 
-<script src="js/bootstrap.bundle.min.js"></script>
-<script src="js/tiny-slider.js"></script>
-<script src="js/custom.js"></script>
+<script>
+    function updatePaymentInfo(paymentMethod) {
+        const qrCodeImage = document.getElementById('qr-code');
+
+        switch (paymentMethod) {
+            case 'banking':
+                qrCodeImage.src = 'layout/images/QR-nganhang.png';
+                break;
+            case 'momo':
+                qrCodeImage.src = 'layout/images/QR-momo.png';
+                break;
+            case 'zalopay':
+                qrCodeImage.src = 'layout/images/QR-zalopay.png';
+                break;
+            default:
+                qrCodeImage.src = 'layout/images/QR-nganhang.png';
+        }
+    }
+</script>
