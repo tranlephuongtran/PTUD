@@ -69,7 +69,7 @@ foreach ($_SESSION['cart'] as $cart_item) {
 									<tr>
 										<td class="product-thumbnail">
 											<img src="layout/images/<?php echo htmlspecialchars($cart_item['image']); ?>"
-												style="width: 120px;height: 160px;" alt="Image" class="img-fluid">
+												style="width: 170px;height: 160px;" alt="Image" class="img-fluid">
 										</td>
 										<td class="product-name">
 											<h2 class="h5 text-black mt-2"><?php echo htmlspecialchars($cart_item['name']); ?>
@@ -80,6 +80,7 @@ foreach ($_SESSION['cart'] as $cart_item) {
 												VND</span></td>
 										<td>
 											<input type="number" class="form-control quantity-input"
+												style="width: 100px; text-align: center; position: relative; left: 20px"
 												value="<?php echo $cart_item['quantity']; ?>" min="1"
 												data-price="<?php echo $cart_item['price']; ?>"
 												data-deposit="<?php echo $cart_item['deposit']; ?>"
@@ -91,7 +92,7 @@ foreach ($_SESSION['cart'] as $cart_item) {
 										<td>
 											<button type="submit" name="remove" value="<?php echo $cart_item['id']; ?>"
 												class="btn btn-black btn-sm"
-												style="border-radius: 7px; width: 60px;height: 30px; font-size: large">Xóa</button>
+												style="border-radius: 7px; width: 60px; height: 30px; font-size: large">Xóa</button>
 
 										</td>
 									</tr>
