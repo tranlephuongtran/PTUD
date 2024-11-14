@@ -6,7 +6,7 @@ $conn = mysqli_connect("localhost", "nhomptud", "123456", "ptud");
 if (isset($_GET['productdetails'])) {
     $maDauSach = intval($_GET['productdetails']);
     // Truy vấn thông tin chi tiết của sản phẩm dựa trên maDauSach
-    $query = "SELECT d.tenDauSach, s.maISBN, dm.ten AS danhmuc, s.ngayXB, s.giaThue, s.tienCoc, d.hinhAnh, s.moTa
+    $query = "SELECT d.maDauSach, d.tenDauSach, s.maISBN, dm.ten AS danhmuc, s.ngayXB, s.giaThue, s.tienCoc, d.hinhAnh, s.moTa
           FROM dausach d
           JOIN sach s ON d.maDauSach = s.maDauSach
           JOIN danhmuc dm ON d.maDM = dm.maDM
@@ -30,7 +30,7 @@ if (isset($_POST['add_to_cart'])) {
 
     // Tạo sản phẩm cần thêm vào giỏ hàng
     $item = [
-        'id' => $product['maISBN'],
+        'id' => $product['maDauSach'],
         'name' => $product['tenDauSach'],
         'price' => $product['giaThue'],
         'deposit' => $product['tienCoc'],
@@ -60,7 +60,6 @@ if (isset($_POST['add_to_cart'])) {
 
     // Trả về JSON để xác nhận thành công
     echo "<script>alert('Sách đã được thêm vào giỏ hàng thành công!');</script>";
-    exit();
 }
 ?>
 <!doctype html>
@@ -68,8 +67,8 @@ if (isset($_POST['add_to_cart'])) {
 <!-- Start Hero Section -->
 <div class="hero">
     <div class="container">
-        <div class="row justify-content ">
-            <div class="col-lg-5">
+        <div class="row justify-content-between">
+            <div class="col-lg-6">
                 <div class="intro-excerpt">
                     <h1><?php echo htmlspecialchars($product['tenDauSach']); ?></h1>
                 </div>
@@ -104,16 +103,18 @@ if (isset($_POST['add_to_cart'])) {
                     </div>
                 </div>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-7">
                 <div class="col-md-12">
                     <div class="p-2 p-lg-4 border bg-white">
                         <h2><?php echo htmlspecialchars($product['tenDauSach']); ?></h2>
                         <p>Tác giả: <b><?php //echo htmlspecialchars($product['tacGia']); ?></b></p>
                         <p>Nhà xuất bản: <b><? php// echo htmlspecialchars($product['nhaXuatBan']); ?></b></p>
                         <h4 class="text-success">Giá thuê:
-                            <b><?php echo number_format($product['giaThue'], 0, '.', '.'); ?> VND</b></h4>
+                            <b><?php echo number_format($product['giaThue'], 0, '.', '.'); ?> VND</b>
+                        </h4>
                         <h4 class="text-success">Tiền cọc:
-                            <b><?php echo number_format($product['tienCoc'], 0, '.', '.'); ?> VND</b></h4>
+                            <b><?php echo number_format($product['tienCoc'], 0, '.', '.'); ?> VND</b>
+                        </h4>
                         <div class="mb-3">
                             <label for="quantity" class="form-label">Số lượng:</label>
                             <input type="number" id="quantity" class="form-control" value="1" min="1"
@@ -122,67 +123,40 @@ if (isset($_POST['add_to_cart'])) {
                     </div>
                 </div>
                 <div class="col-md-12 mt-2">
-                    <div class="p-2 p-lg-4 product-description-container">
+                    <div class="p-2 p-lg-4 border bg-white">
                         <h2 class="h3 mb-3 text-black">Thông tin chi tiết</h2>
                         <table class="table site-block-order-table mb-3">
                             <tbody>
                                 <tr>
                                     <td class="font-weight-bold">Mã ISBN</td>
                                     <td class="text-black">
-                                        <strong><?php echo htmlspecialchars($product['maISBN']); ?></strong></td>
+                                        <strong><?php echo htmlspecialchars($product['maISBN']); ?></strong>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td class="font-weight-bold">Tác giả</td>
                                     <td class="text-black">
-                                        <strong><? php// echo htmlspecialchars($product['tacGia']); ?></strong></td>
+                                        <strong><? php// echo htmlspecialchars($product['tacGia']); ?></strong>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td class="font-weight-bold">Danh mục</td>
                                     <td class="text-black">
-                                        <strong><?php echo htmlspecialchars($product['danhmuc']); ?></strong></td>
+                                        <strong><?php echo htmlspecialchars($product['danhmuc']); ?></strong>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td class="font-weight-bold">Ngày xuất bản</td>
                                     <td class="text-black">
-                                        <strong><?php echo htmlspecialchars($product['ngayXB']); ?></strong></td>
+                                        <strong><?php echo htmlspecialchars($product['ngayXB']); ?></strong>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td class="font-weight-bold">Nhà xuất bản</td>
                                     <td class="text-black">
-                                        <strong><? php// echo htmlspecialchars($product['nhaXuatBan']); ?></strong></td>
+                                        <strong><? php// echo htmlspecialchars($product['nhaXuatBan']); ?></strong>
+                                    </td>
                                 </tr>
-                                <!--<script>
-                                    document.addEventListener("DOMContentLoaded", function() {
-                                        // Lắng nghe sự kiện khi form thêm vào giỏ hàng được submit
-                                        document.querySelector('form').addEventListener('submit', function(event) {
-                                            event.preventDefault(); // Ngăn form gửi yêu cầu nạp lại trang
-
-                                            // Tạo yêu cầu AJAX
-                                            var xhr = new XMLHttpRequest();
-                                            xhr.open("POST", window.location.href, true);
-                                            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-
-                                            // Xử lý phản hồi khi yêu cầu hoàn tất
-                                            xhr.onreadystatechange = function() {
-                                                if (xhr.readyState === 4 && xhr.status === 200) {
-                                                    // Chuyển đổi phản hồi JSON từ server
-                                                    var response = JSON.parse(xhr.responseText);
-                                                    
-                                                    // Hiển thị thông báo thành công
-                                                    if (response.status === "success") {
-                                                        var myModal = new bootstrap.Modal(document.getElementById('successModal'), {
-                                                            keyboard: false
-                                                        });
-                                                        myModal.show();
-                                                    }
-                                                }
-                                            };
-
-                                            // Gửi yêu cầu với dữ liệu cần thiết
-                                            xhr.send("add_to_cart=1");
-                                        });
-                                    });
-                                    </script>-->
                             </tbody>
                         </table>
                     </div>
