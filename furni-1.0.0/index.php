@@ -32,6 +32,8 @@ if (isset($_GET['about'])) {
     $page = 'productdetails';
 } else if (isset($_GET['cate'])) {
     $page = 'category';
+} else if (isset($_GET['paymentlate'])) {
+    $page = 'paymentlate';
 } else {
     $page = 'home';
 }
