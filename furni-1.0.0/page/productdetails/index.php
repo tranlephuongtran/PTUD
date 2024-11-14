@@ -1,66 +1,77 @@
-<!-- /*
-* Bootstrap 5
-* Template Name: Furni
-* Template Author: Untree.co
-* Template URI: https://untree.co/
-* License: https://creativecommons.org/licenses/by/3.0/
-*/ -->
-<!doctype html>
-<html lang="en">
 <?php
-if (!isset($_GET['productdetails'])) {
-    $productdetails = 1;
+// Kết nối tới cơ sở dữ liệu
+$conn = mysqli_connect("localhost", "nhomptud", "123456", "ptud");
+
+// Lấy maDauSach từ URL
+if (isset($_GET['productdetails'])) {
+    $maDauSach = intval($_GET['productdetails']);
+    // Truy vấn thông tin chi tiết của sản phẩm dựa trên maDauSach
+    $query = "SELECT d.tenDauSach, s.maISBN, dm.ten AS danhmuc, s.ngayXB, s.giaThue, s.tienCoc, d.hinhAnh, s.moTa
+          FROM dausach d
+          JOIN sach s ON d.maDauSach = s.maDauSach
+          JOIN danhmuc dm ON d.maDM = dm.maDM
+          WHERE d.maDauSach = $maDauSach LIMIT 1";
+    $result = $conn->query($query);
+
+    if ($result && mysqli_num_rows($result) > 0) {
+        $product = mysqli_fetch_assoc($result);
+    } else {
+        echo "Sản phẩm không tồn tại.";
+        exit();
+    }
 } else {
-    $productdetails = $_GET['productdetails'];
+    echo "Không tìm thấy mã sản phẩm.";
+    exit();
+}
+
+// Xử lý khi nhấn "Thêm vào giỏ hàng"
+if (isset($_POST['add_to_cart'])) {
+    //session_start();
+
+    // Tạo sản phẩm cần thêm vào giỏ hàng
+    $item = [
+        'id' => $product['maISBN'],
+        'name' => $product['tenDauSach'],
+        'price' => $product['giaThue'],
+        'deposit' => $product['tienCoc'],
+        'image' => $product['hinhAnh'],
+        'quantity' => 1
+    ];
+
+    // Khởi tạo giỏ hàng trong session nếu chưa có
+    if (!isset($_SESSION['cart'])) {
+        $_SESSION['cart'] = [];
+    }
+
+    // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
+    $found = false;
+    foreach ($_SESSION['cart'] as &$cart_item) {
+        if ($cart_item['id'] == $item['id']) {
+            $cart_item['quantity'] += 1;
+            $found = true;
+            break;
+        }
+    }
+
+    // Nếu sản phẩm chưa có trong giỏ hàng, thêm vào giỏ
+    if (!$found) {
+        $_SESSION['cart'][] = $item;
+    }
+
+    // Trả về JSON để xác nhận thành công
+    echo "<script>alert('Sách đã được thêm vào giỏ hàng thành công!');</script>";
+    exit();
 }
 ?>
-
-<style>
-    .custom-button {
-        background-color: #d44620;
-        color: white;
-        border: 3px solid #d44620;
-        transition: background-color 0.3s ease;
-        border-radius: 10px;
-    }
-
-    .custom-button:hover {
-        background-color: #a76d49;
-        color: white;
-        border: 3px solid #a76d49;
-    }
-
-    .custom-button img {
-        color: #983d1e;
-        width: 24px;
-        height: 24px;
-    }
-
-    .product-detail-container {
-        border-radius: 10px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        background-color: #f8f8f8;
-    }
-
-    .product-info-container {
-        border-radius: 10px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        background-color: #f8f8f8;
-    }
-
-    .product-description-container {
-        border-radius: 10px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        background-color: #f8f8f8;
-    }
-</style>
+<!doctype html>
+<html lang="en">
 <!-- Start Hero Section -->
 <div class="hero">
     <div class="container">
         <div class="row justify-content ">
             <div class="col-lg-5">
                 <div class="intro-excerpt">
-                    <h1> Chi Tiết Sản Phẩm</h1>
+                    <h1><?php echo htmlspecialchars($product['tenDauSach']); ?></h1>
                 </div>
             </div>
         </div>
@@ -70,36 +81,39 @@ if (!isset($_GET['productdetails'])) {
 
 <div class="untree_co-section">
     <div class="container">
-        <div class="row d-flex justify-content-center">
-            <div class="col-md-4 mb-2 mb-md-0">
-                <div class="p-2 p-lg-4 product-detail-container">
+        <div class="row">
+            <div class="col-md-5 mb-5 mb-md-0">
+                <div class="p-2 p-lg-4 border bg-white">
                     <div class="row">
-                        <img src="layout/images/CayCamNgotCuaToi.png" style="width: 400px;height: 538px;"
-                            class="img-fluid product-thumbnail">
+                        <img src="layout/images/<?php echo htmlspecialchars($product['hinhAnh']); ?>"
+                            style="width: 485px;height: 561px;" class="img-fluid product-thumbnail">
                     </div>
                     <div class="row">
-                        <div class="col-md-12 text-center">
-                            <button class=" btn custom-button mt-4    " onclick="window.location='#'"><img
-                                    src="layout/images/cart.svg"> Thêm
-                                Vào Giỏ Hàng</button>
+                        <div class="col-md-8">
+                            <form method="post">
+                                <button type="submit" name="add_to_cart" class="btn btn-primary mt-4 mb-4"
+                                    style="border-radius: 10px;">
+                                    <img src="layout/images/cart.svg"> Thêm Vào Giỏ Hàng
+                                </button>
+                            </form>
+                        </div>
+                        <div class="col-md-4">
+                            <button class="btn btn-primary mt-4 mb-4" onclick="window.location='shop/index.php'"
+                                style="border-radius: 10px;">Quay về</button>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-md-8">
                 <div class="col-md-12">
-                    <div class="p-2 p-lg-4 product-info-container">
-                        <h2>Cây Cam Ngọt Của Tôi</h2>
-                        <div class="row">
-                            <div class="col-6">
-                                <p>Tác giả: <b>José Mauro de Vasconcelos</b></p>
-                            </div>
-                            <div class="col-6">
-                                <p>Nhà xuất bản: <b>NXB Hội Nhà Văn</b></p>
-                            </div>
-                        </div>
-                        <h4 class="text-success">Giá thuê: 17.000 VND</h4>
-                        <h4 class="text-success">Tiền cọc: 187.000 VND</h4>
+                    <div class="p-2 p-lg-4 border bg-white">
+                        <h2><?php echo htmlspecialchars($product['tenDauSach']); ?></h2>
+                        <p>Tác giả: <b><?php //echo htmlspecialchars($product['tacGia']); ?></b></p>
+                        <p>Nhà xuất bản: <b><? php// echo htmlspecialchars($product['nhaXuatBan']); ?></b></p>
+                        <h4 class="text-success">Giá thuê:
+                            <b><?php echo number_format($product['giaThue'], 0, '.', '.'); ?> VND</b></h4>
+                        <h4 class="text-success">Tiền cọc:
+                            <b><?php echo number_format($product['tienCoc'], 0, '.', '.'); ?> VND</b></h4>
                         <div class="mb-3">
                             <label for="quantity" class="form-label">Số lượng:</label>
                             <input type="number" id="quantity" class="form-control" value="1" min="1"
@@ -113,30 +127,62 @@ if (!isset($_GET['productdetails'])) {
                         <table class="table site-block-order-table mb-3">
                             <tbody>
                                 <tr>
-                                    <td class=" font-weight-bold">Mã ISBN
-                                    </td>
-                                    <td class="text-black"><strong>978-3-16-148410-0</strong></td>
+                                    <td class="font-weight-bold">Mã ISBN</td>
+                                    <td class="text-black">
+                                        <strong><?php echo htmlspecialchars($product['maISBN']); ?></strong></td>
                                 </tr>
                                 <tr>
-                                    <td class=" font-weight-bold">Tác giả
-                                    </td>
-                                    <td class="text-black"><strong>José Mauro de Vasconcelos</strong></td>
+                                    <td class="font-weight-bold">Tác giả</td>
+                                    <td class="text-black">
+                                        <strong><? php// echo htmlspecialchars($product['tacGia']); ?></strong></td>
                                 </tr>
                                 <tr>
-                                    <td class=" font-weight-bold">Danh mục
-                                    </td>
-                                    <td class="text-black"><strong>Tiểu thuyết</strong></td>
+                                    <td class="font-weight-bold">Danh mục</td>
+                                    <td class="text-black">
+                                        <strong><?php echo htmlspecialchars($product['danhmuc']); ?></strong></td>
                                 </tr>
                                 <tr>
-                                    <td class=" font-weight-bold">Năm xuất bản
-                                    </td>
-                                    <td class="text-black"><strong>2020</strong></td>
+                                    <td class="font-weight-bold">Ngày xuất bản</td>
+                                    <td class="text-black">
+                                        <strong><?php echo htmlspecialchars($product['ngayXB']); ?></strong></td>
                                 </tr>
                                 <tr>
-                                    <td class=" font-weight-bold">Nhà xuất bản
-                                    </td>
-                                    <td class="text-black"><strong>NXB Hội Nhà Văn</strong></td>
+                                    <td class="font-weight-bold">Nhà xuất bản</td>
+                                    <td class="text-black">
+                                        <strong><? php// echo htmlspecialchars($product['nhaXuatBan']); ?></strong></td>
                                 </tr>
+                                <!--<script>
+                                    document.addEventListener("DOMContentLoaded", function() {
+                                        // Lắng nghe sự kiện khi form thêm vào giỏ hàng được submit
+                                        document.querySelector('form').addEventListener('submit', function(event) {
+                                            event.preventDefault(); // Ngăn form gửi yêu cầu nạp lại trang
+
+                                            // Tạo yêu cầu AJAX
+                                            var xhr = new XMLHttpRequest();
+                                            xhr.open("POST", window.location.href, true);
+                                            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+                                            // Xử lý phản hồi khi yêu cầu hoàn tất
+                                            xhr.onreadystatechange = function() {
+                                                if (xhr.readyState === 4 && xhr.status === 200) {
+                                                    // Chuyển đổi phản hồi JSON từ server
+                                                    var response = JSON.parse(xhr.responseText);
+                                                    
+                                                    // Hiển thị thông báo thành công
+                                                    if (response.status === "success") {
+                                                        var myModal = new bootstrap.Modal(document.getElementById('successModal'), {
+                                                            keyboard: false
+                                                        });
+                                                        myModal.show();
+                                                    }
+                                                }
+                                            };
+
+                                            // Gửi yêu cầu với dữ liệu cần thiết
+                                            xhr.send("add_to_cart=1");
+                                        });
+                                    });
+                                    </script>-->
                             </tbody>
                         </table>
                     </div>
@@ -145,34 +191,9 @@ if (!isset($_GET['productdetails'])) {
         </div>
         <div class="row">
             <div class="col-md-12 mt-2">
-                <div class="p-3 p-lg-5 product-description-container">
+                <div class="p-3 p-lg-5 border bg-white">
                     <h3>Mô tả sản phẩm</h3>
-                    <p style="text-align: justify;">
-                        Mở đầu bằng những thanh âm trong sáng và kết thúc lắng lại trong những nốt trầm hoài
-                        niệm,
-                        Cây cam ngọt của tôi khiến ta nhận ra vẻ đẹp thực sự của cuộc sống đến từ những điều
-                        giản dị
-                        như bông hoa trắng của cái cây sau nhà, và rằng cuộc đời thật khốn khổ nếu thiếu đi lòng
-                        yêu
-                        thương và niềm trắc ẩn. Cuốn sách kinh điển này bởi thế không ngừng khiến trái tim người
-                        đọc
-                        khắp thế giới thổn thức, kể từ khi ra mắt lần đầu năm 1968 tại Brazil.
-                        <br>
-                        <b>TÁC GIẢ:</b>
-                        <br>
-                        JOSÉ MAURO DE VASCONCELOS (1920-1984) là nhà văn người Brazil. Sinh ra trong một gia
-                        đình
-                        nghèo ở ngoại ô Rio de Janeiro, lớn lên ông phải làm đủ nghề để kiếm sống. Nhưng với tài
-                        kể
-                        chuyện thiên bẩm, trí nhớ phi thường, trí tưởng tượng tuyệt vời cùng vốn sống phong phú,
-                        José cảm thấy trong mình thôi thúc phải trở thành nhà văn nên đã bắt đầu sáng tác năm 22
-                        tuổi. Tác phẩm nổi tiếng nhất của ông là tiểu thuyết mang màu sắc tự truyện Cây cam ngọt
-                        của
-                        tôi. Cuốn sách được đưa vào chương trình tiểu học của Brazil, được bán bản quyền cho hai
-                        mươi quốc gia và chuyển thể thành phim điện ảnh. Ngoài ra, José còn rất thành công trong
-                        vai
-                        trò diễn viên điện ảnh và biên kịch.<br>
-                    </p>
+                    <p style="text-align: justify;"><?php echo htmlspecialchars($product['moTa']); ?></p>
                 </div>
             </div>
         </div>

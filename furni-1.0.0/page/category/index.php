@@ -120,7 +120,7 @@ if (!isset($_GET['cate'])) {
                         $gia = number_format($row['giaThue'], 0, '.', '.');
 
                         echo "<div class='col-12 col-md-4 col-lg-3 mb-5'>
-						<a href = 'index.php?product={$row['maDauSach']}'>
+						<a href = 'index.php?productdetails={$row['maDauSach']}'>
 				<div class='product-item'>
 					<img src='layout/images/{$row['hinhAnh']}' class='img-fluid product-thumbnail'>
 					<h3 class='product-title'>{$row['tenDauSach']}</h3>
