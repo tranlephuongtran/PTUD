@@ -1,3 +1,7 @@
+<?php
+session_start(); 
+error_reporting(0);
+?>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -120,21 +124,24 @@
                 </ul>
                 <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-2"
                     style="font-weight: 500 !important; font-size: large">
-                    <li class="nav-item"><a class="nav-link" href="index.php?register">Đăng ký</a></li>
-                    <li class="nav-item"><a class="nav-link" href="index.php?login">Đăng nhập</a></li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" href="#">
-                            <img src="layout/images/user.svg" id="avatarIcon" alt="User Icon">
-                        </a>
-                        <!-- Dropdown Menu -->
-                        <div id="userMenu" class="dropdown-menu">
-                            <a class="dropdown-item" href="index.php?updateProfile">Cập nhật thông tin</a>
-                            <a class="dropdown-item" href="index.php?change_password">Đổi mật khẩu</a>
-                            <a class="dropdown-item" href="index.php?history">Xem lịch sử thuê sách</a>
-                            <a class="dropdown-item" href="index.php?history">Thanh toán</a>
-                            <a class="dropdown-item" href="#">Đăng xuất</a>
-                        </div>
-                    </li>
+                    <?php if (isset($_SESSION['user']) && !empty($_SESSION['user'])): ?>
+                    <!-- Hiển thị avatar và menu người dùng khi đã đăng nhập -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link" href="index.php?profile">
+                                <img src="layout/images/user.svg" id="avatarIcon" alt="User Icon">
+                            </a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="index.php?updateProfile">Cập nhật thông tin</a>
+                                <a class="dropdown-item" href="index.php?change_password">Đổi mật khẩu</a>
+                                <a class="dropdown-item" href="index.php?history">Xem lịch sử thuê sách</a>
+                                <a class="dropdown-item" href="index.php?logout">Đăng xuất</a>
+                            </div>
+                        </li>
+                    <?php else: ?>
+                        <!-- Nếu chưa đăng nhập, hiển thị link đăng nhập -->
+                        <li class="nav-item"><a class="nav-link" href="index.php?register">Đăng ký</a></li>
+                        <li class="nav-item"><a class="nav-link" href="index.php?login">Đăng nhập</a></li>
+                    <?php endif; ?>
                     <li class="nav-item"><a class="nav-link" href="index.php?cart"><img
                                 src="layout/images/cart.svg"></a></li>
                 </ul>
