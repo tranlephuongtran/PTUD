@@ -120,23 +120,32 @@
                 </ul>
                 <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-2"
                     style="font-weight: 500 !important; font-size: large">
-                    <li class="nav-item"><a class="nav-link" href="index.php?register">Đăng ký</a></li>
-                    <li class="nav-item"><a class="nav-link" href="index.php?login">Đăng nhập</a></li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" href="#">
-                            <img src="layout/images/user.svg" id="avatarIcon" alt="User Icon">
-                        </a>
-                        <!-- Dropdown Menu -->
-                        <div id="userMenu" class="dropdown-menu">
-                            <a class="dropdown-item" href="index.php?updateProfile">Cập nhật thông tin</a>
-                            <a class="dropdown-item" href="index.php?change_password">Đổi mật khẩu</a>
-                            <a class="dropdown-item" href="index.php?history">Xem lịch sử thuê sách</a>
-                            <a class="dropdown-item" href="index.php?history">Thanh toán</a>
-                            <a class="dropdown-item" href="#">Đăng xuất</a>
-                        </div>
-                    </li>
-                    <li class="nav-item"><a class="nav-link" href="index.php?cart"><img
-                                src="layout/images/cart.svg"></a></li>
+                    <?php
+                    if (!isset($_SESSION['btnLogin']) || $_SESSION['btnLogin'] !== 1) {
+                        echo "
+                        <li class='nav-item'><a class='nav-link' href='index.php?register'>Đăng ký</a></li>
+                        <li class='nav-item'><a class='nav-link' href='index.php?login'>Đăng nhập</a></li>
+                        ";
+                    } elseif (isset($_SESSION['btnLogin']) || $_SESSION['btnLogin'] == 1) {
+                        echo "
+                            <li class='nav-item dropdown'>
+                                <a class='nav-link' href='#'>
+                                    <img src='layout/images/user.svg' id='avatarIcon' alt='User Icon'>
+                                </a>
+                                <!-- Dropdown Menu -->
+                                <div id='userMenu' class='dropdown-menu'>
+                                    <a class='dropdown-item' href='index.php?updateProfile'>Cập nhật thông tin</a>
+                                    <a class='dropdown-item' href='index.php?change_password'>Đổi mật khẩu</a>
+                                    <a class='dropdown-item' href='index.php?history'>Xem lịch sử thuê sách</a>
+                                    <a class='dropdown-item' href='index.php?history'>Thanh toán</a>
+                                    <!-- Chỉnh sửa đường dẫn đăng xuất -->
+                                    <a class='dropdown-item' href='index.php?logout'>Đăng xuất</a>
+                                </div>
+                            </li>
+                            <li class='nav-item'><a class='nav-link' href='index.php?cart'><img src='layout/images/cart.svg'></a></li>
+                            ";
+                    }
+                    ?>
                 </ul>
             </div>
         </div>

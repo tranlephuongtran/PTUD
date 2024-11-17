@@ -5,6 +5,7 @@
 * Template URI: https://untree.co/
 * License: https://creativecommons.org/licenses/by/3.0/
 */ -->
+
 <!doctype html>
 <html lang="en">
 <?php
@@ -13,6 +14,9 @@ if (!isset($_GET['checkout'])) {
 } else {
 	$checkout = $_GET['checkout'];
 }
+$khuyenMai = $_SESSION['total_rent'];
+$total_deposit = number_format($_SESSION['total_deposit'], 0, ',', ',') ?? 0;
+$total_rent = number_format($_SESSION['total_rent'], 0, ',', ',') ?? 0;
 ?>
 
 <!-- Start Hero Section -->
@@ -40,7 +44,7 @@ if (!isset($_GET['checkout'])) {
 				<div class="p-3 p-lg-5 border bg-white">
 					<table class="table site-block-order-table mb-5">
 						<thead>
-							<th>Mã Sách</th>
+							<th>Mã Đầu Sách</th>
 							<th>Tên Sách</th>
 							<th>Số Lượng</th>
 							<th>Giá Thuê</th>
@@ -48,49 +52,24 @@ if (!isset($_GET['checkout'])) {
 
 						</thead>
 						<tbody>
-							<tr>
-								<td>TT001</td>
-								<td>Cây Cam Ngọt CỦa Tôi</td>
-								<td style="text-align: center;"><strong>1</strong></td>
-								<td>17.000 VND</td>
-								<td style="text-align: right;">102.000 VND</td>
-							</tr>
-							<tr>
-								<td>KD001</td>
-								<td>Không Gia Đình </td>
-								<td style="text-align: center;"><strong>1</strong></td>
-								<td>35.000 VND</td>
-								<td style="text-align: right;">210.000 VND</td>
-							</tr>
-
-
-
+							<?php
+							foreach ($_SESSION['cart'] as $item) {
+								$price = number_format($item['price'] * $item['quantity'], 0, ',', ',');
+								$deposit = number_format($item['deposit'] * $item['quantity'], 0, ',', ',');
+								echo "<tr>
+								<td>{$item['id']}</td>
+								<td>{$item['name']}</td>
+								<td style='text-align: center;'><strong>{$item['quantity']}</strong></td>
+								<td>{$price}</td>
+								<td style='text-align: right;'>{$deposit} VND</td>
+							</tr>";
+							}
+							?>
 						</tbody>
 					</table>
-
-
-
-
 				</div>
 			</div>
 			<div class="col-md-5">
-				<!-- <div class="row mb-5">
-					<div class="col-md-12">
-						<h2 class="h3 mb-3 text-black">Coupon Code</h2>
-						<div class="p-3 p-lg-5 border bg-white">
-
-							<label for="c_code" class="text-black mb-3">Enter your coupon code if you have one</label>
-							<div class="input-group w-75 couponcode-wrap">
-								<input type="text" class="form-control me-2" id="c_code" placeholder="Coupon Code"
-									aria-label="Coupon Code" aria-describedby="button-addon2">
-								<div class="input-group-append">
-									<button class="btn btn-black btn-sm" type="button" id="button-addon2">Apply</button>
-								</div>
-							</div>
-
-						</div>
-					</div>
-				</div> -->
 				<div class="row mb-5">
 					<div class="col-md-12">
 						<h2 class="h3 mb-3 text-black">TỔNG HÓA ĐƠN</h2>
@@ -104,13 +83,22 @@ if (!isset($_GET['checkout'])) {
 											</label>
 										</td>
 										<td style="text-align: right;">
-											<select id="cars" name="cars"
-												style="border-radius: 10px;width: 200px;height: 30px;">
+											<select name="km" style="border-radius: 10px;width: 200px;height: 30px;">
 												<option value="0">Vui lòng chọn</option>
-												<option value="1">Khuyến mãi 10%</option>
+												<?php
+												$conn = mysqli_connect("localhost", "nhomptud", "123456", "ptud");
+												if ($conn) {
+													$str = "SELECT *FROM khuyenmai";
+													$result = $conn->query($str);
+													if (mysqli_num_rows($result) > 0) {
+														while ($row = mysqli_fetch_assoc($result)) {
+															echo "<option value='{$row['phanTramKM']}'>{$row['tenKM']}</option>";
+														}
+													}
+												}
+												?>
 											</select>
 										</td>
-
 									</tbody>
 
 
@@ -121,14 +109,18 @@ if (!isset($_GET['checkout'])) {
 									<table class="table site-block-order-table mb-5">
 										<tbody>
 											<tr>
-												<td class="text-black font-weight-bold"><strong>Tổng Tiền Cọc</strong>
-												</td>
-												<td class="text-black" style="text-align: right;">312.000 VND</td>
-											</tr>
-											<tr>
 												<td class="text-black font-weight-bold"><strong>Tổng Tiền Thuê</strong>
 												</td>
-												<td class="text-black" style="text-align: right;">52.000 VND</td>
+												<td class="text-black" style="text-align: right;">
+													<?php echo $total_rent ?> VND
+												</td>
+											</tr>
+											<tr>
+												<td class="text-black font-weight-bold"><strong>Tổng Tiền Cọc</strong>
+												</td>
+												<td class="text-black" style="text-align: right;">
+													<?php echo $total_deposit ?> VND
+												</td>
 											</tr>
 											<tr>
 												<td class="text-black font-weight-bold"><strong>Ưu Đãi Thành
@@ -141,7 +133,9 @@ if (!isset($_GET['checkout'])) {
 											</tr>
 											<tr>
 												<td class="text-black font-weight-bold"><strong>Khuyến Mãi</strong></td>
-												<td class="text-black" style="text-align: right;">- 10.000 VND</td>
+												<td class="text-black" style="text-align: right;">-
+													<?php echo $khuyenMai ?> VND
+												</td>
 											</tr>
 											<tr>
 												<td class="text-black font-weight-bold"><strong>Tổng Tiền Thuê Sau Ưu

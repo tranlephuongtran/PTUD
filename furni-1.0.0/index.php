@@ -1,4 +1,5 @@
 <?php
+ob_start();
 session_start();
 include("layout/header.php");
 if (isset($_GET['about'])) {
@@ -38,6 +39,16 @@ if (isset($_GET['about'])) {
 } else {
     $page = 'home';
 }
+if (isset($_GET['logout'])) {
+    // Hủy session và trở lại trang chủ
+    session_unset();
+    session_destroy();
+    header("Location: index.php?home");
+    exit();
+} else if (isset($_GET['invoice_details'])) {
+    $page = 'invoice_details';
+}
 include("page/" . $page . "/index.php");
 include("layout/footer.php");
+ob_end_flush();
 ?>
