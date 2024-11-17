@@ -1,0 +1,326 @@
+<?php
+if (!isset($_GET['quanlysanpham'])) {
+    $quanlysanpham = 1;
+} else {
+    $quanlysanpham = intval($_GET['quanlysanpham']);
+}
+
+$obj = new database();
+$results_per_page = 5; // Số sản phẩm hiển thị trên mỗi trang
+
+// Lấy tổng số sản phẩm
+$sql = "SELECT COUNT(*) as total FROM sach";
+$result = $obj->xuatdulieu($sql);
+$total_products = $result[0]['total']; // Tổng số sản phẩm
+$number_of_page = ceil($total_products / $results_per_page); // Tính số trang
+// Cập nhật biến $page_first_result để đảm bảo nó không âm
+$page_first_result = max(0, ($quanlysanpham - 1) * $results_per_page); // Đảm bảo giá trị không âm
+
+// Lấy danh sách sản phẩm cho trang hiện tại
+$sql = "SELECT * FROM sach LIMIT $page_first_result, $results_per_page";
+$sach = $obj->xuatdulieu($sql);
+
+
+// Xử lý cập nhật danh mục
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (isset($_POST['addCategory'])) {
+        $tuaDe = $_POST['tuaDe'];
+        $giaThue = $_POST['giaThue'];
+        $tienCoc = $_POST['tienCoc'];
+        $maISBN = $_POST['maISBN'];
+        $ngayXB = $_POST['ngayXB'];
+        $moTa = $_POST['moTa'];
+        $tinhTrang = $_POST['tinhTrang'];
+        $maDauSach = $_POST['maDauSach'];
+
+        $sql = "INSERT INTO sach (tuaDe, giaThue, tienCoc, maISBN, ngayXB, moTa, tinhTrang, maDauSach) 
+        VALUES ('$tuaDe', '$giaThue', '$tienCoc', '$maISBN', '$ngayXB', '$moTa', '$tinhTrang', '$maDauSach')";
+        if ($obj->themdulieu($sql)) {
+            echo '<script>alert("Thêm mới sản phẩm thành công");</script>';
+        } else {
+            echo '<script>alert("Thêm mới sản phẩm thất bại");</script>';
+        }
+    }
+
+    if (isset($_POST['btXoa'])) {
+        $maSach = $_POST['btXoa'];
+        $sql = "DELETE FROM sach WHERE maSach='$maSach'";
+        $obj->xoadulieu($sql);
+    }
+
+    if (isset($_POST['btSua'])) {
+        $maSach = $_POST['maSach'];
+        $tuaDe = $_POST['tuaDe'];
+        $giaThue = $_POST['giaThue'];
+        $tienCoc = $_POST['tienCoc'];
+        $maISBN = $_POST['maISBN'];
+        $ngayXB = $_POST['ngayXB'];
+        $moTa = $_POST['moTa'];
+        $tinhTrang = $_POST['tinhTrang'];
+        $maDauSach = $_POST['maDauSach'];
+        $sql = "UPDATE sach SET tuaDe = '$tuaDe' , giaThue='$giaThue', tienCoc='$tienCoc', maISBN='$maISBN', 
+        ngayXB='$ngayXB', moTa='$moTa', tinhTrang='$tinhTrang', maDauSach='$maDauSach' WHERE maSach='$maSach'";
+        if ($obj->suadulieu($sql)) {
+            echo '<script>alert("Cập nhật sản phẩm thành công");</script>';
+        } else {
+            echo '<script>alert("Cập nhật sản phẩm thất bại");</script>';
+        }
+    }
+}
+?>
+
+<style>
+    .card.strpied-tabled-with-hover {
+        border-radius: 15px;
+        overflow: hidden;
+    }
+
+    .card.strpied-tabled-with-hover .table thead th,
+    .card.strpied-tabled-with-hover .table tbody td {
+        border: none;
+    }
+
+    .card.strpied-tabled-with-hover .table thead {
+        background-color: #f8f9fa;
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+    }
+
+    .pagination a {
+        margin: 0 5px;
+        padding: 5px 10px;
+        background-color: #f1f1f1;
+        color: #333;
+        text-decoration: none;
+    }
+
+    .pagination a.active {
+        background-color: #9370DB;
+        /* Màu tím */
+        color: white;
+    }
+
+    .pagination a:hover:not(.active) {
+        background-color: #D8BFD8;
+        /* Màu tím nhạt hơn */
+    }
+
+    .modal-dialog {
+        max-width: 800px;
+        margin: 1.75rem auto;
+    }
+
+    .modal-body {
+        padding: 2rem;
+    }
+
+    .modal-footer {
+        justify-content: center;
+    }
+
+    .form-control {
+        height: auto;
+        padding: 0.75rem 1rem;
+    }
+</style>
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card strpied-tabled-with-hover">
+                    <div class="card-header">
+                        <h4 class="card-title text-center">DANH SÁCH SẢN PHẨM</h4>
+                        <button type="button" class="btn btn-success btn-lg" data-toggle="modal"
+                            data-target="#myModal"><i class="fa fa-plus-circle"></i>Thêm
+                            mới</button>
+                    </div>
+                    <div class="card-body table-full-width table-responsive">
+                        <form method="post">
+                            <table class="table table-hover table-striped">
+                                <thead>
+                                    <th>Mã Sách</th>
+                                    <th style="width: 150px;">Tựa Đề</th>
+                                    <th>Giá Thuê</th>
+                                    <th>Tiền Cọc</th>
+                                    <th>Mã ISBN</th>
+                                    <th>Ngày XB</th>
+                                    <th style="width: 250px; text-align: justify;">Mô Tả</th>
+                                    <th>Tình Trạng</th>
+                                    <th>Mã Đầu Sách</th>
+                                    <th>Thao Tác</th>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($sach as $item): ?>
+                                        <tr>
+                                            <td><?= $item["maSach"] ?></td>
+                                            <td><?= $item["tuaDe"] ?></td>
+                                            <td><?= $item["giaThue"] ?></td>
+                                            <td><?= $item["tienCoc"] ?></td>
+                                            <td><?= $item["maISBN"] ?></td>
+                                            <td><?= $item["ngayXB"] ?></td>
+                                            <td><?= $item["moTa"] ?></td>
+                                            <td><?= $item["tinhTrang"] ?></td>
+                                            <td><?= $item["maDauSach"] ?></td>
+                                            <td>
+                                                <button type="button" class="btn btn-warning" data-toggle="modal"
+                                                    data-target="#editCategoryModal"
+                                                    onclick="document.getElementById('editMaSach').value='<?= $item['maSach'] ?>'; 
+                                                    document.getElementById('editTuaDe').value='<?= $item['tuaDe'] ?>'; 
+                                                    document.getElementById('editGiaThue').value='<?= $item['giaThue'] ?>';
+                                                    document.getElementById('editTienCoc').value='<?= $item['tienCoc'] ?>';
+                                                    document.getElementById('editMaISBN').value='<?= $item['maISBN'] ?>';
+                                                    document.getElementById('editNgayXB').value='<?= $item['ngayXB'] ?>';
+                                                    document.getElementById('editMoTa').value='<?= $item['moTa'] ?>';
+                                                    document.getElementById('editTinhTrang').value='<?= $item['tinhTrang'] ?>';
+                                                    document.getElementById('editMaDauSach').value='<?= $item['maDauSach'] ?>';">
+                                                    Sửa
+                                                </button>
+                                                <button
+                                                    onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?')"
+                                                    type="submit" name="btXoa" value="<?= $item["maSach"] ?>"
+                                                    class="btn btn-danger">Xóa</button>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Phân trang -->
+        <div class="pagination" style="text-align: center; margin-top: 20px;">
+            <?php for ($i = 1; $i <= $number_of_page; $i++): ?>
+                <?php if ($i == $quanlysanpham): ?>
+                    <a class="active" href="index.php?quanlysanpham=<?= $i ?>"><?= $i ?></a>
+                <?php else: ?>
+                    <a href="index.php?quanlysanpham=<?= $i ?>"><?= $i ?></a>
+                <?php endif; ?>
+            <?php endfor; ?>
+        </div>
+
+        <!-- Modal Thêm Sản Phẩm -->
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <form method="POST" id="addCategoryForm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title text-center">THÊM SẢN PHẨM MỚI</h3>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="tuaDe" class="form-label">Tựa đề</label>
+                                    <input type="text" class="form-control" name="tuaDe" id="tuaDe" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="giaThue" class="form-label">Giá thuê</label>
+                                    <input type="text" class="form-control" name="giaThue" id="giaThue" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="tienCoc" class="form-label">Tiền cọc</label>
+                                    <input type="text" class="form-control" name="tienCoc" id="tienCoc" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="maISBN" class="form-label">Mã ISBN</label>
+                                    <input type="text" class="form-control" name="maISBN" id="maISBN" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="ngayXB" class="form-label">Ngày XB</label>
+                                    <input type="date" class="form-control" name="ngayXB" id="ngayXB" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="tinhTrang" class="form-label">Tình Trạng</label>
+                                    <input type="text" class="form-control" name="tinhTrang" id="tinhTrang" required>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="moTa" class="form-label">Mô Tả</label>
+                                <textarea class="form-control" name="moTa" id="moTa"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="maDauSach" class="form-label">Mã Đầu Sách</label>
+                                <select name="maDauSach" class="form-control" required>
+                                    <option value="">- Chọn Đầu Sách -</option>
+                                    <?php echo $obj->selectdausach(); ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                            <button type="submit" class="btn btn-primary" name="addCategory">Thêm</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- Modal Sửa Sản Phẩm -->
+        <div id="editCategoryModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <form method="POST" id="editCategoryForm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title text-center">SỬA SẢN PHẨM</h3>
+                            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" name="maSach" id="editMaSach">
+                            <div class="mb-3">
+                                <label for="editTuaDe" class="form-label">Tựa Đề</label>
+                                <input type="text" class="form-control" name="tuaDe" id="editTuaDe" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editGiaThue" class="form-label">Giá Thuê</label>
+                                <input type="text" class="form-control" name="giaThue" id="editGiaThue" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editTienCoc" class="form-label">Tiền Cọc</label>
+                                <input type="text" class="form-control" name="tienCoc" id="editTienCoc" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editMaISBN" class="form-label">Mã ISBN</label>
+                                <input type="text" class="form-control" name="maISBN" id="editMaISBN" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editNgayXB" class="form-label">Ngày XB</label>
+                                <input type="date" class="form-control" name="ngayXB" id="editNgayXB" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editMoTa" class="form-label">Mô Tả</label>
+                                <textarea class="form-control" name="moTa" id="editMoTa"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editTinhTrang" class="form-label">Tình Trạng</label>
+                                <input type="text" class="form-control" name="tinhTrang" id="editTinhTrang" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editMaDauSach" class="form-label">Mã Đầu Sách</label>
+                                <select name="maDauSach" id="editMaDauSach" class="form-control" style="height: 50px;"
+                                    required>
+                                    <option value="">- Chọn mã người dùng -</option>
+                                    <?php echo $obj->selectdausach(); ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                            <button type="submit" name="btSua" class="btn btn-primary">Cập Nhật</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
