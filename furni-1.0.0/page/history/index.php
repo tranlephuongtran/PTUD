@@ -180,124 +180,50 @@
             <table>
                 <tr>
                     <th>Mã đơn</th>
-                    <th>Số lượng sách thuê</th>
-                    <th>Tổng tiền đơn</th>
                     <th>Ngày thuê</th>
-                    <th>Ngày trả</th>
+                    <th>Tổng tiền thuê</th>
+                    <th>Phí ship</th>
+                    <th>Phương thức thanh toán</th>
                     <th>Tình trạng thanh toán</th>
+                    <th>Hình ảnh thanh toán</th>
                 </tr>
-                <tr onclick="openModal('KH001', '001', 3, '15/01/2024', '15/01/2024', 100000,'đã thanh toán')">
-                    <td>001</td>
-                    <td>3 sách</td>
-                    <td>100,000 VND</td>
-                    <td>01/01/2024</td>
-                    <td>15/01/2024</td>
-                    <td>đã thanh toán</td>
-                </tr>
-                <tr onclick="openModal('KH001', '002', 2, '10/02/2024', '24/02/2024', 50000,'đã thanh toán')">
-                    <td>002</td>
-                    <td>2 sách</td>
-                    <td>50,000 VND</td>
-                    <td>10/02/2024</td>
-                    <td>24/02/2024</td>
-                    <td>đã thanh toán</td>
-                </tr>
-                <!-- Thêm nhiều mục lịch sử thuê sách ở đây -->
+                <?php
+                // Kết nối cơ sở dữ liệu
+                $conn = mysqli_connect("localhost", "nhomptud", "123456", "ptud");
+                if ($conn->connect_error) {
+                    die("Kết nối thất bại: " . $conn->connect_error);
+                }
+
+                // Truy vấn danh sách đơn thuê sách
+                $sql = "SELECT * FROM donthuesach where donthuesach.maKH"; // Lấy toàn bộ dữ liệu từ bảng donthuesach
+                $result = $conn->query($sql);
+
+                // Đảm bảo có dữ liệu trong bảng donthuesach
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<tr onclick=\"redirectToDetails('" . $row['maDon'] . "')\">";
+                        echo "<td>" . $row['maDon'] . "</td>";
+                        echo "<td>" . $row['ngayThue'] . "</td>";
+                        echo "<td>" . number_format($row['tongTienThue'], 0, ',', '.') . " VND</td>";
+                        echo "<td>" . number_format($row['phiShip'], 0, ',', '.') . " VND</td>";
+                        echo "<td>" . $row['phuongThucThanhToan'] . "</td>";
+                        echo "<td>" . $row['tinhTrangThanhToan'] . "</td>";
+                        echo "<td><img src='layout/images/" . $row['hinhAnhThanhToan'] . "' alt='Image' style='width: 50px; height: 50px;'></td>";
+                        echo "</tr>";
+                    }
+                } else {
+                    echo "<tr><td colspan='7'>Không có lịch sử thuê sách.</td></tr>";
+                }
+                ?>
             </table>
         </div>
     </div>
-
-    <!-- Modal for Book Details -->
-    <div id="myModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <h2 class="ChiTietDonSach">Thông tin chi tiết đơn thuê sách</h2>
-            <div class="content-container">
-                <!-- Left Section - Image -->
-                <div class="left-section">
-                    <img id="hinhAnhThanhToan" src="images/img-grid-3.jpg" alt="Hình ảnh sách">
-                </div>
-                <!-- Right Section - Details -->
-                <div class="right-section">
-                    <form>
-                        <div>
-                            <label for="maKH">Mã khách hàng:</label>
-                            <input type="text" id="maKH" readonly><br>
-                        </div>
-                        <div>
-                            <label for="maDon">Mã đơn:</label>
-                            <input type="text" id="maDon" readonly><br>
-                        </div>
-                        <div>
-                            <label for="soLuong">Số lượng sách thuê:</label>
-                            <input type="number" id="soLuong" readonly><br>
-                        </div>
-                        <div>
-                            <label for="ngayThue">Ngày thuê:</label>
-                            <input type="text" id="ngayThue" readonly><br>
-                        </div>
-                        <div>
-                            <label for="ngayTra">Ngày trả:</label>
-                            <input type="text" id="ngayTra" readonly><br>
-                        </div>
-                        <div>
-                            <label for="tongGia">Tổng giá thuê:</label>
-                            <input type="text" id="tongGia" readonly><br>
-                        </div>
-                        <div>
-                            <label for="phuongThucTT">Phương thức thanh toán:</label>
-                            <input type="text" id="phuongThucTT" readonly><br>
-                        </div>
-                        <div>
-                            <label for="khuyenMai">Khuyến mãi:</label>
-                            <input type="text" id="khuyenMai" readonly><br>
-                        </div>
-                        <div>
-                            <label for="phiShip">Phí ship:</label>
-                            <input type="text" id="phiShip" readonly><br>
-                        </div>
-                        <div>
-                            <label for="uuDaiTV">Ưu đãi thành viên:</label>
-                            <input type="text" id="uuDaiTV" readonly><br>
-                        </div>
-                        <div>
-                            <label for="tongTienThueSauUuDai">Tổng tiền thuê sau ưu đãi:</label>
-                            <input type="text" id="tongTienThueSauUuDai" readonly><br>
-                        </div>
-                        <div>
-                            <label for="tinhTrangTT">Tình trạng thanh toán:</label>
-                            <input type="text" id="tinhTrangTT" readonly><br>
-                        </div>
-                        <button type="button" class="btn-gia-han">Gia Hạn</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <script>
-        function openModal(maKH, maDon, soLuong, ngayThue, ngayTra, tongGia, tinhTrangTT) {
-            document.getElementById("maKH").value = maKH;
-            document.getElementById("maDon").value = maDon;
-            document.getElementById("soLuong").value = soLuong;
-            document.getElementById("ngayThue").value = ngayThue;
-            document.getElementById("ngayTra").value = ngayTra;
-            document.getElementById("tongGia").value = tongGia;
-            document.getElementById("tinhTrangTT").value = tinhTrangTT;
-            document.getElementById("myModal").style.display = "block";
-        }
-
-        function closeModal() {
-            document.getElementById("myModal").style.display = "none";
-        }
-
-        window.onclick = function (event) {
-            if (event.target == document.getElementById("myModal")) {
-                closeModal();
-            }
+        function redirectToDetails(maDon) {
+            // Chuyển hướng đến trang chi tiết hóa đơn
+            window.location.href = `index.php?invoice_details&maDon=${maDon}`
         }
     </script>
 </body>
-
 
 </html>

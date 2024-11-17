@@ -15,50 +15,35 @@
     .pagination {
         display: flex;
         justify-content: center;
-        /* Căn giữa các nút theo chiều ngang */
         margin-top: 10px;
     }
 
     .pagination a {
         text-decoration: none;
         width: 50px;
-        /* Tăng chiều rộng */
         height: 50px;
-        /* Tăng chiều cao */
         border: 2px solid #ccc;
-        /* Thêm đường viền sáng */
         padding: 10px;
-        /* Tăng không gian xung quanh chữ */
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 18px;
-        /* Tăng kích thước chữ */
         border-radius: 5px;
-        /* Thêm bo góc */
         margin: 5px;
-        /* Khoảng cách giữa các nút */
         transition: all 0.3s ease;
-        /* Thêm hiệu ứng chuyển động */
     }
 
     .pagination a:hover {
         background-color: #a76d49;
-        /* Thêm hiệu ứng nền khi hover */
         color: white;
-        /* Thay đổi màu chữ khi hover */
         transform: scale(1.1);
-        /* Phóng to nút khi hover */
     }
 
     .pagination .active {
         background-color: #a76d49;
-        /* Nền trang hiện tại */
         color: white;
         font-weight: bold;
-        /* In đậm chữ */
         border-color: #a76d49;
-        /* Thêm đường viền cùng màu với nền */
     }
 </style>
 <?php
