@@ -1,0 +1,167 @@
+<?php
+if (!isset($_GET['quanlydanhmuc'])) {
+    $quanlydanhmuc = 1;
+} else {
+    $quanlydanhmuc = $_GET['quanlydanhmuc'];
+}
+
+$obj = new database();
+$sql = "SELECT * FROM danhmuc";
+$danhmuc = $obj->xuatdulieu($sql);
+
+// Xử lý cập nhật danh mục
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (isset($_POST['addCategory'])) {
+        $ten = $_POST['ten'];
+        $moTa = $_POST['moTa'];
+        $sql = "INSERT INTO danhmuc (ten, moTa) VALUES ('$ten', '$moTa')";
+        if ($obj->themdulieu($sql)) {
+            echo '<script>alert("Thêm mới danh mục thành công");</script>';
+        } else {
+            echo '<script>alert("Thêm mới danh mục thất bại");</script>';
+        }
+    }
+
+    if (isset($_POST['btXoa'])) {
+        $maDM = $_POST['btXoa'];
+        $sql = "DELETE FROM danhmuc WHERE maDM='$maDM'";
+        $obj->xoadulieu($sql);
+    }
+
+    if (isset($_POST['btSua'])) {
+        $maDM = $_POST['maDM'];
+        $ten = $_POST['ten'];
+        $moTa = $_POST['moTa'];
+        $sql = "UPDATE danhmuc SET ten='$ten', moTa='$moTa' WHERE maDM='$maDM'";
+        if ($obj->suadulieu($sql)) {
+            echo '<script>alert("Cập nhật danh mục thành công");</script>';
+        } else {
+            echo '<script>alert("Cập nhật danh mục thất bại");</script>';
+        }
+    }
+}
+?>
+
+<style>
+    .card.strpied-tabled-with-hover {
+        border-radius: 15px;
+        overflow: hidden;
+    }
+
+    .card.strpied-tabled-with-hover .table thead th,
+    .card.strpied-tabled-with-hover .table tbody td {
+        border: none;
+    }
+
+    .card.strpied-tabled-with-hover .table thead {
+        background-color: #f8f9fa;
+    }
+</style>
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card strpied-tabled-with-hover">
+                    <div class="card-header">
+                        <h4 class="card-title text-center">DANH SÁCH DANH MỤC SÁCH</h4>
+                        <button type="button" class="btn btn-success btn-lg" data-toggle="modal"
+                            data-target="#myModal"><i class="fa fa-plus-circle"></i>Thêm
+                            mới</button>
+                    </div>
+                    <div class="card-body table-full-width table-responsive">
+                        <form method="post">
+                            <table class="table table-hover table-striped">
+                                <thead>
+                                    <th>Mã Danh Mục</th>
+                                    <th>Tên Danh Mục</th>
+                                    <th>Mô Tả</th>
+                                    <th>Thao Tác</th>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($danhmuc as $item): ?>
+                                        <tr>
+                                            <td><?= $item["maDM"] ?></td>
+                                            <td><?= $item["ten"] ?></td>
+                                            <td><?= $item["moTa"] ?></td>
+                                            <td>
+                                                <button type="button" class="btn btn-warning" data-toggle="modal"
+                                                    data-target="#editCategoryModal"
+                                                    onclick="document.getElementById('editMaDM').value='<?= $item['maDM'] ?>'; 
+                                                              document.getElementById('editTen').value='<?= $item['ten'] ?>'; 
+                                                              document.getElementById('editMoTa').value='<?= $item['moTa'] ?>';">
+                                                    Sửa
+                                                </button>
+                                                <button
+                                                    onclick="return confirm('Bạn có chắc chắn muốn xóa danh mục này không?')"
+                                                    type="submit" name="btXoa" value="<?= $item["maDM"] ?>"
+                                                    class="btn btn-danger">Xóa</button>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Modal Thêm Danh Mục -->
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <form method="POST" id="addCategoryForm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title text-center">THÊM DANH MỤC MỚI</h3>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="ten" class="form-label">Tên Danh Mục</label>
+                                <input type="text" class="form-control" name="ten" id="ten" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="moTa" class="form-label">Mô Tả</label>
+                                <textarea class="form-control" name="moTa" id="moTa"></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                            <button type="submit" class="btn btn-primary" name="addCategory">Thêm</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal Sửa Danh Mục -->
+        <div id="editCategoryModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <form method="POST" id="editCategoryForm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title text-center">SỬA DANH MỤC</h3>
+                            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" name="maDM" id="editMaDM">
+                            <div class="mb-3">
+                                <label for="editTen" class="form-label">Tên Danh Mục</label>
+                                <input type="text" class="form-control" name="ten" id="editTen" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editMoTa" class="form-label">Mô Tả</label>
+                                <textarea class="form-control" name="moTa" id="editMoTa"></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                            <button type="submit" name="btSua" class="btn btn-primary">Cập Nhật</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

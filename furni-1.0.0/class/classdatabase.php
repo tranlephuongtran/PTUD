@@ -1,0 +1,97 @@
+<?php
+class database
+{
+    private function connect()
+    {
+        $conn = new mysqli("localhost", "nhomptud", "123456", "ptud");
+        if ($conn->connect_errno) {
+            echo "<script>Alert('Ket noi khong thanh cong')</script>";
+            exit();
+        } else
+            return $conn;
+    }
+    public function xuatdulieu($sql)
+    {
+        $arr = array();
+        $link = $this->connect();
+        $result = $link->query($sql);
+        if ($result->num_rows) {
+            while ($row = $result->fetch_assoc())
+                $arr[] = $row;
+            return $arr;
+        } else
+            return 0;
+    }
+    public function xoadulieu($sql)
+    {
+        $link = $this->connect();
+        if ($link->query($sql))
+            return 1;
+        else
+            return 0;
+    }
+    public function themdulieu($sql)
+    {
+        $link = $this->connect();
+        if ($link->query($sql))
+            return 1;
+        else
+            return 0;
+    }
+    public function suadulieu($sql)
+    {
+        $link = $this->connect();
+        if ($link->query($sql))
+            return 1;
+        else
+            return 0;
+    }
+    public function xoadanhmuc($id)
+    {
+        $sql = "delete from danhmuc where maDM='$id'";
+        return $this->xoadulieu($sql);
+    }
+    public function themdanhmuc($sql)
+    {
+        return $this->themdulieu($sql);
+    }
+    public function suadanhmuc($sql)
+    {
+        return $this->suadulieu($sql);
+    }
+    public function danhsachdanhmuc($id = '')
+    {
+        if ($id)
+            $sql = "select * from danhmuc where maDM='$id'";
+        else
+            $sql = "select * from danhmuc";
+        return $this->xuatdulieu($sql);
+    }
+    public function selectdausach($value = '')
+    {
+        $str = '';
+        $sql = "select * from dausach";
+        $arr = $this->xuatdulieu($sql);
+        for ($i = 0; $i < count($arr); $i++) {
+            if ($arr[$i]["maDauSach"] == $value)
+                $str .= '<option selected value="' . $arr[$i]["maDauSach"] . '">' . $arr[$i]["maDauSach"] . '</option>';
+            else
+                $str .= '<option value="' . $arr[$i]["maDauSach"] . '">' . $arr[$i]["maDauSach"] . '</option>';
+        }
+        return $str;
+    }
+    public function selectnguoidung($value = '')
+    {
+        $str = '';
+        $sql = "select * from nguoidung";
+        $arr = $this->xuatdulieu($sql);
+        for ($i = 0; $i < count($arr); $i++) {
+            if ($arr[$i]["maNguoiDung"] == $value)
+                $str .= '<option selected value="' . $arr[$i]["maNguoiDung"] . '">' . $arr[$i]["maNguoiDung"] . '</option>';
+            else
+                $str .= '<option value="' . $arr[$i]["maNguoiDung"] . '">' . $arr[$i]["maNguoiDung"] . '</option>';
+        }
+        return $str;
+    }
+}
+?>
