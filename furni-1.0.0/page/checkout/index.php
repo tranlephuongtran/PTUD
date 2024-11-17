@@ -15,6 +15,7 @@ if (!isset($_GET['checkout'])) {
 	$checkout = $_GET['checkout'];
 }
 $khuyenMai = $_SESSION['total_rent'];
+$tongtienThueSauUuDai = $_SESSION['total_rent'];
 $total_deposit = number_format($_SESSION['total_deposit'], 0, ',', ',') ?? 0;
 $total_rent = number_format($_SESSION['total_rent'], 0, ',', ',') ?? 0;
 ?>
@@ -83,21 +84,25 @@ $total_rent = number_format($_SESSION['total_rent'], 0, ',', ',') ?? 0;
 											</label>
 										</td>
 										<td style="text-align: right;">
-											<select name="km" style="border-radius: 10px;width: 200px;height: 30px;">
-												<option value="0">Vui lòng chọn</option>
-												<?php
-												$conn = mysqli_connect("localhost", "nhomptud", "123456", "ptud");
-												if ($conn) {
-													$str = "SELECT *FROM khuyenmai";
-													$result = $conn->query($str);
-													if (mysqli_num_rows($result) > 0) {
-														while ($row = mysqli_fetch_assoc($result)) {
-															echo "<option value='{$row['phanTramKM']}'>{$row['tenKM']}</option>";
+											<form method="POST" action="">
+												<select name="km" id="km-select" onchange="this.form.submit()"
+													style="border-radius: 10px;width: 200px;height: 30px;">
+													<option value="0">Vui lòng chọn</option>
+													<?php
+													$conn = mysqli_connect("localhost", "nhomptud", "123456", "ptud");
+													if ($conn) {
+														$str = "SELECT * FROM khuyenmai";
+														$result = $conn->query($str);
+														if (mysqli_num_rows($result) > 0) {
+															while ($row = mysqli_fetch_assoc($result)) {
+																$selected = (isset($_POST['km']) && $_POST['km'] == $row['phanTramKM']) ? "selected" : "";
+																echo "<option value='{$row['phanTramKM']}' $selected>{$row['tenKM']}</option>";
+															}
 														}
 													}
-												}
-												?>
-											</select>
+													?>
+												</select>
+											</form>
 										</td>
 									</tbody>
 
@@ -134,14 +139,21 @@ $total_rent = number_format($_SESSION['total_rent'], 0, ',', ',') ?? 0;
 											<tr>
 												<td class="text-black font-weight-bold"><strong>Khuyến Mãi</strong></td>
 												<td class="text-black" style="text-align: right;">-
-													<?php echo $khuyenMai ?> VND
+													<?php
+													$raw_total_rent = str_replace(',', '', $_SESSION['total_rent']); // Loại bỏ dấu phẩy
+													$khuyenMai = $_POST['km'] / 100 * $raw_total_rent;
+													echo number_format($khuyenMai, 0, ',', ','); ?> VND
 												</td>
 											</tr>
 											<tr>
 												<td class="text-black font-weight-bold"><strong>Tổng Tiền Thuê Sau Ưu
 														Đãi</strong>
 												</td>
-												<td class="text-black" style="text-align: right;">36.800 VND</td>
+												<td class="text-black" style="text-align: right;"><?php
+												$raw_total_rent = str_replace(',', '', $_SESSION['total_rent']);
+												$raw_total_km = str_replace(',', '', $khuyenMai); // Loại bỏ dấu phẩy
+												$tongtienThueSauUuDai = $raw_total_rent - $raw_total_km;
+												echo number_format($tongtienThueSauUuDai, 0, ',', ','); ?> VND</td>
 											</tr>
 											<tr>
 												<td class="text-black font-weight-bold"><strong>Phí Ship</strong>
@@ -149,10 +161,23 @@ $total_rent = number_format($_SESSION['total_rent'], 0, ',', ',') ?? 0;
 												<td class="text-black" style="text-align: right;">30.000 VND</td>
 											</tr>
 											<tr>
+												<td class="text-black font-weight-bold"><strong>Tổng Cộng Tiền
+														Thuê</strong>
+												</td>
+												<td class="text-black" style="text-align: right;"><strong>
+														<?php $raw_total_rent = str_replace(',', '', $tongtienThueSauUuDai);
+														$total = $raw_total_rent + 30000;
+														echo number_format($total, 0, ',', ',');
+														?>
+														VND</strong>
+												</td>
+											</tr>
+											<tr>
 												<td class="text-black font-weight-bold"><strong>Tổng Tiền Cọc Thanh
 														Toán</strong>
 												</td>
-												<td class="text-black" style="text-align: right;"><strong>378.800
+												<td class="text-black" style="text-align: right;">
+													<strong><?php echo $total_deposit ?>
 														VND</strong>
 												</td>
 											</tr>

@@ -41,6 +41,14 @@ if (isset($_POST['quantity'])) {
 			break;
 		}
 	}
+	$total_deposit = 0;
+	$total_rent = 0;
+	foreach ($_SESSION['cart'] as $cart_item) {
+		$total_deposit += $cart_item['deposit'] * $cart_item['quantity'];
+		$total_rent += $cart_item['price'] * $cart_item['quantity'];
+	}
+	$_SESSION['total_deposit'] = $total_deposit;
+	$_SESSION['total_rent'] = $total_rent;
 }
 
 // Tính toán lại tổng tiền
@@ -49,6 +57,10 @@ $total_rent = 0;
 foreach ($_SESSION['cart'] as $cart_item) {
 	$total_deposit += $cart_item['deposit'] * $cart_item['quantity'];
 	$total_rent += $cart_item['price'] * $cart_item['quantity'];
+}
+if (isset($_POST['checkout'])) {
+	$_SESSION['total_deposit'] = $total_deposit; // Lưu tổng tiền cọc
+	$_SESSION['total_rent'] = $total_rent; // Lưu tổng tiền thuê
 }
 ?>
 <div class="hero">
@@ -176,10 +188,9 @@ foreach ($_SESSION['cart'] as $cart_item) {
 						<!-- Button for Checkout -->
 						<div class="row">
 							<div class="col-md-12">
-								<form method="post">
+								<form method="post" action="index.php?checkout">
 									<button type="submit" class="btn btn-lg py-3 btn-block" name="checkout"
-										style="background-color: #a76d49; color: white !important;"><a
-											href="index.php?checkout">THUÊ SÁCH</a></button>
+										style="background-color: #a76d49; color: white !important;">THUÊ SÁCH</button>
 								</form>
 							</div>
 						</div>
@@ -190,18 +201,6 @@ foreach ($_SESSION['cart'] as $cart_item) {
 	</div>
 </div>
 
-<?php
-if (isset($_POST['checkout'])) {
-	$total_deposit = 0;
-	$total_rent = 0;
-	foreach ($_SESSION['cart'] as $cart_item) {
-		$total_deposit += $cart_item['deposit'] * $cart_item['quantity'];
-		$total_rent += $cart_item['price'] * $cart_item['quantity'];
-	}
-	$_SESSION['total_deposit'] = $total_deposit; // Lưu tổng tiền cọc
-	$_SESSION['total_rent'] = $total_rent; // Lưu tổng tiền thuê
-}
-?>
 <script src="js/bootstrap.bundle.min.js"></script>
 <script src="js/tiny-slider.js"></script>
 <script src="js/custom.js"></script>

@@ -3,10 +3,6 @@ session_start();
 error_reporting(0);
 
 // Kiểm tra nếu người dùng chưa đăng nhập
-if (!isset($_SESSION['user'])) {
-    header("Location: ../index.php?login");
-    exit();
-}
 $email = $_SESSION['user'];
 $conn = mysqli_connect("localhost", "nhomptud", "123456", "ptud");
 if ($conn) {
@@ -17,7 +13,7 @@ if ($conn) {
         WHERE taikhoan.email = '$email'
     ";
     $result = mysqli_query($conn, $query);
-    
+
     if (mysqli_num_rows($result) > 0) {
         $user = mysqli_fetch_assoc($result);
     } else {
@@ -29,11 +25,11 @@ if ($conn) {
 
 // Xử lý cập nhật thông tin khi form được gửi
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    var_dump($_POST); 
+    var_dump($_POST);
     $name = mysqli_real_escape_string($conn, $_POST['name']);
     $address = mysqli_real_escape_string($conn, $_POST['address']);
     $phone = mysqli_real_escape_string($conn, $_POST['phone']);
-    $email_new = mysqli_real_escape_string($conn, $_POST['email']); 
+    $email_new = mysqli_real_escape_string($conn, $_POST['email']);
 
     $update_query = "
         UPDATE nguoidung 
@@ -60,6 +56,7 @@ mysqli_close($conn);
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -105,6 +102,7 @@ mysqli_close($conn);
         }
     </style>
 </head>
+
 <body>
     <div class="container container-main mt-5">
         <div class="row">
@@ -123,27 +121,32 @@ mysqli_close($conn);
                 <div class="tnb">
                     <h2 class="mb-4">Cập Nhật Thông Tin</h2>
                     <form method="POST" action="">
-                            <div class="mb-3">
-                                <label for="name" class="form-label">Tên</label>
-                                <input type="text" class="form-control" id="name" name="name" required value="<?php echo htmlspecialchars($user['ten'] ?? ''); ?>">
-                            </div>
-                            <div class="mb-3">
-                                <label for="address" class="form-label">Địa chỉ</label>
-                                <input type="text" class="form-control" id="address" name="address" required value="<?php echo htmlspecialchars($user['diaChi'] ?? ''); ?>">
-                            </div>
-                            <div class="mb-3">
-                                <label for="phone" class="form-label">Số điện thoại</label>
-                                <input type="tel" class="form-control" id="phone" name="phone" required value="<?php echo htmlspecialchars($user['SDT'] ?? ''); ?>">
-                            </div>
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="email" name="email" required value="<?php echo htmlspecialchars($user['email']); ?>">
-                            </div>
-                            <button type="submit" class="btn btn-primary">Cập Nhật Thông Tin</button>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Tên</label>
+                            <input type="text" class="form-control" id="name" name="name" required
+                                value="<?php echo htmlspecialchars($user['ten'] ?? ''); ?>">
+                        </div>
+                        <div class="mb-3">
+                            <label for="address" class="form-label">Địa chỉ</label>
+                            <input type="text" class="form-control" id="address" name="address" required
+                                value="<?php echo htmlspecialchars($user['diaChi'] ?? ''); ?>">
+                        </div>
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Số điện thoại</label>
+                            <input type="tel" class="form-control" id="phone" name="phone" required
+                                value="<?php echo htmlspecialchars($user['SDT'] ?? ''); ?>">
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" required
+                                value="<?php echo htmlspecialchars($user['email']); ?>">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Cập Nhật Thông Tin</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </body>
+
 </html>

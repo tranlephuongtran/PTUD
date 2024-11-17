@@ -30,7 +30,7 @@ if (isset($_POST['btnLogin'])) {
     if (mysqli_num_rows($result) == 1) {
         // Lưu trạng thái đăng nhập vào session
         $_SESSION['btnLogin'] = 1;
-
+        $_SESSION['user'] = $_POST['CustomerEmail'];
         // Chuyển hướng đến trang home/index.php
         echo '<script>
             alert("Đăng nhập thành công");
