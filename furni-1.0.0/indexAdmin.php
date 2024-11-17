@@ -10,9 +10,14 @@ if (isset($_GET['quanlydanhmuc'])) {
     $pagead = 'quanlysanpham';
 } else if (isset($_GET['quanlythetv'])) {
     $pagead = 'quanlythetv';
-} else {
+}
+else if (isset($_GET['quanlydausach'])) {
+    $pagead = 'quanlydausach';
+} 
+else {
     $pagead = 'quanlysanpham';
 }
+
 include("page/admin/" . $pagead . "/index.php");
 include("layout/footerAd.php");
 ?>

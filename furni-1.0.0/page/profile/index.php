@@ -51,10 +51,11 @@ if ($conn) {
         }
 
         .menu {
-            background-color: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+           
+            padding: 10px;
+            margin-left: -10px;
+            /* border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
         }
 
         .menu ul {
@@ -75,6 +76,11 @@ if ($conn) {
         .menu ul li a:hover {
             color: #007bff;
         }
+
+        #accountLinks {
+            margin-top: 10px;
+            /* display: none;  */
+        }
     </style>
 </head>
 <body>
@@ -82,18 +88,23 @@ if ($conn) {
 <div class="container container-main">
     <div class="row">
         <!-- Menu bên trái -->
-        <div class="col-md-3">
+        <div class="col-md-2">
             <div class="menu">
                 <ul>
-                    <li><a href="index.php?updateProfile">Cập nhật thông tin</a></li>
-                    <li><a href="index.php?change_password">Đổi mật khẩu</a></li>
-                    <li><a href="index.php?logout">Đăng xuất</a></li>
+                    <li>
+                        <a href="#" id="accountToggle">Tài khoản của tôi</a>
+                        <ul id="accountLinks" style="display: none;">
+                            <li><a href="index.php?updateProfile">Cập nhật thông tin</a></li>
+                            <li><a href="index.php?change_password">Đổi mật khẩu</a></li>
+                            <li><a href="index.php?history">Lịch sử thuê</a></li>
+                            <li><a href="index.php?logout">Đăng xuất</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>
-
         <!-- Hiển thị thông tin cá nhân -->
-        <div class="col-md-9">
+        <div class="col-md-10">
             <div class="tnb">
                 <h2 class="mb-4">Thông Tin Cá Nhân</h2>
                 <table class="table table-bordered">
@@ -113,20 +124,22 @@ if ($conn) {
                         <th>Số điện thoại</th>
                         <td><?php echo htmlspecialchars($user['SDT'] ?? 'Chưa cập nhật'); ?></td>
                     </tr>
-                    <tr>
-                        <th>Ngày sinh</th>
-                        <td><?php echo htmlspecialchars($user['ngaySinh'] ?? 'Chưa cập nhật'); ?></td>
-                    </tr>
-                    <tr>
-                        <th>Giới tính</th>
-                        <td><?php echo htmlspecialchars($user['gioiTinh'] ?? 'Chưa cập nhật'); ?></td>
-                    </tr>
                 </table>
-                <a href="updateProfile.php" class="btn btn-primary">Cập nhật thông tin</a>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    document.getElementById('accountToggle').addEventListener('click', function() {
+        var links = document.getElementById('accountLinks');
+        if (links.style.display === "none" || links.style.display === "") {
+            links.style.display = "block"; // Hiển thị các đường link
+        } else {
+            links.style.display = "none"; // Ẩn các đường link
+        }
+    });
+</script>
 
 </body>
 </html>

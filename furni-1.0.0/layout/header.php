@@ -134,7 +134,7 @@ error_reporting(0);
                     } elseif (isset($_SESSION['btnLogin']) || $_SESSION['btnLogin'] == 1) {
                         echo "
                             <li class='nav-item dropdown'>
-                                <a class='nav-link' href='#'>
+                                <a class='nav-link' href='index.php?profile'>
                                     <img src='layout/images/user.svg' id='avatarIcon' alt='User Icon'>
                                 </a>
                                 <!-- Dropdown Menu -->
