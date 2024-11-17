@@ -14,10 +14,34 @@ if (!isset($_GET['checkout'])) {
 } else {
 	$checkout = $_GET['checkout'];
 }
+$maKM = '';
+$maThe = '';
+$maKH = '';
 $khuyenMai = $_SESSION['total_rent'];
 $tongtienThueSauUuDai = $_SESSION['total_rent'];
 $total_deposit = number_format($_SESSION['total_deposit'], 0, ',', ',') ?? 0;
 $total_rent = number_format($_SESSION['total_rent'], 0, ',', ',') ?? 0;
+
+$conn = mysqli_connect("localhost", "nhomptud", "123456", "ptud");
+$thanhvien = 0;
+if ($conn) {
+	$str = "SELECT kh.maKH, nd.email, kh.mathe FROM khachhang kh JOIN nguoidung nd ON kh.maNguoiDung = nd.maNguoiDung";
+	$result = $conn->query($str);
+	if (mysqli_num_rows($result) > 0) {
+		while ($row = mysqli_fetch_assoc($result)) {
+			if ($_SESSION['user'] == $row['email'])
+				$maKH = $row['maKH'];
+			if ($_SESSION['user'] == $row['email'] && $row['mathe'] != null) {
+				$thanhvien = 1;
+				$maThe = $row['mathe'];
+				break;
+			}
+		}
+	}
+}
+if ($thanhvien == 1) {
+	$thanhvien = str_replace(',', '', $_SESSION['total_rent']) * 10 / 100;
+}
 ?>
 
 <!-- Start Hero Section -->
@@ -95,8 +119,10 @@ $total_rent = number_format($_SESSION['total_rent'], 0, ',', ',') ?? 0;
 														$result = $conn->query($str);
 														if (mysqli_num_rows($result) > 0) {
 															while ($row = mysqli_fetch_assoc($result)) {
-																$selected = (isset($_POST['km']) && $_POST['km'] == $row['phanTramKM']) ? "selected" : "";
+																$selected = (isset($_POST['km']) && $_POST['km'] == $row['phanTramKM']) ? 'selected' : "";
 																echo "<option value='{$row['phanTramKM']}' $selected>{$row['tenKM']}</option>";
+																if ($selected == 'selected')
+																	$maKM = $row['maKM'];
 															}
 														}
 													}
@@ -111,7 +137,7 @@ $total_rent = number_format($_SESSION['total_rent'], 0, ',', ',') ?? 0;
 							</div>
 							<div class="border  mb-3">
 								<div class="col-md-12">
-									<table class="table site-block-order-table mb-5">
+									<table class="table site-block-order-table mb-5" align="center">
 										<tbody>
 											<tr>
 												<td class="text-black font-weight-bold"><strong>Tổng Tiền Thuê</strong>
@@ -132,7 +158,7 @@ $total_rent = number_format($_SESSION['total_rent'], 0, ',', ',') ?? 0;
 														Viên</strong>
 												</td>
 												<td class="text-black font-weight-bold" style="text-align: right;">-
-													5.200
+													<?php echo number_format($thanhvien, 0, ',', ',') ?? 0; ?>
 													VND
 												</td>
 											</tr>
@@ -152,7 +178,7 @@ $total_rent = number_format($_SESSION['total_rent'], 0, ',', ',') ?? 0;
 												<td class="text-black" style="text-align: right;"><?php
 												$raw_total_rent = str_replace(',', '', $_SESSION['total_rent']);
 												$raw_total_km = str_replace(',', '', $khuyenMai); // Loại bỏ dấu phẩy
-												$tongtienThueSauUuDai = $raw_total_rent - $raw_total_km;
+												$tongtienThueSauUuDai = $raw_total_rent - $raw_total_km - $thanhvien;
 												echo number_format($tongtienThueSauUuDai, 0, ',', ','); ?> VND</td>
 											</tr>
 											<tr>
@@ -188,8 +214,9 @@ $total_rent = number_format($_SESSION['total_rent'], 0, ',', ',') ?? 0;
 
 
 							<div class="form-group">
-								<button class="btn btn-black btn-lg py-3 btn-block"
-									onclick="window.location='index.php?confirmpayment'">Xác nhận</button>
+								<form method="post" action="index.php?confirmpayment"><button type='submit'
+										class="btn btn-black btn-lg py-3 btn-block" name="confirm">Xác
+										nhận</button></form>
 							</div>
 
 						</div>
@@ -208,3 +235,50 @@ $total_rent = number_format($_SESSION['total_rent'], 0, ',', ',') ?? 0;
 <script src="js/bootstrap.bundle.min.js"></script>
 <script src="js/tiny-slider.js"></script>
 <script src="js/custom.js"></script>
+<?php
+if (isset($_POST['km']) && $_POST['km'] > 0) {
+	$_SESSION['maKM'] = $maKM;
+}
+if (isset($_POST['confirm'])) {
+	$total_deposit = str_replace(',', '', $total_deposit); //tongtiencoc
+	//tong tien thue = total
+	$ship = 30000;
+	$now = date_create()->format('Y-m-d');
+	$km = $_SESSION['maKM'];
+	$date = new DateTime('now');
+	$date->modify('+15 days');
+	$date = $date->format('Y-m-d');
+	$str = "INSERT INTO donthuesach(ngayThue, tongTienThue, tongTienCoc, phiShip, maKM, maKH, maThe ) VALUES('$now', $total, $total_deposit, $ship, $km, $maKH, '$maThe')";
+	$conn = mysqli_connect("localhost", "nhomptud", "123456", "ptud");
+	if ($conn) {
+		if ($conn->query($str)) {
+			$maDon = $conn->insert_id;
+			$_SESSION['idPay'] = $maDon;
+			foreach ($_SESSION['cart'] as $item) {
+				$maDauSach = $item['id'];
+				$price = $item['price'];
+				$deposit = $item['deposit'];
+				$quantity = $item['quantity'];
+				$tinhTrang = 'Đang thuê';
+				$str = "SELECT*FROM sach where tinhTrang='Con sach' and maDauSach=$maDauSach LIMIT $quantity";
+				$result = $conn->query($str);
+				if (mysqli_num_rows($result) > 0) {
+					while ($row = mysqli_fetch_assoc($result)) {
+						$str = "INSERT INTO chitiethoadon(giaThue, ngayTra, tinhTrangThue, tienCoc, maSach, maDon) VALUES($price, '$date', '$tinhTrang', $deposit, {$row['maSach']}, $maDon)";
+						if ($conn->query($str)) {
+							$str = "UPDATE sach SET tinhTrang='Dang thue' WHERE maSach={$row['maSach']}";
+							if ($conn->query($str)) {
+							}
+						}
+					}
+				}
+				$str = "UPDATE dausach SET soLuongDangThue = $quantity WHERE maDauSach=$maDauSach";
+				if ($conn->query($str)) {
+				}
+			}
+			echo "<script>alert('Xác nhận thành công')</script>";
+		}
+	} else
+		echo "<script>alert('Xác nhận thất bại')</script>";
+}
+?>
