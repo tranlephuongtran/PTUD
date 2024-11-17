@@ -160,8 +160,8 @@ if (isset($_POST['checkout'])) {
 								<span class="text-black">Tổng tiền cọc</span>
 							</div>
 							<div class="col-md-5" style="text-align: right;">
-								<strong class="text-black"
-									id="total-deposit"><?php echo number_format($total_deposit, 0, '.', '.'); ?>
+								<strong class="text-black" id="total-deposit"><?php $_SESSION['total_deposit'] = $total_deposit;
+								echo number_format($total_deposit, 0, '.', '.'); ?>
 									VND</strong>
 							</div>
 						</div>
@@ -170,8 +170,9 @@ if (isset($_POST['checkout'])) {
 								<span class="text-black">Tổng tiền thuê</span>
 							</div>
 							<div class="col-md-5" style="text-align: right;">
-								<strong class="text-black"
-									id="total-rent"><?php echo number_format($total_rent, 0, '.', '.'); ?> VND</strong>
+								<strong class="text-black" id="total-rent"><?php $_SESSION['total_rent'] = $total_rent;
+								echo number_format($total_rent, 0, '.', '.'); ?>
+									VND</strong>
 							</div>
 						</div>
 						<div class="row mb-5">
