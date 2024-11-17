@@ -1,6 +1,7 @@
 <?php
 ob_start();
 session_start();
+error_reporting(0);
 include("layout/header.php");
 if (isset($_GET['about'])) {
     $page = 'about';
@@ -18,7 +19,8 @@ if (isset($_GET['about'])) {
     $page = 'home';
 } else if (isset($_GET['login'])) {
     $page = 'login';
-} else if (isset($_GET['payment'])) {
+}
+else if (isset($_GET['payment'])) {
     $page = 'payment';
 } else if (isset($_GET['productdetails'])) {
     $page = 'productdetails';
@@ -36,7 +38,13 @@ if (isset($_GET['about'])) {
     $page = 'category';
 } else if (isset($_GET['paymentlate'])) {
     $page = 'paymentlate';
-} else {
+} else if (isset($_GET['profile'])) {
+    $page = 'profile';
+} 
+else if (isset($_GET['logout'])) {
+    $page = 'logout';
+}
+else {
     $page = 'home';
 }
 if (isset($_GET['logout'])) {

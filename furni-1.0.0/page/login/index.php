@@ -69,6 +69,7 @@ mysqli_close($conn);
             <button type="submit" name="btnLogin" class="btn"> Đăng nhập </button>
             <div class="register-link">
                 <p>Chưa có tài khoản?<a href="index.php?register"> Đăng ký </a></p>
+                <p>Chưa có tài khoản?<a href="index.php?register"> Đăng ký </a></p>
             </div>
         </form>
     </div>
