@@ -5,12 +5,147 @@
 * Template URI: https://untree.co/
 * License: https://creativecommons.org/licenses/by/3.0/
 */ -->
+<style>
+	.testimonial-section {
+		padding: 3rem 0 7rem 0;
+	}
 
-<?php 
-require_once 'myclass/products.php'; 
+	.testimonial-slider-wrap {
+		position: relative;
+	}
 
-$product = new Product(); 
-$result = $product->getHighlightedBooks(); 
+	.testimonial-slider-wrap .tns-inner {
+		padding-top: 30px;
+	}
+
+	.testimonial-slider-wrap .item .testimonial-block blockquote {
+		font-size: 16px;
+	}
+
+	@media (min-width: 768px) {
+		.testimonial-slider-wrap .item .testimonial-block blockquote {
+			line-height: 32px;
+			font-size: 18px;
+		}
+	}
+
+	.testimonial-slider-wrap .item .testimonial-block .author-info .author-pic {
+		margin-bottom: 20px;
+	}
+
+	.testimonial-slider-wrap .item .testimonial-block .author-info .author-pic img {
+		width: 90px;
+		height: 90px;
+		border-radius: 50%;
+	}
+
+	.testimonial-slider-wrap .item .testimonial-block .author-info h3 {
+		font-size: 14px;
+		font-weight: 700;
+		color: #2f2f2f;
+		margin-bottom: 0;
+	}
+
+	.testimonial-slider-wrap #testimonial-nav {
+		position: absolute;
+		top: 50%;
+		z-index: 99;
+		width: 100%;
+		display: none;
+	}
+
+	@media (min-width: 768px) {
+		.testimonial-slider-wrap #testimonial-nav {
+			display: block;
+		}
+	}
+
+	.testimonial-slider-wrap #testimonial-nav>span {
+		cursor: pointer;
+		position: absolute;
+		width: 58px;
+		height: 58px;
+		line-height: 58px;
+		border-radius: 50%;
+		background: rgba(59, 93, 80, 0.1);
+		color: #2f2f2f;
+		-webkit-transition: 0.3s all ease;
+		-o-transition: 0.3s all ease;
+		transition: 0.3s all ease;
+	}
+
+	.testimonial-slider-wrap #testimonial-nav>span:hover {
+		/* background: #3b5d50; */
+		background: #a76d49;
+		color: #ffffff;
+	}
+
+	.testimonial-slider-wrap #testimonial-nav span .fa-chevron-left,
+	.testimonial-slider-wrap #testimonial-nav span .fa-chevron-right {
+		line-height: 3.4;
+	}
+
+	.testimonial-slider-wrap #testimonial-nav .prev {
+		left: -10px;
+	}
+
+	.testimonial-slider-wrap #testimonial-nav .next {
+		right: 0;
+	}
+
+	.testimonial-slider-wrap .tns-nav {
+		position: absolute;
+		bottom: -50px;
+		left: 50%;
+		-webkit-transform: translateX(-50%);
+		-ms-transform: translateX(-50%);
+		transform: translateX(-50%);
+	}
+
+	.testimonial-slider-wrap .tns-nav button {
+		background: none;
+		border: none;
+		display: inline-block;
+		position: relative;
+		width: 0 !important;
+		height: 7px !important;
+		margin: 2px;
+	}
+
+	.testimonial-slider-wrap .tns-nav button:active,
+	.testimonial-slider-wrap .tns-nav button:focus,
+	.testimonial-slider-wrap .tns-nav button:hover {
+		outline: none;
+		-webkit-box-shadow: none;
+		box-shadow: none;
+		background: none;
+	}
+
+	.testimonial-slider-wrap .tns-nav button:before {
+		display: block;
+		width: 7px;
+		height: 7px;
+		left: 0;
+		top: 0;
+		position: absolute;
+		content: "";
+		border-radius: 50%;
+		-webkit-transition: 0.3s all ease;
+		-o-transition: 0.3s all ease;
+		transition: 0.3s all ease;
+		background-color: #d6d6d6;
+	}
+
+	.testimonial-slider-wrap .tns-nav button:hover:before,
+	.testimonial-slider-wrap .tns-nav button.tns-nav-active:before {
+		background-color: #a76d49;
+	}
+</style>
+<?php
+require_once 'myclass/products.php';
+
+$product = new Product();
+$result = $product->getHighlightedBooks();
 $resultVrB = $product->getViralBooks();
 $resultDmB = $product->getDemoBooks();
 ?>
@@ -38,7 +173,7 @@ if (!isset($_GET['home'])) {
 							class="btn btn-white-outline">Khám Phá</a></p>
 				</div>
 			</div>
-			
+
 			<div class="col-lg-7">
 				<div class="hero books-slider">
 					<div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
@@ -209,7 +344,7 @@ if (!isset($_GET['home'])) {
 	<div class="container">
 		<div class="row justify-content-between">
 			<div class="col-lg-6">
-				<h2 class="section-title">Tại sao chọn chúng tôi</h2>	
+				<h2 class="section-title">Tại sao chọn chúng tôi</h2>
 				<p>Đừng lo lắng, hãy chọn sự an toàn và chất lượng. Chúng tôi cam kết mang đến dịch vụ
 					cho thuê sách tốt nhất với sự hài lòng của khách hàng là ưu tiên hàng đầu.</p>
 
@@ -270,32 +405,32 @@ if (!isset($_GET['home'])) {
 
 <!-- Start Featured Books -->
 <!-- <div class="we-help-section"> -->
-<div class="container product-section"> 
-	<div class="row"> 
-		<div class="col-12"> 
-			<span class="highlight-title">Sách Nổi Bật</span> 
+<div class="container product-section">
+	<div class="row">
+		<div class="col-12">
+			<span class="highlight-title">Sách Nổi Bật</span>
 		</div>
 		<?php
-			if ($result->num_rows > 0) {
-				// Output data of each row
-				while ($row = $result->fetch_assoc()) {
-					$formatted_price = number_format($row["giaThue"], 0, ',', '.') . ' VND';
-					echo '<div class="col-md-3"> 
+		if ($result->num_rows > 0) {
+			// Output data of each row
+			while ($row = $result->fetch_assoc()) {
+				$formatted_price = number_format($row["giaThue"], 0, ',', '.') . ' VND';
+				echo '<div class="col-md-3"> 
 							<a class="product-item" href="cart.html"> 
-								<img src="layout/images/'.$row["hinhAnh"].'" class="img-fluid product-thumbnail"> 
+								<img src="layout/images/' . $row["hinhAnh"] . '" class="img-fluid product-thumbnail"> 
 								<div class="card-information">
-									<h3 class="product-title">'.$row["tenDauSach"].'</h3> 
-									<strong class="product-price">'.$formatted_price.'</strong> 
+									<h3 class="product-title">' . $row["tenDauSach"] . '</h3> 
+									<strong class="product-price">' . $formatted_price . '</strong> 
 									<span class="icon-cross"> 
 										<img src="layout/images/cross.svg" class="img-fluid"> 
 									</span> 
 								</div>
 							</a> 
 						</div> ';
-				}
-			} else {
-				echo 'Đang cập nhật sản phẩm';
 			}
+		} else {
+			echo 'Đang cập nhật sản phẩm';
+		}
 		?>
 		<!-- <div class="col-md-3"> 
 			<a class="product-item" href="cart.html"> 
@@ -388,7 +523,11 @@ if (!isset($_GET['home'])) {
 
 									<div class="testimonial-block text-center">
 										<blockquote class="mb-5">
-											<p>&ldquo;"Tôi đã sử dụng dịch vụ của cửa hàng cho thuê mượn sách này hơn một năm nay và hoàn toàn hài lòng. Cửa hàng có nhiều đầu sách phong phú, từ sách học thuật đến tiểu thuyết. Đội ngũ nhân viên nhiệt tình và hỗ trợ khách hàng rất tốt. Chắc chắn tôi sẽ tiếp tục sử dụng dịch vụ của cửa hàng.&rdquo;</p>
+											<p>&ldquo;"Tôi đã sử dụng dịch vụ của cửa hàng cho thuê mượn sách này hơn
+												một năm nay và hoàn toàn hài lòng. Cửa hàng có nhiều đầu sách phong phú,
+												từ sách học thuật đến tiểu thuyết. Đội ngũ nhân viên nhiệt tình và hỗ
+												trợ khách hàng rất tốt. Chắc chắn tôi sẽ tiếp tục sử dụng dịch vụ của
+												cửa hàng.&rdquo;</p>
 										</blockquote>
 
 										<div class="author-info">
@@ -412,7 +551,10 @@ if (!isset($_GET['home'])) {
 
 									<div class="testimonial-block text-center">
 										<blockquote class="mb-5">
-											<p>&ldquo;Cửa hàng này thực sự là một kho báu cho những người yêu sách như tôi. Giá thuê mượn sách rất hợp lý và có nhiều chương trình khuyến mãi hấp dẫn. Tôi thường xuyên thuê sách về đọc và luôn cảm thấy hài lòng với chất lượng dịch vụ.&rdquo;</p>
+											<p>&ldquo;Cửa hàng này thực sự là một kho báu cho những người yêu sách như
+												tôi. Giá thuê mượn sách rất hợp lý và có nhiều chương trình khuyến mãi
+												hấp dẫn. Tôi thường xuyên thuê sách về đọc và luôn cảm thấy hài lòng với
+												chất lượng dịch vụ.&rdquo;</p>
 										</blockquote>
 
 										<div class="author-info">
@@ -436,7 +578,10 @@ if (!isset($_GET['home'])) {
 
 									<div class="testimonial-block text-center">
 										<blockquote class="mb-5">
-											<p>&ldquo;Dịch vụ của cửa hàng rất tuyệt vời! Tôi tìm thấy rất nhiều cuốn sách hiếm mà tôi không thể tìm thấy ở đâu khác. Hệ thống website cũng rất dễ sử dụng, giúp tôi dễ dàng tìm và đặt sách. Tôi rất vui vì đã tìm thấy cửa hàng này.&rdquo;</p>
+											<p>&ldquo;Dịch vụ của cửa hàng rất tuyệt vời! Tôi tìm thấy rất nhiều cuốn
+												sách hiếm mà tôi không thể tìm thấy ở đâu khác. Hệ thống website cũng
+												rất dễ sử dụng, giúp tôi dễ dàng tìm và đặt sách. Tôi rất vui vì đã tìm
+												thấy cửa hàng này.&rdquo;</p>
 										</blockquote>
 
 										<div class="author-info">
