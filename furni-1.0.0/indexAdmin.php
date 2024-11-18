@@ -10,6 +10,12 @@ if (isset($_GET['quanlydanhmuc'])) {
     $pagead = 'quanlysanpham';
 } else if (isset($_GET['quanlythetv'])) {
     $pagead = 'quanlythetv';
+} else if (isset($_GET['quanlythuetra'])) {
+    $pagead = 'quanlythuetra';
+} else if (isset($_GET['baocao'])) {
+    $pagead = 'baocao';
+} else if (isset($_GET['chitietdonthue'])) {
+    $pagead = 'chitietdonthue';
 } else {
     $pagead = 'quanlysanpham';
 }

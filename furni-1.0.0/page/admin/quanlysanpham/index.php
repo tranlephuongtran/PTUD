@@ -199,9 +199,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="pagination" style="text-align: center; margin-top: 20px;">
             <?php for ($i = 1; $i <= $number_of_page; $i++): ?>
                 <?php if ($i == $quanlysanpham): ?>
-                    <a class="active" href="index.php?quanlysanpham=<?= $i ?>"><?= $i ?></a>
+                    <a class="active" href="indexAdmin.php?quanlysanpham=<?= $i ?>"><?= $i ?></a>
                 <?php else: ?>
-                    <a href="index.php?quanlysanpham=<?= $i ?>"><?= $i ?></a>
+                    <a href="indexAdmin.php?quanlysanpham=<?= $i ?>"><?= $i ?></a>
                 <?php endif; ?>
             <?php endfor; ?>
         </div>
