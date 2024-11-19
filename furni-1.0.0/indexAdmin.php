@@ -19,6 +19,7 @@ if (isset($_GET['quanlydanhmuc'])) {
 } else {
     $pagead = 'quanlysanpham';
 }
+
 include("page/admin/" . $pagead . "/index.php");
 include("layout/footerAd.php");
 ?>

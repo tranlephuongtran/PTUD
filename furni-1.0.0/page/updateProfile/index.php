@@ -1,7 +1,6 @@
 <?php
 session_start();
 error_reporting(0);
-
 // Kiểm tra nếu người dùng chưa đăng nhập
 $email = $_SESSION['user'];
 $conn = mysqli_connect("localhost", "nhomptud", "123456", "ptud");
@@ -22,7 +21,6 @@ if ($conn) {
         exit();
     }
 }
-
 // Xử lý cập nhật thông tin khi form được gửi
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     var_dump($_POST);
@@ -43,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         echo "<script>
             alert('Cập nhật thông tin thành công!');
-            window.location.href = 'index.php';
+            window.location.href = 'index.php?profile';
         </script>";
     } else {
         echo "<script>
@@ -65,6 +63,7 @@ mysqli_close($conn);
     <link href="../layout/css/style.css" rel="stylesheet">
     <style>
         .container-main {
+            margin-top: 15px;
             margin-bottom: 20px;
         }
 
@@ -76,10 +75,10 @@ mysqli_close($conn);
         }
 
         .menu {
-            background-color: #f8f9fa;
+            /* background-color: #f8f9fa; */
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            /* border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
         }
 
         .menu ul {
@@ -104,23 +103,25 @@ mysqli_close($conn);
 </head>
 
 <body>
-    <div class="container container-main mt-5">
+    <div class="container container-main">
         <div class="row">
             <!-- Menu bên trái -->
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <div class="menu">
                     <ul>
+                        <li><a href="index.php?profile">Tài khoản của tôi</a></li>
                         <li><a href="index.php?change_password">Đổi mật khẩu</a></li>
-                        <li><a href="index.php?logout">Đăng xuất</a></li>
+                        <li><a href="index.php?history">Lịch sử thuê</a></li>
+                        <li><a href="index.php?logout">Đăng xuất</a></li>                       
                     </ul>
                 </div>
             </div>
 
             <!-- Form cập nhật thông tin -->
-            <div class="col-md-9">
+            <div class="col-md-10">
                 <div class="tnb">
                     <h2 class="mb-4">Cập Nhật Thông Tin</h2>
-                    <form method="POST" action="">
+                    <form method="POST" action="index.php?updateProfile">
                         <div class="mb-3">
                             <label for="name" class="form-label">Tên</label>
                             <input type="text" class="form-control" id="name" name="name" required
