@@ -214,8 +214,8 @@ if ($thanhvien == 1) {
 
 
 							<div class="form-group">
-								<form method="post" action="index.php?confirmpayment"><button type='submit'
-										class="btn btn-black btn-lg py-3 btn-block" name="confirm">Xác
+								<form method="post"><button type='submit' class="btn btn-black btn-lg py-3 btn-block"
+										name="confirm">Xác
 										nhận</button></form>
 							</div>
 
@@ -248,7 +248,7 @@ if (isset($_POST['confirm'])) {
 	$date = new DateTime('now');
 	$date->modify('+15 days');
 	$date = $date->format('Y-m-d');
-	$str = "INSERT INTO donthuesach(ngayThue, tongTienThue, tongTienCoc, phiShip, maKM, maKH, maThe ) VALUES('$now', $total, $total_deposit, $ship, $km, $maKH, '$maThe')";
+	$str = "INSERT INTO donthuesach(ngayThue, tongTienThue, tongTienCoc, tinhTrangThanhToan, phiShip, maKM, maKH, maThe ) VALUES('$now', $total, $total_deposit, 'Chua thanh toan', $ship, $km, $maKH, '$maThe')";
 	$conn = mysqli_connect("localhost", "nhomptud", "123456", "ptud");
 	if ($conn) {
 		if ($conn->query($str)) {
@@ -276,7 +276,7 @@ if (isset($_POST['confirm'])) {
 				if ($conn->query($str)) {
 				}
 			}
-			echo "<script>alert('Xác nhận thành công')</script>";
+			echo "<script>alert('Xác nhận thành công'); window.location.href = 'index.php?confirmpayment'</script>";
 		}
 	} else
 		echo "<script>alert('Xác nhận thất bại')</script>";

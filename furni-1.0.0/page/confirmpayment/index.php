@@ -39,7 +39,8 @@ if (!isset($_GET['confirmpayment'])) {
                 <!-- <h2 class="h3 mb-3 text-black">THÔNG TIN ĐƠN HÀNG</h2> -->
                 <div class="p-3 p-lg-5 border bg-white text-center">
                     <h2 class=" mb-3 text-black">BẠN CÓ MUỐN THANH TOÁN NGAY KHÔNG ?</h2>
-                    <button class="btn btn-primary btn-block" onclick="window.location='index.php?payment'">Thanh
+                    <button class="btn btn-primary btn-block"
+                        onclick="window.location='index.php?payment=<?php echo $_SESSION['idpay'] ?>'">Thanh
                         toán</button>
                     <button class="btn btn-primary btn-block" style="width: 150px;" onclick="window.location='#'">Để
                         sau</button>
