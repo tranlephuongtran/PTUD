@@ -90,7 +90,9 @@
             <div class="row pt-4">
                 <div class="col-lg-6">
                     <p class="mb-2 text-center text-lg-start">Copyright &copy;
-                        <script>document.write(new Date().getFullYear());</script>. All Rights Reserved. &mdash;
+                        <script>
+                            document.write(new Date().getFullYear());
+                        </script>. All Rights Reserved. &mdash;
                         Designed with love by A Plus. Distributed By A Plus
 
                     </p>
@@ -109,11 +111,11 @@
     </div>
 </footer>
 <!-- End Footer Section -->
+<script src="layout/js/bootstrap.bundle.min.js"></script>
+<script src="layout/js/tiny-slider.js"></script>
+<script src="layout/js/custom.js"></script>
 
 
-<script src="js/bootstrap.bundle.min.js"></script>
-<script src="js/tiny-slider.js"></script>
-<script src="js/custom.js"></script>
 </body>
 
 </html>

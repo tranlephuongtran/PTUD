@@ -2,6 +2,15 @@
 ob_start();
 session_start();
 error_reporting(0);
+if (isset($_GET['register'])) {
+    $page = 'register';
+    include("page/" . $page . "/index.php");
+    exit();
+} else if (isset($_GET['login'])) {
+    $page = 'login';
+    include("page/" . $page . "/index.php"); // include vào đang ở cấp Page ngoài cùng
+    exit();
+}
 include("layout/header.php");
 if (isset($_GET['about'])) {
     $page = 'about';
@@ -17,15 +26,10 @@ if (isset($_GET['about'])) {
     $page = 'history';
 } else if (isset($_GET['home'])) {
     $page = 'home';
-} else if (isset($_GET['login'])) {
-    $page = 'login';
-}
-else if (isset($_GET['payment'])) {
+} else if (isset($_GET['payment'])) {
     $page = 'payment';
 } else if (isset($_GET['productdetails'])) {
     $page = 'productdetails';
-} else if (isset($_GET['register'])) {
-    $page = 'register';
 } else if (isset($_GET['services'])) {
     $page = 'services';
 } else if (isset($_GET['shop'])) {
@@ -40,11 +44,9 @@ else if (isset($_GET['payment'])) {
     $page = 'paymentlate';
 } else if (isset($_GET['profile'])) {
     $page = 'profile';
-} 
-else if (isset($_GET['logout'])) {
+} else if (isset($_GET['logout'])) {
     $page = 'logout';
-}
-else {
+} else {
     $page = 'home';
 }
 if (isset($_GET['logout'])) {
@@ -59,4 +61,3 @@ if (isset($_GET['logout'])) {
 include("page/" . $page . "/index.php");
 include("layout/footer.php");
 ob_end_flush();
-?>

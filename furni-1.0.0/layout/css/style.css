@@ -51,7 +51,7 @@ a.more {
   font-weight: 600;
 }
 
-.custom-navbar .navbar-brand>span {
+.custom-navbar .navbar-brand > span {
   opacity: 0.4;
 }
 
@@ -611,7 +611,7 @@ a.more {
   }
 }
 
-.testimonial-slider-wrap #testimonial-nav>span {
+.testimonial-slider-wrap #testimonial-nav > span {
   cursor: pointer;
   position: absolute;
   width: 58px;
@@ -625,10 +625,15 @@ a.more {
   transition: 0.3s all ease;
 }
 
-.testimonial-slider-wrap #testimonial-nav>span:hover {
+.testimonial-slider-wrap #testimonial-nav > span:hover {
   /* background: #3b5d50; */
   background: #a76d49;
   color: #ffffff;
+}
+
+.testimonial-slider-wrap #testimonial-nav span .fa-chevron-left,
+.testimonial-slider-wrap #testimonial-nav span .fa-chevron-right {
+  line-height: 3.4;
 }
 
 .testimonial-slider-wrap #testimonial-nav .prev {
@@ -1226,6 +1231,18 @@ textarea {
   font-size: 16px;
   color: #333;
   font-weight: 600;
+}
+
+.form-register a {
+  display: block;
+  font-size: 14.5px;
+  text-decoration: none;
+  color: #fff;
+  margin: 2px 0 2px 5px;
+}
+
+.form-register a:hover {
+  text-decoration: underline;
 }
 
 @media (max-width: 576px) {
