@@ -13,6 +13,7 @@ if (!isset($_GET['confirmpayment'])) {
 } else {
     $confirmpayment = $_GET['confirmpayment'];
 }
+$maDon = $_SESSION['idPay'] ?? 0;
 ?>
 
 <!-- Start Hero Section -->
@@ -40,7 +41,7 @@ if (!isset($_GET['confirmpayment'])) {
                 <div class="p-3 p-lg-5 border bg-white text-center">
                     <h2 class=" mb-3 text-black">BẠN CÓ MUỐN THANH TOÁN NGAY KHÔNG ?</h2>
                     <button class="btn btn-primary btn-block"
-                        onclick="window.location='index.php?payment=<?php echo $_SESSION['idpay'] ?>'">Thanh
+                        onclick="window.location='index.php?payment=<?php echo $maDon ?>'">Thanh
                         toán</button>
                     <button class="btn btn-primary btn-block" style="width: 150px;" onclick="window.location='#'">Để
                         sau</button>
