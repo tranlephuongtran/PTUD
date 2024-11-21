@@ -17,27 +17,55 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $email = $_POST['email'];
         $sql = "INSERT INTO thethanhvien (maThe, hoTen, email) VALUES ('$maThe','$hoTen', '$email')";
         if ($obj->themdulieu($sql)) {
-            echo '<script>alert("Thêm mới thẻ thành viên thành công");</script>';
+            $message = "Thêm mới thẻ thành viên thành công";
         } else {
-            echo '<script>alert("Thêm mới thẻ thành viên thất bại");</script>';
+            $message = "Thêm mới thẻ thành viên thất bại";
         }
     }
 }
 ?>
-
+<script>
+    // Show alert message if exists
+    <?php if ($message): ?>
+        alert("<?= $message ?>");
+        window.location.href = "indexAdmin.php?quanlythetv"; // Redirect after alert
+    <?php endif; ?>
+</script>
 <style>
-    .card.strpied-tabled-with-hover {
-        border-radius: 15px;
-        overflow: hidden;
+    .modal.show {
+        display: block !important;
+        /* Đảm bảo modal hiển thị */
     }
 
-    .card.strpied-tabled-with-hover .table thead th,
-    .card.strpied-tabled-with-hover .table tbody td {
-        border: none;
+    .modal-dialog {
+        position: fixed !important;
+        top: 10% !important;
+        left: 50% !important;
+        transform: translate(-50%, -10%) !important;
+        margin: 0 !important;
+        z-index: 1055 !important;
+        max-width: 800px;
+        width: 90%;
+
     }
 
-    .card.strpied-tabled-with-hover .table thead {
-        background-color: #f8f9fa;
+
+
+    .modal-body {
+        overflow-y: auto;
+        max-height: 70vh;
+        padding: 2rem;
+    }
+
+
+
+    .modal-footer {
+        justify-content: center;
+    }
+
+    .form-control {
+        height: auto;
+        padding: 0.75rem 1rem;
     }
 </style>
 
@@ -100,7 +128,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
                             <button type="submit" class="btn btn-primary" name="addMember">Thêm</button>
                         </div>
                     </div>

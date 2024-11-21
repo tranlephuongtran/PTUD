@@ -93,5 +93,13 @@ class database
         }
         return $str;
     }
+    public function layMaNguoiDungMoiNhat()
+    {
+        $link = $this->connect();
+        $result = $link->query("SELECT MAX(maNguoiDung) AS maNguoiDungMoi FROM nguoidung");
+        $row = $result->fetch_assoc();
+        return $row['maNguoiDungMoi'] ?? null;
+    }
+
 }
 ?>

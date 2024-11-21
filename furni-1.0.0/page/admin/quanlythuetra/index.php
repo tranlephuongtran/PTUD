@@ -67,7 +67,10 @@ $result = $conn->query($sql);
                                             echo "<td><a href='indexAdmin.php?chitietdonthue&maDon=" . $row['maDon'] . "'>" . $row['maDon'] . "</a></td>";
                                             echo "<td>" . $row['maKH'] . "</td>";
                                             echo "<td>" . $row['ten'] . "</td>";
+
                                             echo "<td class='text-success'>" . $row['tinhTrangThue'] . "</td>";
+
+
                                             echo "</tr>";
                                         }
                                     } else {

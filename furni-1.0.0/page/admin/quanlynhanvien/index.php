@@ -8,26 +8,64 @@ if (!isset($_GET['quanlynhanvien'])) {
 $obj = new database();
 $sql = "
     SELECT nv.maNhanVien, nv.chucVu, nv.ngayVaoLam, nv.maNguoiDung, 
-           nd.ten, nd.SDT, nd.diaChi, nd.email 
+           nd.ten, nd.SDT, nd.diaChi, nd.email, tk.password
     FROM nhanvien nv 
     JOIN nguoidung nd ON nv.maNguoiDung = nd.maNguoiDung
+    JOIN taikhoan tk ON nd.maNguoiDung = tk.maNguoiDung
 ";
 
 $nhanvien = $obj->xuatdulieu($sql);
 
-// Xử lý cập nhật danh mục
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['addEmployee'])) {
         $chucVu = $_POST['chucVu'];
         $ngayVaoLam = $_POST['ngayVaoLam'];
-        $maNguoiDung = $_POST['maNguoiDung'];
-        $sql = "INSERT INTO nhanvien (chucVu, ngayVaoLam, maNguoiDung ) VALUES ('$chucVu', '$ngayVaoLam', '$maNguoiDung')";
-        if ($obj->themdulieu($sql)) {
-            echo '<script>alert("Thêm mới Nhân viên thành công");</script>';
+        $ten = $_POST['ten'];
+        $soDienThoai = $_POST['SDT'];
+        $diaChi = $_POST['diaChi'];
+        $email = $_POST['email'];
+        $password = $_POST['password']; // Thêm password vào
+
+        // Thêm vào bảng nguoidung trước
+        $sqlNguoiDung = "
+            INSERT INTO nguoidung (ten, SDT, diaChi, email) 
+            VALUES ('$ten', '$soDienThoai', '$diaChi', '$email')
+        ";
+
+        if ($obj->themdulieu($sqlNguoiDung)) {
+            // Lấy mã người dùng vừa thêm
+            $maNguoiDung = $obj->layMaNguoiDungMoiNhat(); // Giả sử hàm này lấy mã người dùng mới
+
+            // Thêm vào bảng taikhoan (tạo tài khoản với maNguoiDung đã lấy được)
+            $sqlTaiKhoan = "
+                INSERT INTO taikhoan (email, password, maNguoiDung) 
+                VALUES ('$email', '$password', '$maNguoiDung')
+            ";
+
+            if ($obj->themdulieu($sqlTaiKhoan)) {
+                // Thêm vào bảng nhanvien
+                $sqlNhanVien = "
+                    INSERT INTO nhanvien (chucVu, ngayVaoLam, maNguoiDung) 
+                    VALUES ('$chucVu', '$ngayVaoLam', '$maNguoiDung')
+                ";
+
+                if ($obj->themdulieu($sqlNhanVien)) {
+                    $message = "Thêm mới nhân viên thành công";
+                } else {
+                    $message = "Thêm mới nhân viên thất bại";
+                }
+            } else {
+                $message = "Thêm mới tài khoản thất bại";
+            }
         } else {
-            echo '<script>alert("Thêm mới Nhân viên thất bại");</script>';
+            $message = "Thêm mới nhân viên thất bại";
         }
     }
+
+
+
+
 
     if (isset($_POST['btXoa'])) {
         $maNhanVien = $_POST['btXoa'];
@@ -39,56 +77,88 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($result) {
             $maNguoiDung = $result[0]['maNguoiDung'];
 
-            // Xóa nhân viên trong bảng nhanvien
+            // Xóa tài khoản liên quan
+            $sqlXoaTaiKhoan = "DELETE FROM taikhoan WHERE maNguoiDung='$maNguoiDung'";
+            $obj->xoadulieu($sqlXoaTaiKhoan);
+
+            // Xóa nhân viên
             $sqlXoaNhanVien = "DELETE FROM nhanvien WHERE maNhanVien='$maNhanVien'";
             if ($obj->xoadulieu($sqlXoaNhanVien)) {
-                // (Tùy chọn) Xóa trong bảng nguoidung nếu không muốn giữ thông tin người dùng
-                // $sqlXoaNguoiDung = "DELETE FROM nguoidung WHERE maNguoiDung='$maNguoiDung'";
-                // $obj->xoadulieu($sqlXoaNguoiDung);
-
-                echo '<script>alert("Xóa Nhân viên thành công");</script>';
+                // Xóa người dùng
+                $sqlXoaNguoiDung = "DELETE FROM nguoidung WHERE maNguoiDung='$maNguoiDung'";
+                if ($obj->xoadulieu($sqlXoaNguoiDung)) {
+                    $message = "Xóa nhân viên thành công";
+                } else {
+                    $message = "Xóa người dùng thất bại";
+                }
             } else {
-                echo '<script>alert("Xóa Nhân viên thất bại");</script>';
+                $message = "Xóa nhân viên thất bại";
             }
         } else {
-            echo '<script>alert("Không tìm thấy nhân viên cần xóa!");</script>';
+            $message = "Không tìm thấy nhân viên cần xóa";
         }
     }
 
 
+
     if (isset($_POST['btSua'])) {
+        // Lấy các giá trị từ $_POST
         $maNhanVien = $_POST['maNhanVien'];
         $chucVu = $_POST['chucVu'];
         $ngayVaoLam = $_POST['ngayVaoLam'];
-        $maNguoiDung = $_POST['maNguoiDung'];
         $hoTen = $_POST['ten'];
         $soDienThoai = $_POST['SDT'];
         $diaChi = $_POST['diaChi'];
         $email = $_POST['email'];
+        $password = $_POST['password'];
 
-        // Cập nhật bảng nhanvien
-        $sqlNhanVien = "
-            UPDATE nhanvien 
-            SET chucVu='$chucVu', ngayVaoLam='$ngayVaoLam', maNguoiDung='$maNguoiDung' 
-            WHERE maNhanVien='$maNhanVien'
-        ";
+        // Lấy mã người dùng từ nhân viên trước khi cập nhật
+        $sqlNguoiDung = "SELECT maNguoiDung FROM nhanvien WHERE maNhanVien='$maNhanVien'";
+        $result = $obj->xuatdulieu($sqlNguoiDung);
 
-        // Cập nhật bảng nguoidung
-        $sqlNguoiDung = "
-            UPDATE nguoidung 
-            SET ten='$hoTen', SDT='$soDienThoai', diaChi='$diaChi', email='$email' 
-            WHERE maNguoiDung='$maNguoiDung'
-        ";
+        if ($result && isset($result[0]['maNguoiDung'])) {
+            $maNguoiDung = $result[0]['maNguoiDung'];
 
-        // Thực hiện cập nhật
-        if ($obj->suadulieu($sqlNhanVien) && $obj->suadulieu($sqlNguoiDung)) {
-            echo '<script>alert("Cập nhật Nhân viên thành công");</script>';
+            // Cập nhật bảng nhanvien
+            $sqlNhanVien = "
+                UPDATE nhanvien 
+                SET chucVu='$chucVu', ngayVaoLam='$ngayVaoLam' 
+                WHERE maNhanVien='$maNhanVien'
+            ";
+
+            // Cập nhật bảng nguoidung
+            $sqlNguoiDungUpdate = "
+                UPDATE nguoidung 
+                SET ten='$hoTen', SDT='$soDienThoai', diaChi='$diaChi', email='$email' 
+                WHERE maNguoiDung='$maNguoiDung'
+            ";
+
+            // Cập nhật bảng taikhoan
+            $sqlTaiKhoan = "
+                UPDATE taikhoan 
+                SET email='$email', password='$password'
+                WHERE maNguoiDung='$maNguoiDung'
+            ";
+
+            // Thực hiện cập nhật
+            $updateNhanVien = $obj->suadulieu($sqlNhanVien);
+            $updateNguoiDung = $obj->suadulieu($sqlNguoiDungUpdate);
+            $updateTaiKhoan = $obj->suadulieu($sqlTaiKhoan);
+
+            if ($updateNhanVien && $updateNguoiDung && $updateTaiKhoan) {
+                $message = "Cập nhật nhân viên thành công";
+            } else {
+                $message = "Cập nhật nhân viên thất bại";
+            }
         } else {
-            echo '<script>alert("Cập nhật Nhân viên thất bại");</script>';
+            $message = "Không tìm thấy mã người dùng cho nhân viên này";
         }
     }
-
 }
+
+
+
+
 ?>
 
 <style>
@@ -105,8 +175,48 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     .card.strpied-tabled-with-hover .table thead {
         background-color: #f8f9fa;
     }
-</style>
 
+    .modal.show {
+        display: block !important;
+        /* Đảm bảo modal hiển thị */
+    }
+
+    .modal-dialog {
+        position: fixed !important;
+        top: 10% !important;
+        left: 50% !important;
+        transform: translate(-50%, -10%) !important;
+        margin: 0 !important;
+        z-index: 1055 !important;
+        max-width: 800px;
+        width: 90%;
+
+    }
+
+    .modal-body {
+        overflow-y: auto;
+        max-height: 70vh;
+        padding: 2rem;
+    }
+
+
+
+    .modal-footer {
+        justify-content: center;
+    }
+
+    .form-control {
+        height: auto;
+        padding: 0.75rem 1rem;
+    }
+</style>
+<script>
+    // Show alert message if exists
+    <?php if ($message): ?>
+        alert("<?= $message ?>");
+        window.location.href = "indexAdmin.php?quanlynhanvien"; // Redirect after alert
+    <?php endif; ?>
+</script>
 <div class="content">
     <div class="container-fluid">
         <div class="row">
@@ -115,7 +225,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <div class="card-header">
                         <h4 class="card-title text-center">DANH SÁCH NHÂN VIÊN</h4>
                         <button type="button" class="btn btn-success btn-lg" data-toggle="modal"
-                            data-target="#myModal"><i class="fa fa-plus-circle"></i>Thêm
+                            data-target="#modalAddEmployee"><i class="fa fa-plus-circle"></i>Thêm
                             mới</button>
                     </div>
                     <div class="card-body table-full-width table-responsive">
@@ -143,17 +253,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                             <td><?= $item["ngayVaoLam"] ?></td>
                                             <td>
                                                 <button type="button" class="btn btn-warning" data-toggle="modal"
-                                                    data-target="#editEmployeeModal"
-                                                    onclick="document.getElementById('editMaNhanVien').value='<?= $item['maNhanVien'] ?>'; 
-                                                    document.getElementById('editChucVu').value='<?= $item['chucVu'] ?>';
-                                                    document.getElementById('editHoTen').value='<?= $item['ten'] ?>';
-                                                    document.getElementById('editSoDienThoai').value='<?= $item['SDT'] ?>';
-                                                    document.getElementById('editDiaChi').value='<?= $item['diaChi'] ?>';
-                                                    document.getElementById('editEmail').value='<?= $item['email'] ?>';
-                                                    document.getElementById('editNgayVaoLam').value='<?= $item['ngayVaoLam'] ?>';
-                                                    document.getElementById('editMaNguoiDung').value='<?= $item['maNguoiDung'] ?>';">
+                                                    data-target="#modalEditEmployee" onclick="
+        document.getElementById('maNhanVienEdit').value='<?= $item['maNhanVien'] ?>'; 
+        document.getElementById('EditChucVu').value='<?= $item['chucVu'] ?>';
+        document.getElementById('tenEdit').value='<?= $item['ten'] ?>';
+        document.getElementById('SDTEdit').value='<?= $item['SDT'] ?>';
+        document.getElementById('diaChiEdit').value='<?= $item['diaChi'] ?>';
+        document.getElementById('emailEdit').value='<?= $item['email'] ?>';
+        document.getElementById('passwordEdit').value='<?= $item['password'] ?>';
+        document.getElementById('ngayVaoLamEdit').value='<?= $item['ngayVaoLam'] ?>';">
                                                     Sửa
                                                 </button>
+
                                                 <button
                                                     onclick="return confirm('Bạn có chắc chắn muốn xóa nhân viên này không?')"
                                                     type="submit" name="btXoa" value="<?= $item["maNhanVien"] ?>"
@@ -171,91 +282,106 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
 
 
-        <!-- Modal Thêm Danh Mục -->
-        <div id="myModal" class="modal fade" role="dialog">
+        <!-- Modal Thêm Nhân Viên -->
+        <div class="modal fade" id="modalAddEmployee" tabindex="-1" aria-labelledby="modalAddEmployeeLabel"
+            aria-hidden="true">
             <div class="modal-dialog">
-                <form method="POST" id="addCategoryForm">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h3 class="modal-title text-center">THÊM NHÂN VIÊN MỚI</h3>
-                        </div>
-                        <div class="modal-body">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="modalAddEmployeeLabel">THÊM NHÂN VIÊN MỚI</h3>
+
+                    </div>
+                    <div class="modal-body">
+                        <form action="" method="POST">
+                            <div class="mb-3">
+                                <label for="ten" class="form-label">Họ và Tên</label>
+                                <input type="text" class="form-control" id="ten" name="ten" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="SDT" class="form-label">Số Điện Thoại</label>
+                                <input type="text" class="form-control" id="SDT" name="SDT" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="diaChi" class="form-label">Địa Chỉ</label>
+                                <input type="text" class="form-control" id="diaChi" name="diaChi" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Mật Khẩu</label>
+                                <input type="password" class="form-control" id="password" name="password" required>
+                            </div>
                             <div class="mb-3">
                                 <label for="chucVu" class="form-label">Chức Vụ</label>
-                                <input type="text" class="form-control" name="chucVu" id="chucVu" required>
+                                <input type="text" class="form-control" id="chucVu" name="chucVu" required>
                             </div>
                             <div class="mb-3">
-                                <label for="ngayVaoLam" class="form-label">Ngày vào làm</label>
-                                <input type="date" class="form-control" name="ngayVaoLam" id="ngayVaoLam" required>
+                                <label for="ngayVaoLam" class="form-label">Ngày Vào Làm</label>
+                                <input type="date" class="form-control" id="ngayVaoLam" name="ngayVaoLam" required>
                             </div>
-                            <div class="mb-3">
-                                <label for="maNguoiDung" class="form-label">Mã Người dùng</label>
-                                <select name="maNguoiDung" class="form-control" required>
-                                    <option value="">- Chọn mã người dùng -</option>
-                                    <?php echo $obj->selectnguoidung(); ?>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                            <button type="submit" class="btn btn-primary" name="addEmployee">Thêm</button>
-                        </div>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+                            <button type="submit" class="btn btn-primary" name="addEmployee" style="float: right;">Thêm
+                                Nhân Viên</button>
+                        </form>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
 
-        <!-- Modal Sửa Danh Mục -->
-        <div id="editEmployeeModal" class="modal fade" role="dialog">
+
+
+        <!-- Modal Sửa Nhân Viên -->
+        <div class="modal fade" id="modalEditEmployee" tabindex="-1" aria-labelledby="modalEditEmployeeLabel"
+            aria-hidden="true">
             <div class="modal-dialog">
-                <form method="POST" id="editEmployeeForm">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h3 class="modal-title text-center">SỬA NHÂN VIÊN</h3>
-
-                        </div>
-                        <div class="modal-body">
-                            <input type="hidden" name="maNhanVien" id="editMaNhanVien">
-                            <div class="mb-3">
-                                <label for="editHoTen" class="form-label">Họ Tên</label>
-                                <input type="text" class="form-control" name="ten" id="editHoTen" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="editSoDienThoai" class="form-label">Số Điện Thoại</label>
-                                <input type="text" class="form-control" name="SDT" id="editSoDienThoai" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="editDiaChi" class="form-label">Địa Chỉ</label>
-                                <input type="text" class="form-control" name="diaChi" id="editDiaChi" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="editEmail" class="form-label">Email</label>
-                                <input type="email" class="form-control" name="email" id="editEmail" required>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="editChucVu" class="form-label">Chức Vụ</label>
-                                <input type="text" class="form-control" name="chucVu" id="editChucVu" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="editNgayVaoLam" class="form-label">Ngày Vào Làm</label>
-                                <input type="date" class="form-control" name="ngayVaoLam" id="editNgayVaoLam" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="editMaNguoiDung" class="form-label">Mã Người dùng</label>
-                                <select name="maNguoiDung" id="editMaNguoiDung" class="form-control" required>
-                                    <option value="">- Chọn mã người dùng -</option>
-                                    <?php echo $obj->selectnguoidung(); ?>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                            <button type="submit" name="btSua" class="btn btn-primary">Cập Nhật</button>
-                        </div>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="modalEditEmployeeLabel">CẬP NHẬT THÔNG TIN NHÂN VIÊN</h3>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                </form>
+                    <div class="modal-body">
+                        <form action="" method="POST">
+                            <input type="hidden" id="maNhanVienEdit" name="maNhanVien">
+                            <div class="mb-3">
+                                <label for="tenEdit" class="form-label">Họ và Tên</label>
+                                <input type="text" class="form-control" id="tenEdit" name="ten" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="SDTEdit" class="form-label">Số Điện Thoại</label>
+                                <input type="text" class="form-control" id="SDTEdit" name="SDT" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="diaChiEdit" class="form-label">Địa Chỉ</label>
+                                <input type="text" class="form-control" id="diaChiEdit" name="diaChi" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="emailEdit" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="emailEdit" name="email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="passwordEdit" class="form-label">Mật Khẩu</label>
+                                <input type="password" class="form-control" id="passwordEdit" name="password">
+                            </div>
+                            <div class="mb-3">
+                                <label for="EditChucVu" class="form-label">Chức Vụ</label>
+                                <input type="text" class="form-control" id="EditChucVu" name="chucVu" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="ngayVaoLamEdit" class="form-label">Ngày Vào Làm</label>
+                                <input type="date" class="form-control" id="ngayVaoLamEdit" name="ngayVaoLam" required>
+                            </div>
+                            <button type="button" class="btn btn-danger " data-dismiss="modal">Đóng</button>
+                            <button type="submit" class="btn btn-primary" style="float: right;" name="btSua">Cập
+                                Nhật</button>
+                        </form>
+
+                    </div>
+
+                </div>
             </div>
         </div>
+
     </div>
 </div>

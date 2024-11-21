@@ -139,15 +139,28 @@ if (!$result) {
     input:checked+.slider:before {
         transform: translateX(14px);
     }
+
+    .c-card {
+        border-radius: 15px;
+        /* Bo góc */
+        overflow: hidden;
+        /* Đảm bảo không bị tràn ra ngoài */
+        border: 1px solid #ddd;
+        /* Viền nhẹ */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        /* Thêm hiệu ứng bóng */
+        padding: 15px;
+        /* Khoảng cách bên trong */
+    }
 </style>
 
 <div class="content">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <div class="card strpied-tabled-with-hover">
-                    <div class="card-header">
-                        <a href="indexAdmin.php?quanlythuetra" class="btn btn-primary">Quay về</a>
+                <div class=" strpied-tabled-with-hover">
+                    <div class="card-header bg-white">
+                        <a href="indexAdmin.php?quanlythuetra" class="btn btn-danger">Quay về</a>
                         <h4 class="card-title text-center">THÔNG TIN CHI TIẾT ĐƠN THUÊ</h4>
                     </div>
                     <div class="card-body table-full-width table-responsive">
@@ -155,7 +168,7 @@ if (!$result) {
                             <thead>
                                 <tr>
                                     <th>Mã Sách</th>
-                                    <th>Tên Sách</th>
+                                    <th style="width: 200px;">Tên Sách</th>
                                     <th>Tác Giả</th>
                                     <th>Giá Thuê</th>
                                     <th>Ngày Thuê</th>
@@ -164,7 +177,8 @@ if (!$result) {
                                     <th>Hình Ảnh Trả</th>
                                     <th>Ưu Đãi</th>
                                     <th>Phí Ship</th>
-                                    <th>Tổng Giá Thuê</th>
+                                    <th>Tổng Tiền Thuê</th>
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -191,7 +205,7 @@ if (!$result) {
                                             <input type='file' name='hinhAnhTraSach' accept='image/*'>
                                         </form>
                                     </td>";
-                                        echo "<td><img src='$imageSrc' alt='Hình ảnh trả sách' width='50'></td>";
+                                        echo "<td><img src='$imageSrc' alt='' width='50'></td>";
                                         echo "<td>{$row['maKM']}</td>";
                                         echo "<td>{$row['phiShip']}</td>";
                                         echo "<td>{$row['tongTienThue']}</td>";

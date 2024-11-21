@@ -87,8 +87,8 @@
                             <p>Kho</p>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#">Theo dõi tồn kho</a>
-                            <a class="dropdown-item" href="#">Báo cáo tồn kho</a>
+                            <a class="dropdown-item" href="indexAdmin.php?baocaotheodoitonkho">Báo cáo theo dõi tồn
+                                kho</a>
                             <a class="dropdown-item" href="#">Kiểm tra hư hỏng</a>
                             <a class="dropdown-item" href="#">Xử lý hư hỏng</a>
                             <a class="dropdown-item" href="#">Thanh lý</a>
@@ -96,12 +96,7 @@
                         </div>
 
                     </li>
-                    <li>
-                        <a class="nav-link" href="indexAdmin.php?thongtincanhan">
-                            <i class="nc-icon nc-circle-09"></i>
-                            <p>Thông tin cá nhân</p>
-                        </a>
-                    </li>
+
                     <li>
                         <a class="nav-link" href="indexAdmin.php?quanlythuetra">
                             <i class="fa fa-refresh"></i>
@@ -111,7 +106,7 @@
                     <li>
                         <a class="nav-link" href="indexAdmin.php?quanlysanpham">
                             <i class="nc-icon nc-notes"></i>
-                            <p>Quản lý sản phẩm</p>
+                            <p>Quản lý sách</p>
                         </a>
                     </li>
                     <li>

@@ -9,16 +9,17 @@ $obj = new database();
 $sql = "SELECT * FROM danhmuc";
 $danhmuc = $obj->xuatdulieu($sql);
 
-// Xử lý cập nhật danh mục
+
+$message = "";
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['addCategory'])) {
         $ten = $_POST['ten'];
         $moTa = $_POST['moTa'];
         $sql = "INSERT INTO danhmuc (ten, moTa) VALUES ('$ten', '$moTa')";
         if ($obj->themdulieu($sql)) {
-            echo '<script>alert("Thêm mới danh mục thành công");</script>';
+            $message = "Thêm mới danh mục thành công";
         } else {
-            echo '<script>alert("Thêm mới danh mục thất bại");</script>';
+            $message = "Thêm mới danh mục thất bại";
         }
     }
 
@@ -26,6 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $maDM = $_POST['btXoa'];
         $sql = "DELETE FROM danhmuc WHERE maDM='$maDM'";
         $obj->xoadulieu($sql);
+        $message = "Xóa danh mục thành công";
     }
 
     if (isset($_POST['btSua'])) {
@@ -34,14 +36,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $moTa = $_POST['moTa'];
         $sql = "UPDATE danhmuc SET ten='$ten', moTa='$moTa' WHERE maDM='$maDM'";
         if ($obj->suadulieu($sql)) {
-            echo '<script>alert("Cập nhật danh mục thành công");</script>';
+            $message = "Cập nhật danh mục thành công";
         } else {
-            echo '<script>alert("Cập nhật danh mục thất bại");</script>';
+            $message = "Cập nhật danh mục thất bại";
         }
     }
 }
-?>
 
+?>
+<script>
+    // Show alert message if exists
+    <?php if ($message): ?>
+        alert("<?= $message ?>");
+        window.location.href = "indexAdmin.php?quanlydanhmuc"; // Redirect after alert
+    <?php endif; ?>
+</script>
 <style>
     .card.strpied-tabled-with-hover {
         border-radius: 15px;
@@ -55,6 +64,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     .card.strpied-tabled-with-hover .table thead {
         background-color: #f8f9fa;
+    }
+
+    .modal.show {
+        display: block !important;
+        /* Đảm bảo modal hiển thị */
+    }
+
+    .modal-dialog {
+        position: fixed !important;
+        top: 10% !important;
+        left: 50% !important;
+        transform: translate(-50%, -10%) !important;
+        margin: 0 !important;
+        z-index: 1055 !important;
+        max-width: 800px;
+        width: 90%;
+
+    }
+
+
+
+    .modal-body {
+        overflow-y: auto;
+        max-height: 70vh;
+        padding: 2rem;
     }
 </style>
 
