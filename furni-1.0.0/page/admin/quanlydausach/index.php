@@ -1,24 +1,34 @@
 <?php
+// Lấy số trang hiện tại
 if (!isset($_GET['quanlydausach'])) {
     $quanlydausach = 1;
 } else {
-    $quanlydausach = $_GET['quanlydausach'];
+    $quanlydausach = (int) $_GET['quanlydausach'];
 }
 $obj = new database();
+// Cài đặt số lượng sách trên mỗi trang
+$limit = 10;
+$start = max(0, ($quanlydausach - 1) * $limit);
 $sql = "SELECT dausach.*, danhmuc.ten AS tenDanhMuc FROM dausach 
-        INNER JOIN danhmuc ON dausach.maDM = danhmuc.maDM";
+        INNER JOIN danhmuc ON dausach.maDM = danhmuc.maDM
+        LIMIT $start, $limit";
 $dausach = $obj->xuatdulieu($sql);
-
+// Truy vấn số lượng tổng đầu sách để tính toán phân trang
+$sqlTotal = "SELECT COUNT(*) as total FROM dausach";
+$totalBooks = $obj->xuatdulieu($sqlTotal);
+$totalBooks = $totalBooks[0]['total'];
+$totalPages = ceil($totalBooks / $limit);
 // Xử lý các thao tác thêm, sửa, xóa
+$message = "";
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['addBook'])) {
         $tenDauSach = $_POST['tenDauSach'];
         $tacGia = $_POST['tacGia'];
         $nxb = $_POST['nxb'];
-        $tongSoLuong = $_POST['tongSoLuong'];
-        $soLuongDangThue = $_POST['soLuongDangThue'];
+        $tongSoLuong = $_POST['tongSoLuong'] > 0 ? $_POST['tongSoLuong'] : 1; // Đảm bảo tổng số lượng tối thiểu là 1
+        $soLuongDangThue = $_POST['soLuongDangThue'] > 0 ? $_POST['soLuongDangThue'] : 0; // Đảm bảo số lượng đang thuê là 0
         $maDM = $_POST['maDM'];
-        // Xử lý thêm hình ảnh từ tệp 
+        // Xử lý hình ảnh
         if (isset($_FILES['hinhAnh']) && $_FILES['hinhAnh']['error'] == 0) {
             $targetDir = "layout/images/";
             $fileName = time() . '_' . basename($_FILES['hinhAnh']['name']);
@@ -27,36 +37,41 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if (move_uploaded_file($_FILES['hinhAnh']['tmp_name'], $targetFilePath)) {
                 $hinhAnh = $fileName;
             } else {
-                echo '<script>alert("Lỗi khi tải ảnh lên.");</script>';
+                // echo '<script>alert("Lỗi khi tải ảnh lên.");</script>';
+                $message = "Lỗi khi tải ảnh lên";
                 $hinhAnh = null;
             }
         } else {
             $hinhAnh = null;
         }
+        // Thêm đầu sách vào cơ sở dữ liệu
         $sql = "INSERT INTO dausach (tenDauSach, tacGia, nxb, tongSoLuong, soLuongDangThue, maDM, hinhAnh)
                 VALUES ('$tenDauSach', '$tacGia', '$nxb', '$tongSoLuong', '$soLuongDangThue', '$maDM', '$hinhAnh')";
         if ($obj->themdulieu($sql)) {
-            echo '<script>alert("Thêm mới đầu sách thành công");</script>';
+            // echo '<script>alert("Thêm mới đầu sách thành công");</script>';
+            $message = "Thêm mới đầu sách thành công";
         } else {
-            echo '<script>alert("Thêm mới đầu sách thất bại");</script>';
+            // echo '<script>alert("Thêm mới đầu sách thất bại");</script>';
+            $message = "Thêm mới đầu sách thật bại";
         }
     }
-
+    // Xử lý xóa đầu sách
     if (isset($_POST['btXoa'])) {
         $maDauSach = $_POST['btXoa'];
         $sql = "DELETE FROM dausach WHERE maDauSach='$maDauSach'";
         $obj->xoadulieu($sql);
+        $message = "Xóa thành công";
     }
-
+    // Xử lý sửa đầu sách
     if (isset($_POST['btSua'])) {
         $maDauSach = $_POST['maDauSach'];
         $tenDauSach = $_POST['tenDauSach'];
         $tacGia = $_POST['tacGia'];
         $nxb = $_POST['nxb'];
-        $tongSoLuong = $_POST['tongSoLuong'];
-        $soLuongDangThue = $_POST['soLuongDangThue'];
+        $tongSoLuong = $_POST['tongSoLuong'] > 0 ? $_POST['tongSoLuong'] : 1; // Đảm bảo tổng số lượng tối thiểu là 1
+        $soLuongDangThue = $_POST['soLuongDangThue'] > 0 ? $_POST['soLuongDangThue'] : 0; // Đảm bảo số lượng đang thuê là 0
         $maDM = $_POST['maDM'];
-        // Xử lý cập nhật hình ảnh 
+        // Xử lý cập nhật hình ảnh
         if (isset($_FILES['hinhAnh']) && $_FILES['hinhAnh']['error'] == 0) {
             $targetDir = "layout/images/";
             $fileName = time() . '_' . basename($_FILES['hinhAnh']['name']);
@@ -65,23 +80,39 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if (move_uploaded_file($_FILES['hinhAnh']['tmp_name'], $targetFilePath)) {
                 $hinhAnh = $fileName;
             } else {
-                echo '<script>alert("Lỗi khi tải ảnh lên.");</script>';
+                $message = "Lỗi khi tải ảnh lên";
                 $hinhAnh = $_POST['oldHinhAnh'];
             }
         } else {
             $hinhAnh = $_POST['oldHinhAnh'];
         }
+        // Cập nhật đầu sách
         $sql = "UPDATE dausach SET tenDauSach='$tenDauSach', tacGia='$tacGia', nxb='$nxb', 
                 tongSoLuong='$tongSoLuong', soLuongDangThue='$soLuongDangThue', maDM='$maDM', hinhAnh='$hinhAnh'
                 WHERE maDauSach='$maDauSach'";
         if ($obj->suadulieu($sql)) {
-            echo '<script>alert("Cập nhật đầu sách thành công");</script>';
+            // echo '<script>alert("Cập nhật đầu sách thành công");</script>';
+            $message = "Cập nhật đầu sách thành công";
         } else {
-            echo '<script>alert("Cập nhật đầu sách thất bại");</script>';
+            // echo '<script>alert("Cập nhật đầu sách thất bại");</script>';
+            $message = "Cập nhật đầu sách thật bại";
         }
     }
 }
 ?>
+<script>
+    //thông báo cập nhật
+    <?php if ($message): ?>
+        alert("<?= $message ?>");
+        window.location.href = "indexAdmin.php?quanlydausach"; // Redirect after alert
+    <?php endif; ?>
+</script>
+<style>
+    .modal-body {
+        max-height: 50vh; 
+        overflow-y: auto; 
+    }
+</style>
 <div class="content">
     <div class="container-fluid">
         <div class="row">
@@ -90,7 +121,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <div class="card-header">
                         <h4 class="card-title text-center">DANH SÁCH ĐẦU SÁCH</h4>
                         <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#addBookModal">
-                            <i class="fa fa-plus-circle"></i>Thêm mới
+                            <i class="fa fa-plus-circle"></i> Thêm mới
                         </button>
                     </div>
                     <div class="card-body table-full-width table-responsive">
@@ -133,9 +164,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             </table>
                         </form>
                     </div>
+                    <!-- Phân trang -->
+                    <div class="pagination text-center">
+                        <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                            <a href="?quanlydausach=<?= $i ?>" class="btn btn-info"><?= $i ?></a>
+                        <?php endfor; ?>
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
+
         <!-- Modal Thêm Đầu Sách -->
         <div id="addBookModal" class="modal fade" role="dialog">
             <div class="modal-dialog">

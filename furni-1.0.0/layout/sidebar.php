@@ -116,6 +116,12 @@
                         </a>
                     </li>
                     <li>
+                        <a class="nav-link" href="indexAdmin.php?quanlychinhsach">
+                            <i class="nc-icon nc-notes"></i>
+                            <p>Quản lý chính sách</p>
+                        </a>
+                    </li>
+                    <li>
                         <a class="nav-link" href="indexAdmin.php?quanlydausach">
                             <i class="nc-icon nc-notes"></i>
                             <p>Quản lý đầu sách</p>
@@ -167,7 +173,7 @@
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link" href="#pablo">
+                                <a class="nav-link" href="indexAdmin.php?logoutAdmin">
                                     <span class="no-icon">Log out</span>
                                 </a>
                             </li>

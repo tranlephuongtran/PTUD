@@ -1,60 +1,102 @@
 <?php
 session_start();
 error_reporting(0);
-// Kiểm tra nếu người dùng chưa đăng nhập
+if (!isset($_SESSION['user'])) {
+    echo "<script>alert('Vui lòng đăng nhập trước!');</script>";
+    header("Location: ../index.php?login");
+    exit();
+}
 $email = $_SESSION['user'];
 $conn = mysqli_connect("localhost", "nhomptud", "123456", "ptud");
-if ($conn) {
-    $query = "
-        SELECT taikhoan.email, nguoidung.ten, nguoidung.diaChi, nguoidung.SDT
-        FROM taikhoan
-        INNER JOIN nguoidung ON taikhoan.nguoiDungID = nguoidung.maNguoiDung
-        WHERE taikhoan.email = '$email'
-    ";
-    $result = mysqli_query($conn, $query);
-
-    if (mysqli_num_rows($result) > 0) {
-        $user = mysqli_fetch_assoc($result);
-    } else {
-        echo "<script>alert('Không tìm thấy thông tin người dùng!');</script>";
-        header("Location: ../index.php?login");
-        exit();
-    }
+if (!$conn) {
+    die("Kết nối cơ sở dữ liệu thất bại: " . mysqli_connect_error());
 }
+$query = "
+    SELECT taikhoan.email, nguoidung.ten, nguoidung.diaChi, nguoidung.SDT, nguoidung.maNguoiDung
+    FROM taikhoan
+    INNER JOIN nguoidung ON taikhoan.nguoiDungID = nguoidung.maNguoiDung
+    WHERE taikhoan.email = '$email'
+";
+$result = mysqli_query($conn, $query);
+if (mysqli_num_rows($result) > 0) {
+    $user = mysqli_fetch_assoc($result);
+} else {
+    echo "<script>alert('Không tìm thấy thông tin người dùng!');</script>";
+    header("Location: ../index.php?login");
+    exit();
+}
+
 // Xử lý cập nhật thông tin khi form được gửi
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    var_dump($_POST);
     $name = mysqli_real_escape_string($conn, $_POST['name']);
     $address = mysqli_real_escape_string($conn, $_POST['address']);
     $phone = mysqli_real_escape_string($conn, $_POST['phone']);
     $email_new = mysqli_real_escape_string($conn, $_POST['email']);
+    // Kiểm tra email mới đã tồn tại chưa
+    if ($email_new != $email) {
+        $check_email_query = "SELECT * FROM taikhoan WHERE email = '$email_new'";
+        $check_email_result = mysqli_query($conn, $check_email_query);
 
-    $update_query = "
+        if (mysqli_num_rows($check_email_result) > 0) {
+            echo "<script>
+                alert('Email đã tồn tại. Vui lòng chọn email khác!');
+                window.location.href = 'index.php?updateProfile';
+            </script>";
+            exit();
+        }
+    }
+
+    // Cập nhật thông tin trong bảng nguoidung
+    $update_user_query = "
         UPDATE nguoidung 
         SET ten = '$name', diaChi = '$address', SDT = '$phone' 
-        WHERE email = '$email'
+        WHERE maNguoiDung = '{$user['maNguoiDung']}'
     ";
+    $update_user_result = mysqli_query($conn, $update_user_query);
 
-    if (mysqli_query($conn, $update_query)) {
-        if ($email != $email_new) {
+    // Cập nhật email trong cả hai bảng tailhoan và nguoidung nếu email thay đổi
+    if ($email_new != $email) {
+        $update_email_taikhoan_query = "
+            UPDATE taikhoan 
+            SET email = '$email_new' 
+            WHERE email = '$email'
+        ";
+        $update_email_nguoidung_query = "
+            UPDATE nguoidung 
+            SET email = '$email_new' 
+            WHERE maNguoiDung = '{$user['maNguoiDung']}'
+        ";
+        $update_email_taikhoan_result = mysqli_query($conn, $update_email_taikhoan_query);
+        $update_email_nguoidung_result = mysqli_query($conn, $update_email_nguoidung_query);
+
+        if ($update_email_taikhoan_result && $update_email_nguoidung_result) {
+            // Cập nhật session
             $_SESSION['user'] = $email_new;
+        } else {
+            echo "<script>
+                alert('Cập nhật email thất bại!');
+                window.location.href = 'index.php?updateProfile';
+            </script>";
+            exit();
         }
+    }
+
+    // Kiểm tra kết quả cập nhật
+    if ($update_user_result) {
         echo "<script>
             alert('Cập nhật thông tin thành công!');
             window.location.href = 'index.php?profile';
         </script>";
     } else {
         echo "<script>
-            alert('Có lỗi xảy ra. Vui lòng thử lại!');
+            alert('Cập nhật thông tin thất bại. Vui lòng thử lại!');
         </script>";
     }
 }
 mysqli_close($conn);
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -110,6 +152,7 @@ mysqli_close($conn);
                 <div class="menu">
                     <ul>
                         <li><a href="index.php?profile">Tài khoản của tôi</a></li>
+                        
                         <li><a href="index.php?change_password">Đổi mật khẩu</a></li>
                         <li><a href="index.php?history">Lịch sử thuê</a></li>
                         <li><a href="index.php?logout">Đăng xuất</a></li>                       

@@ -215,7 +215,7 @@ if ($thanhvien == 1) {
 
 							<div class="form-group">
 								<form method="post"><button type='submit' class="btn btn-black btn-lg py-3 btn-block"
-										name="confirm">Xác
+										name="confirm" >Xác
 										nhận</button></form>
 							</div>
 
