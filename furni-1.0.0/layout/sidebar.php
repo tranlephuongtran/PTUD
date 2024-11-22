@@ -92,7 +92,7 @@
                             <a class="dropdown-item" href="#">Kiểm tra hư hỏng</a>
                             <a class="dropdown-item" href="#">Xử lý hư hỏng</a>
                             <a class="dropdown-item" href="#">Thanh lý</a>
-                            <a class="dropdown-item" href="#">Báo cáo</a>
+                            <a class="dropdown-item" href="indexAdmin.php?baocao">Báo cáo</a>
                         </div>
 
                     </li>

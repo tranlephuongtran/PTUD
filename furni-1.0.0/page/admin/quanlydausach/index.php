@@ -1,5 +1,4 @@
 <?php
-// Lấy số trang hiện tại
 if (!isset($_GET['quanlydausach'])) {
     $quanlydausach = 1;
 } else {
@@ -25,8 +24,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $tenDauSach = $_POST['tenDauSach'];
         $tacGia = $_POST['tacGia'];
         $nxb = $_POST['nxb'];
-        $tongSoLuong = $_POST['tongSoLuong'] > 0 ? $_POST['tongSoLuong'] : 1; // Đảm bảo tổng số lượng tối thiểu là 1
-        $soLuongDangThue = $_POST['soLuongDangThue'] > 0 ? $_POST['soLuongDangThue'] : 0; // Đảm bảo số lượng đang thuê là 0
+        $tongSoLuong = $_POST['tongSoLuong'] > 0 ? $_POST['tongSoLuong'] : 1; 
+        $soLuongDangThue = $_POST['soLuongDangThue'] > 0 ? $_POST['soLuongDangThue'] : 0; 
         $maDM = $_POST['maDM'];
         // Xử lý hình ảnh
         if (isset($_FILES['hinhAnh']) && $_FILES['hinhAnh']['error'] == 0) {
