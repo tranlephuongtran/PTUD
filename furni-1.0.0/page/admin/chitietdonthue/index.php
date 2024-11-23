@@ -42,7 +42,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         SET tinhTrangThue = 'Đã trả', ngayTra = '$currentDate', hinhAnhTraSach = '$fileName' 
                         WHERE maDon = '$maDon' AND maSach = '$maSach'
                     ";
-                    if ($conn->query($updateQuery)) {
+                    // Cập nhật số lượng và tình trạng trong bảng sach
+                    $updateSachQuery = "
+                        UPDATE sach 
+                        SET tinhTrang = 'Con sach'       
+                        WHERE maSach = '$maSach'
+                    ";
+                    $updateDauSachQuery = "
+                        UPDATE dausach d
+                        JOIN sach s ON d.maDauSach = s.maDauSach
+                        SET d.soLuongDangThue = d.soLuongDangThue - 1
+                        WHERE s.maSach = '$maSach'
+                    ";
+                    if ($conn->query($updateQuery) && $conn->query($updateSachQuery) && $conn->query($updateDauSachQuery)) {
                         echo "<script>alert('Tình trạng thuê và ảnh đã được cập nhật thành công.');</script>";
                     } else {
                         echo "<script>alert('Lỗi khi cập nhật thông tin: " . $conn->error . "');</script>";
@@ -142,15 +154,11 @@ if (!$result) {
 
     .c-card {
         border-radius: 15px;
-        /* Bo góc */
         overflow: hidden;
-        /* Đảm bảo không bị tràn ra ngoài */
         border: 1px solid #ddd;
-        /* Viền nhẹ */
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        /* Thêm hiệu ứng bóng */
         padding: 15px;
-        /* Khoảng cách bên trong */
+
     }
 </style>
 

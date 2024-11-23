@@ -221,10 +221,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <div class="card strpied-tabled-with-hover">
-                    <div class="card-header">
+                <div class="strpied-tabled-with-hover">
+                    <div class="card-header bg-white">
                         <h4 class="card-title text-center">DANH SÁCH NHÂN VIÊN</h4>
-                        <button type="button" class="btn btn-success btn-lg" data-toggle="modal"
+                        <button type="button" class="btn btn-success" data-toggle="modal"
                             data-target="#modalAddEmployee"><i class="fa fa-plus-circle"></i>Thêm
                             mới</button>
                     </div>
@@ -253,15 +253,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                             <td><?= $item["ngayVaoLam"] ?></td>
                                             <td>
                                                 <button type="button" class="btn btn-warning" data-toggle="modal"
-                                                    data-target="#modalEditEmployee" onclick="
-        document.getElementById('maNhanVienEdit').value='<?= $item['maNhanVien'] ?>'; 
-        document.getElementById('EditChucVu').value='<?= $item['chucVu'] ?>';
-        document.getElementById('tenEdit').value='<?= $item['ten'] ?>';
-        document.getElementById('SDTEdit').value='<?= $item['SDT'] ?>';
-        document.getElementById('diaChiEdit').value='<?= $item['diaChi'] ?>';
-        document.getElementById('emailEdit').value='<?= $item['email'] ?>';
-        document.getElementById('passwordEdit').value='<?= $item['password'] ?>';
-        document.getElementById('ngayVaoLamEdit').value='<?= $item['ngayVaoLam'] ?>';">
+                                                    data-target="#modalEditEmployee"
+                                                    onclick="
+                                                        document.getElementById('maNhanVienEdit').value='<?= $item['maNhanVien'] ?>'; 
+                                                        document.getElementById('EditChucVu').value='<?= $item['chucVu'] ?>';
+                                                        document.getElementById('tenEdit').value='<?= $item['ten'] ?>';
+                                                        document.getElementById('SDTEdit').value='<?= $item['SDT'] ?>';
+                                                        document.getElementById('diaChiEdit').value='<?= $item['diaChi'] ?>';
+                                                        document.getElementById('emailEdit').value='<?= $item['email'] ?>';
+                                                        document.getElementById('passwordEdit').value='<?= $item['password'] ?>';
+                                                        document.getElementById('ngayVaoLamEdit').value='<?= $item['ngayVaoLam'] ?>';">
                                                     Sửa
                                                 </button>
 

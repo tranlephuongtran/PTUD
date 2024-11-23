@@ -17,7 +17,8 @@
         box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.1);
         color: #333;
         margin-bottom: 50px;
-        gap: 20px; /* Thêm khoảng cách giữa các phần */
+        gap: 20px;
+        /* Thêm khoảng cách giữa các phần */
     }
 
     #XemLichSuThueND h2 {
@@ -34,58 +35,87 @@
     }
 
     .content-container {
-        display: flex;      /* Kích hoạt Flexbox */
-        gap: 20px;          /* Tạo khoảng cách 20px giữa .left-section và .right-section */
-        align-items: flex-start; /* Canh hai phần từ trên xuống */
+        display: flex;
+        /* Kích hoạt Flexbox */
+        gap: 20px;
+        /* Tạo khoảng cách 20px giữa .left-section và .right-section */
+        align-items: flex-start;
+        /* Canh hai phần từ trên xuống */
     }
+
     .Hinh {
-        width: 80%; /* Đặt chiều rộng ảnh đầy đủ */
-        height: auto; /* Giữ tỷ lệ hình ảnh */
-        border-radius: 8px; /* Bo tròn các góc ảnh */
-        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Tạo bóng cho ảnh */
-        margin-bottom: 20px; /* Thêm khoảng cách dưới ảnh */
+        width: 80%;
+        /* Đặt chiều rộng ảnh đầy đủ */
+        height: auto;
+        /* Giữ tỷ lệ hình ảnh */
+        border-radius: 8px;
+        /* Bo tròn các góc ảnh */
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        /* Tạo bóng cho ảnh */
+        margin-bottom: 20px;
+        /* Thêm khoảng cách dưới ảnh */
     }
 
     .left-section {
-        width:30%;
-        float:left;
-        background-color: #ffffff; /* Màu nền trắng cho phần hình ảnh */
-        border-radius: 12px; /* Bo tròn các góc */
-        padding: 20px; /* Thêm khoảng đệm bên trong */
-        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Tạo bóng cho phần */
+        width: 30%;
+        float: left;
+        background-color: #ffffff;
+        /* Màu nền trắng cho phần hình ảnh */
+        border-radius: 12px;
+        /* Bo tròn các góc */
+        padding: 20px;
+        /* Thêm khoảng đệm bên trong */
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        /* Tạo bóng cho phần */
     }
 
     .right-section {
-        width:70%;
-        float:left;
-        background-color: #ffffff; /* Màu nền trắng cho phần thông tin */
-        border-radius: 12px; /* Bo tròn các góc */
-        padding: 20px; /* Thêm khoảng đệm bên trong */
-        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Tạo bóng cho phần */
+        width: 70%;
+        float: left;
+        background-color: #ffffff;
+        /* Màu nền trắng cho phần thông tin */
+        border-radius: 12px;
+        /* Bo tròn các góc */
+        padding: 20px;
+        /* Thêm khoảng đệm bên trong */
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        /* Tạo bóng cho phần */
     }
+
     .left-section h4 {
-        line-height: 1.6; /* Tăng khoảng cách dòng */
-        border-bottom: 2px solid #ddd; /* Đường kẻ dưới mỗi đoạn */
-        padding-bottom: 10px; /* Thêm khoảng cách dưới mỗi đoạn */
-        margin-bottom: 15px; /* Thêm khoảng cách giữa các đoạn */
+        line-height: 1.6;
+        /* Tăng khoảng cách dòng */
+        border-bottom: 2px solid #ddd;
+        /* Đường kẻ dưới mỗi đoạn */
+        padding-bottom: 10px;
+        /* Thêm khoảng cách dưới mỗi đoạn */
+        margin-bottom: 15px;
+        /* Thêm khoảng cách giữa các đoạn */
         text-align: center;
     }
 
     .left-section h4:last-child {
-        border-bottom: none; /* Loại bỏ đường kẻ cuối cùng */
+        border-bottom: none;
+        /* Loại bỏ đường kẻ cuối cùng */
     }
 
     .right-section p {
-        line-height: 1.6; /* Tăng khoảng cách dòng */
-        border-bottom: 1px solid #ddd; /* Đường kẻ dưới mỗi đoạn */
-        padding-bottom: 10px; /* Thêm khoảng cách dưới mỗi đoạn */
-        margin-bottom: 15px; /* Thêm khoảng cách giữa các đoạn */
+        line-height: 1.6;
+        /* Tăng khoảng cách dòng */
+        border-bottom: 1px solid #ddd;
+        /* Đường kẻ dưới mỗi đoạn */
+        padding-bottom: 10px;
+        /* Thêm khoảng cách dưới mỗi đoạn */
+        margin-bottom: 15px;
+        /* Thêm khoảng cách giữa các đoạn */
     }
 
     .right-section p:last-child {
-        border-bottom: none; /* Loại bỏ đường kẻ cuối cùng */
+        border-bottom: none;
+        /* Loại bỏ đường kẻ cuối cùng */
     }
 </style>
+
 <body>
     <?php
     if (!isset($_GET['history'])) {
@@ -106,7 +136,7 @@
 
             // Lấy maDon từ URL
             $maDon = isset($_GET['maDon']) ? $_GET['maDon'] : null;
-                
+
             if ($maDon) {
                 // Truy vấn thông tin từ 3 bảng
                 $sql = "

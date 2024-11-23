@@ -100,7 +100,13 @@
                     <li>
                         <a class="nav-link" href="indexAdmin.php?quanlythuetra">
                             <i class="fa fa-refresh"></i>
-                            <p>Quản lý thuê trả</p>
+                            <p>Quản lý Trả sách</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="indexAdmin.php?quanlydonhang">
+                            <i class="fa fa-refresh"></i>
+                            <p>Quản lý Đơn Hàng</p>
                         </a>
                     </li>
                     <li>

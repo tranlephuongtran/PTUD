@@ -73,11 +73,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <div class="card strpied-tabled-with-hover">
-                    <div class="card-header">
+                <div class=" strpied-tabled-with-hover">
+                    <div class="card-header bg-white">
                         <h4 class="card-title text-center">DANH SÁCH THẺ THÀNH VIÊN</h4>
-                        <button type="button" class="btn btn-success btn-lg" data-toggle="modal"
-                            data-target="#myModal"><i class="fa fa-plus-circle"></i>Thêm
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal"><i
+                                class="fa fa-plus-circle"></i>Thêm
                             mới</button>
                     </div>
                     <div class="card-body table-full-width table-responsive">
@@ -124,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             </div>
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email</label>
-                                <textarea class="form-control" name="email" id="email"></textarea>
+                                <input class="form-control" name="email" id="email"></input>
                             </div>
                         </div>
                         <div class="modal-footer">

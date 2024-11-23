@@ -20,6 +20,8 @@ if (isset($_GET['quanlydanhmuc'])) {
     $pagead = 'chitietdonthue';
 } else if (isset($_GET['quanlydausach'])) {
     $pagead = 'quanlydausach';
+} else if (isset($_GET['quanlydonhang'])) {
+    $pagead = 'quanlydonhang';
 } else if (isset($_GET['baocaotheodoitonkho'])) {
     $pagead = 'baocaotheodoitonkho';
 } else {
