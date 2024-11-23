@@ -142,7 +142,7 @@ error_reporting(0);
                                     <a class='dropdown-item' href='index.php?updateProfile'>Cập nhật thông tin</a>
                                     <a class='dropdown-item' href='index.php?change_password'>Đổi mật khẩu</a>
                                     <a class='dropdown-item' href='index.php?history'>Xem lịch sử thuê sách</a>
-                                    <a class='dropdown-item' href='index.php?history'>Thanh toán</a>
+                                    <a class='dropdown-item' href='index.php?paymentlate'>Thanh toán</a>
                                     <!-- Chỉnh sửa đường dẫn đăng xuất -->
                                     <a class='dropdown-item' href='index.php?logout'>Đăng xuất</a>
                                 </div>

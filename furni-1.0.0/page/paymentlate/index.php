@@ -13,6 +13,18 @@
     } else {
         $paymentlate = $_GET['paymentlate'];
     }
+    $conn = mysqli_connect("localhost", "nhomptud", "123456", "ptud");
+    if ($conn) {
+        $email = $_SESSION['user'];
+        $str = "SELECT * FROM khachhang kh INNER JOIN nguoidung nd ON nd.maNguoiDung = kh.maNguoiDung WHERE email = '$email'";
+        $result = $conn->query($str);
+        if (mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                $maKH = $row['maKH'];
+            }
+        }
+        $str = "SELECT *FROM donthuesach WHERE maKH = $maKH and tinhTrangThanhToan = 'Chua thanh toan'";
+    }
     ?>
     <style>
         #payCode {
@@ -31,11 +43,10 @@
             border-radius: 5px;
         }
     </style>
-    <video id="videoOverlay" autoplay loop muted style="height: 450px !important">
-        <source src="images/mobile_payment.mp4" type="video/mp4">
+    <video id="videoOverlay" autoplay loop muted style="height: 350px !important">
+        <source src="layout/images/mobile_payment.mp4" type="video/mp4">
     </video>
-    <div
-        style="background-color: white !important; width: 75%; min-height: 800px; margin-left: 210px; margin-bottom: 50px">
+    <div style="background-color: white !important; width: 100%; min-height: 800px;  margin-bottom: 50px">
         <h1 align="center" style="color:#a76d49; padding: 20px; font-weight: 600;">DANH SÁCH
             ĐƠN THUÊ CHỜ THANH TOÁN
         </h1>
@@ -47,31 +58,31 @@
                         <th scope="col">Tổng tiền thuê</th>
                         <th scope="col">Tổng tiền cọc</th>
                         <th scope="col">Ngày đặt đơn</th>
-                        <th scope="col">Thời gian thanh toán còn lại</th>
+                        <th scope="col">Hạn cuối thanh toán</th>
                         <th scope="col" style="align: center;">Thao tác</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th scope="row"><a href="#" id="payCode">123</a></th>
-                        <td>148.000 VNĐ</td>
-                        <td>230.000 VNĐ</td>
-                        <td>23/01/2024</td>
-                        <td>42 giờ</td>
-                        <td><button id="pay">Thanh toán</button>
-                            <button id="detail">Xem chi tiết</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><a href="#" id="payCode">456</a></th>
-                        <td>348.000 VNĐ</td>
-                        <td>759.000 VNĐ</td>
-                        <td>26/01/2024</td>
-                        <td>20 giờ</td>
-                        <td><button id="pay">Thanh toán</button>
-                            <button id="detail">Xem chi tiết</button>
-                        </td>
-                    </tr>
+                    <?php
+                    $result = $conn->query($str);
+                    if (mysqli_num_rows($result) > 0) {
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            $moneyRent = number_format($row['tongTienThue'], 0, '.', '.');
+                            $moneyDeposit = number_format($row['tongTienCoc'], 0, '.', '.');
+                            $date = new DateTime("{$row["ngayThue"]}");
+                            $date->modify('+2 days');
+                            $date = $date->format('Y-m-d');
+                            echo "<tr>
+                        <th scope='row'><a href='#' id='payCode'>{$row["maDon"]}</a></th>
+                        <td>{$moneyRent} VNĐ</td>
+                        <td>{$moneyDeposit} VNĐ</td>
+                        <td>{$row["ngayThue"]}</td>
+                        <td>$date</td>
+                         <td><a href = 'index.php?payment={$row["maDon"]}'><button id='pay'>Thanh toán</button></a></td>
+                    </tr>";
+                        }
+                    }
+                    ?>
                 </tbody>
             </table>
         </div>

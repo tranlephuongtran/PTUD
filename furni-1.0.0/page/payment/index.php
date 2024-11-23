@@ -186,7 +186,15 @@ if (isset($_POST['btn-submit'])) {
                 WHERE maDon = $payment;
             ";
             if ($conn->query($updateQuery)) {
-                echo "<script>alert('Thanh toán thành công! Chờ xác nhận.');window.location.href = 'index.php?history';</script>";
+                $now = date_create()->format('Y-m-d');
+                $date = new DateTime('now');
+                $date->modify('+15 days');
+                $date = $date->format('Y-m-d');
+                $str = "UPDATE donthuesach SET ngayThue = '$now' WHERE maDon = $payment";
+                if ($conn->query($str)) {
+                    $str = "UPDATE chitiethoadon SET ngayTra = '$date' WHERE maDon = $payment";
+                    echo "<script>alert('Thanh toán thành công! Chờ xác nhận.');window.location.href = 'index.php?history';</script>";
+                }
             } else {
                 echo "<script>alert('Lỗi khi cập nhật thông tin: " . $conn->error . "');</script>";
             }
