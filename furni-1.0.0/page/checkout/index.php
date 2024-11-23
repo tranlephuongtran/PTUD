@@ -272,7 +272,7 @@ if (isset($_POST['confirm'])) {
 						}
 					}
 				}
-				$str = "UPDATE dausach SET soLuongDangThue = $quantity WHERE maDauSach=$maDauSach";
+				$str = "UPDATE dausach SET soLuongDangThue = soLuongDangThue + $quantity WHERE maDauSach=$maDauSach";
 				if ($conn->query($str)) {
 				}
 			}
