@@ -85,6 +85,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") { // Lấy dữ liệu từ form đăn
         </div>
     </div>
     <!-- End Register -->
+    <script src="layout/js/register.js"></script>
 </body>
 
 </html>

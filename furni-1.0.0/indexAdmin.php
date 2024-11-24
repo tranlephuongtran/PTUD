@@ -18,10 +18,11 @@ if (isset($_GET['quanlydanhmuc'])) {
     $pagead = 'chitietdonthue';
 } else if (isset($_GET['quanlydausach'])) {
     $pagead = 'quanlydausach';
+} else if (isset($_GET['quanlykhuyenmai'])) {
+    $pagead = 'quanlykhuyenmai';
 } else {
     $pagead = 'quanlysanpham';
 }
 
 include("page/admin/" . $pagead . "/index.php");
 include("layout/footerAd.php");
-?>

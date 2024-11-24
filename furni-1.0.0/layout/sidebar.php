@@ -138,7 +138,12 @@
                             <p>Quản lý nhân viên</p>
                         </a>
                     </li>
-
+                    <li>
+                        <a class="nav-link" href="indexAdmin.php?quanlykhuyenmai">
+                            <i class="nc-icon nc-notes"></i>
+                            <p>Quản lý khuyến mãi</p>
+                        </a>
+                    </li>
 
                 </ul>
             </div>

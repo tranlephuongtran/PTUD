@@ -1,12 +1,14 @@
 <?php
-class Database {
+class myDatabase
+{
     private $servername = "localhost";
     private $username = "nhomptud";
     private $password = "123456";
     private $dbname = "ptud";
     public $conn;
 
-    public function __construct() {
+    public function __construct()
+    {
         // Tạo kết nối
         $this->conn = new mysqli($this->servername, $this->username, $this->password, $this->dbname);
 
@@ -16,12 +18,13 @@ class Database {
         }
     }
 
-    public function query($sql) {
+    public function query($sql)
+    {
         return $this->conn->query($sql);
     }
 
-    public function close() {
+    public function close()
+    {
         $this->conn->close();
     }
 }
-?>
