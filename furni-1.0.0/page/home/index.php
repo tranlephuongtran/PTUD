@@ -11,8 +11,12 @@ require_once 'myclass/products.php';
 
 $product = new Product();
 $result = $product->getHighlightedBooks();
-$resultVrB = $product->getViralBooks();
-$resultDmB = $product->getDemoBooks();
+
+// Lấy hình ảnh từ cơ sở dữ liệu 
+$bookImages = $product->getUniqueBookImages();
+
+// Lấy danh sách sách từ cơ sở dữ liệu 
+$books = $product->getBooksForCarousel();
 ?>
 
 <!doctype html>
@@ -44,15 +48,16 @@ if (!isset($_GET['home'])) {
 					<div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
 						<div class="carousel-inner">
 							<div class="carousel-item active">
-								<a href="#" class="swiper-slide"><img src="layout/images/book1.png" alt=""></a>
-								<a href="#" class="swiper-slide"><img src="layout/images/book2.png" alt=""></a>
-								<a href="#" class="swiper-slide"><img src="layout/images/book3.png" alt=""></a>
+								<?php
+								for ($i = 0; $i < 3; $i++): ?>
+									<a href="#" class="swiper-slide"><img src="layout/images/<?php echo $bookImages[$i]; ?>" alt=""></a>
+								<?php endfor; ?>
 							</div>
 
 							<div class="carousel-item">
-								<a href="#" class="swiper-slide"><img src="layout/images/book4.png" alt=""></a>
-								<a href="#" class="swiper-slide"><img src="layout/images/book5.png" alt=""></a>
-								<a href="#" class="swiper-slide"><img src="layout/images/book6.png" alt=""></a>
+								<?php for ($i = 3; $i < 6; $i++): ?>
+									<a href="#" class="swiper-slide"><img src="layout/images/<?php echo $bookImages[$i]; ?>" alt=""></a>
+								<?php endfor; ?>
 							</div>
 
 						</div>
@@ -60,17 +65,6 @@ if (!isset($_GET['home'])) {
 					<img src="layout/images/stand.png" class="stand" alt="">
 				</div>
 			</div>
-			<!-- <div class="hero books-slider">
-				<div class="swiper-wrapper">
-					<a href="#" class="swiper-slide"><img src="images/book1.png" alt=""></a>
-					<a href="#" class="swiper-slide"><img src="images/book2.png" alt=""></a>
-					<a href="#" class="swiper-slide"><img src="images/book3.png" alt=""></a>
-					<a href="#" class="swiper-slide"><img src="images/book4.png" alt=""></a>
-					<a href="#" class="swiper-slide"><img src="images/book5.png" alt=""></a>
-					<a href="#" class="swiper-slide"><img src="images/book6.png" alt=""></a>
-				</div>
-				<img src="images/stand.png" class="stand" alt="">
-			</div> -->
 		</div>
 	</div>
 </div>
@@ -98,92 +92,52 @@ if (!isset($_GET['home'])) {
 							<!-- Slide 1 with three products -->
 							<div class="carousel-item active">
 								<div class="row">
-									<div class="col-md-4">
-										<a class="product-item" href="cart.html">
-											<img src="layout/images/book7.png" class="img-fluid product-thumbnail">
-											<h3 class="product-title">Văn học</h3>
-											<strong class="product-price">$12.00</strong>
-
-											<span class="icon-cross">
-												<img src="layout/images/cross.svg" class="img-fluid">
-											</span>
-										</a>
-										<!-- End Column 2 -->
-									</div>
-
-									<!-- Start Column 3 -->
-									<div class="col-md-4">
-										<a class="product-item" href="cart.html">
-											<img src="layout/images/book8.png" class="img-fluid product-thumbnail">
-											<h3 class="product-title">Lịch Sử</h3>
-											<strong class="product-price">$18.00</strong>
-
-											<span class="icon-cross">
-												<img src="layout/images/cross.svg" class="img-fluid">
-											</span>
-										</a>
-										<!-- End Column 3 -->
-									</div>
-
-									<!-- Start Column 4 -->
-									<div class="col-md-4">
-										<a class="product-item" href="cart.html">
-											<img src="layout/images/book9.png" class="img-fluid product-thumbnail">
-											<h3 class="product-title">Âm Nhạc</h3>
-											<strong class="product-price">$15.00</strong>
-
-											<span class="icon-cross">
-												<img src="layout/images/cross.svg" class="img-fluid">
-											</span>
-										</a>
-										<!-- End Column 4 -->
-									</div>
+									<?php for ($i = 0; $i < 3; $i++): ?>
+										<div class="col-md-4">
+											<a class="product-item" href="cart.html">
+												<img src="layout/images/<?php echo $books[$i]['hinhAnh']; ?>" class="img-fluid product-thumbnail">
+												<h3 class="product-title"><?php echo $books[$i]['tenDauSach']; ?></h3>
+												<strong class="product-price"><?php echo $books[$i]['giaThue'];; ?></strong>
+												<span class="icon-cross">
+													<img src="layout/images/cross.svg" class="img-fluid">
+												</span>
+											</a>
+										</div> <?php endfor; ?>
 								</div>
 							</div>
 							<!-- Slide 2 with three more products -->
 							<div class="carousel-item">
 								<div class="row">
-									<div class="col-md-4">
-										<a class="product-item" href="cart.html">
-											<img src="layout/images/book11.png" class="img-fluid product-thumbnail">
-											<h3 class="product-title">Văn Thơ</h3>
-											<strong class="product-price">$12.00</strong>
-
-											<span class="icon-cross">
-												<img src="layout/images/cross.svg" class="img-fluid">
-											</span>
-										</a>
-
-									</div>
-
-									<div class="col-md-4">
-										<a class="product-item" href="cart.html">
-											<img src="layout/images/book12.png" class="img-fluid product-thumbnail">
-											<h3 class="product-title">Văn Thơ</h3>
-											<strong class="product-price">$12.00</strong>
-
-											<span class="icon-cross">
-												<img src="layout/images/cross.svg" class="img-fluid">
-											</span>
-										</a>
-
-									</div>
-
-									<div class="col-md-4">
-										<a class="product-item" href="cart.html">
-											<img src="layout/images/book13.png" class="img-fluid product-thumbnail">
-											<h3 class="product-title">Văn Thơ</h3>
-											<strong class="product-price">$12.00</strong>
-
-											<span class="icon-cross">
-												<img src="layout/images/cross.svg" class="img-fluid">
-											</span>
-										</a>
-
-									</div>
+									<?php for ($i = 3; $i < 6; $i++): ?>
+										<div class="col-md-4">
+											<a class="product-item" href="cart.html">
+												<img src="layout/images/<?php echo $books[$i]['hinhAnh']; ?>" class="img-fluid product-thumbnail">
+												<h3 class="product-title"><?php echo $books[$i]['tenDauSach']; ?></h3>
+												<strong class="product-price"><?php echo $books[$i]['giaThue']; ?></strong>
+												<span class="icon-cross">
+													<img src="layout/images/cross.svg" class="img-fluid">
+												</span>
+											</a>
+										</div> <?php endfor; ?>
+								</div>
+							</div>
+							<!-- Slide 3 with three more products -->
+							<div class="carousel-item">
+								<div class="row">
+									<?php for ($i = 6; $i < 9; $i++): ?>
+										<div class="col-md-4">
+											<a class="product-item" href="cart.html">
+												<img src="layout/images/<?php echo $books[$i]['hinhAnh']; ?>" class="img-fluid product-thumbnail">
+												<h3 class="product-title"><?php echo $books[$i]['tenDauSach']; ?></h3>
+												<strong class="product-price"><?php echo $books[$i]['giaThue']; ?></strong>
+												<span class="icon-cross">
+													<img src="layout/images/cross.svg" class="img-fluid"> </span>
+											</a>
+										</div> <?php endfor; ?>
 								</div>
 							</div>
 						</div>
+
 
 						<!--Nút điều khiển trước (carousel-control-prev) & sau (carousel-control-next) -->
 						<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleRide"
@@ -269,7 +223,6 @@ if (!isset($_GET['home'])) {
 <!-- End Why Choose Us Section -->
 
 <!-- Start Featured Books -->
-<!-- <div class="we-help-section"> -->
 <div class="container product-section">
 	<div class="row">
 		<div class="col-12">
@@ -297,70 +250,11 @@ if (!isset($_GET['home'])) {
 			echo 'Đang cập nhật sản phẩm';
 		}
 		?>
-		<!-- <div class="col-md-3"> 
-			<a class="product-item" href="cart.html"> 
-				<img src="layout/images/book7.png" class="img-fluid product-thumbnail"> 
-				<div class="card-information">
-					<h3 class="product-title">Văn học</h3>
-					<strong class="product-price">$12.00</strong>
-					<span class="icon-cross">
-						<img src="layout/images/cross.svg" class="img-fluid">
-					</span>
-				</div>
-			</a> 
-		</div> 
-		<div class="col-md-3"> 
-			<a class="product-item" href="cart.html"> 
-				<img src="layout/images/book7.png" class="img-fluid product-thumbnail"> 
-				<div class="card-information">
-					<h3 class="product-title">Văn họcVăn họcVăn họcVăn họcVăn họcVăn họcVăn học</h3>
-					<strong class="product-price">$12.00</strong>
-					<span class="icon-cross">
-						<img src="layout/images/cross.svg" class="img-fluid">
-					</span>
-				</div>
-			</a> 
-		</div>  -->
+
 
 	</div>
 </div>
 <!-- End Featured Books -->
-
-<!-- Start Popular Product -->
-<!-- <div class="popular-product">
-	<div class="container">
-		<div class="row">
-
-			<div class="col-12 col-md-6 col-lg-4 mb-4 mb-lg-0">
-				<div class="product-item-sm d-flex">
-					<div class="thumbnail">
-						<img src="images/product-1.png" alt="Image" class="img-fluid">
-					</div>
-					<div class="pt-3">
-						<h3>Nordic Chair</h3>
-						<p>Donec facilisis quam ut purus rutrum lobortis. Donec vitae odio </p>
-						<p><a href="#">Read More</a></p>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-12 col-md-6 col-lg-4 mb-4 mb-lg-0">
-				<div class="product-item-sm d-flex">
-					<div class="thumbnail">
-						<img src="images/product-2.png" alt="Image" class="img-fluid">
-					</div>
-					<div class="pt-3">
-						<h3>Kruzo Aero Chair</h3>
-						<p>Donec facilisis quam ut purus rutrum lobortis. Donec vitae odio </p>
-						<p><a href="#">Read More</a></p>
-					</div>
-				</div>
-			</div>
-
-		</div>
-	</div>
-</div> -->
-<!-- End Popular Product -->
 
 <!-- Start Review Customer's Slider -->
 <div class="testimonial-section">
@@ -472,3 +366,65 @@ if (!isset($_GET['home'])) {
 	</div>
 </div>
 <!-- End Testimonial Slider -->
+
+
+<!-- <div class="col-md-3"> 
+			<a class="product-item" href="cart.html"> 
+				<img src="layout/images/book7.png" class="img-fluid product-thumbnail"> 
+				<div class="card-information">
+					<h3 class="product-title">Văn học</h3>
+					<strong class="product-price">$12.00</strong>
+					<span class="icon-cross">
+						<img src="layout/images/cross.svg" class="img-fluid">
+					</span>
+				</div>
+			</a> 
+		</div> 
+		<div class="col-md-3"> 
+			<a class="product-item" href="cart.html"> 
+				<img src="layout/images/book7.png" class="img-fluid product-thumbnail"> 
+				<div class="card-information">
+					<h3 class="product-title">Văn họcVăn họcVăn họcVăn họcVăn họcVăn họcVăn học</h3>
+					<strong class="product-price">$12.00</strong>
+					<span class="icon-cross">
+						<img src="layout/images/cross.svg" class="img-fluid">
+					</span>
+				</div>
+			</a> 
+		</div>  -->
+
+<!-- Start Popular Product -->
+<!-- <div class="popular-product">
+	<div class="container">
+		<div class="row">
+
+			<div class="col-12 col-md-6 col-lg-4 mb-4 mb-lg-0">
+				<div class="product-item-sm d-flex">
+					<div class="thumbnail">
+						<img src="images/product-1.png" alt="Image" class="img-fluid">
+					</div>
+					<div class="pt-3">
+						<h3>Nordic Chair</h3>
+						<p>Donec facilisis quam ut purus rutrum lobortis. Donec vitae odio </p>
+						<p><a href="#">Read More</a></p>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-12 col-md-6 col-lg-4 mb-4 mb-lg-0">
+				<div class="product-item-sm d-flex">
+					<div class="thumbnail">
+						<img src="images/product-2.png" alt="Image" class="img-fluid">
+					</div>
+					<div class="pt-3">
+						<h3>Kruzo Aero Chair</h3>
+						<p>Donec facilisis quam ut purus rutrum lobortis. Donec vitae odio </p>
+						<p><a href="#">Read More</a></p>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div> -->
+<!-- End Popular Product -->

@@ -8,15 +8,13 @@ class User
 
     public function __construct()
     {
-        $this->db = new Database();
+        $this->db = new myDatabase();
         $this->conn = $this->db->conn;
     }
 
     public function register($hoTen, $tenDangNhap, $email, $password, $confirmPassword, $sdt, $diachi, $agree)
     {
         if (!empty($hoTen) && !empty($tenDangNhap) && !empty($email) && !empty($sdt) && !empty($password) && !empty($confirmPassword)) {
-
-
             // Kiểm tra các trường bắt buộc
             $email_check_query = "SELECT * FROM taikhoan WHERE email='$email' LIMIT 1";
             $result = $this->conn->query($email_check_query);
@@ -43,18 +41,22 @@ class User
                     // Lưu thông tin vào bảng taikhoan
                     $taikhoan_query = "INSERT INTO taikhoan (email, Password, nguoiDungID) VALUES ('$email', '$password', '$maNguoiDung')";
                     if ($this->conn->query($taikhoan_query) === TRUE) {
-                        echo '<script lang="javascript">
-                                alert("Đăng ký thành công!");
-                                window.location.href = "index.php?login";
-                            </script>';
+                        // Lưu thông tin vào bảng khachhang
+                        $khachhang_query = "INSERT INTO khachhang (maNguoiDung) VALUES ('$maNguoiDung')";
+                        if ($this->conn->query($khachhang_query) === TRUE) {
+                            echo '<script lang="javascript">
+                                    alert("Đăng ký thành công!"); 
+                                    window.location.href = "index.php?login";
+                                </script>';
+                        } else {
+                            echo '<script>alert("Lỗi: ' . $this->conn->error . '");</script>';
+                        }
                     } else {
-                        // return "Lỗi: " . $taikhoan_query . "<br>" . $this->conn->error;
                         echo '<script lang="javascript">
                                 alert("Lỗi: " . $taikhoan_query . "<br>" . $this->conn->error);
                             </script>';
                     }
                 } else {
-                    // return "Lỗi: " . $nguoidung_query . "<br>" . $this->conn->error;
                     echo '<script lang="javascript">
                                 alert("Lỗi: " . $nguoidung_query . "<br>" . $this->conn->error);
                             </script>';
@@ -65,8 +67,6 @@ class User
                                 alert("Vui lòng nhập đầy đủ thông tin");
                             </script>';
         }
-        // Mã hóa mật khẩu
-        // $hashed_password = password_hash($password, PASSWORD_DEFAULT);
     }
 
     public function __destruct()
@@ -74,3 +74,6 @@ class User
         $this->db->close();
     }
 }
+
+// Mã hóa mật khẩu
+// $hashed_password = password_hash($password, PASSWORD_DEFAULT);
