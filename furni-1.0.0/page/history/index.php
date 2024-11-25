@@ -188,33 +188,49 @@
                     <th>Hình ảnh thanh toán</th>
                 </tr>
                 <?php
-                // Kết nối cơ sở dữ liệu
-                $conn = mysqli_connect("localhost", "nhomptud", "123456", "ptud");
-                if ($conn->connect_error) {
-                    die("Kết nối thất bại: " . $conn->connect_error);
-                }
+                    // Kết nối cơ sở dữ liệu
+                    $conn = mysqli_connect("localhost", "nhomptud", "123456", "ptud");
 
-                // Truy vấn danh sách đơn thuê sách
-                $sql = "SELECT * FROM donthuesach where donthuesach.maKH"; // Lấy toàn bộ dữ liệu từ bảng donthuesach
-                $result = $conn->query($sql);
+                    // Kiểm tra nếu maNguoiDung được truyền qua URL
+                    if (isset($_GET['maNguoiDung'])) {
+                        $maNguoiDung = $_GET['maNguoiDung'];
 
-                // Đảm bảo có dữ liệu trong bảng donthuesach
-                if ($result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()) {
-                        echo "<tr onclick=\"redirectToDetails('" . $row['maDon'] . "')\">";
-                        echo "<td>" . $row['maDon'] . "</td>";
-                        echo "<td>" . $row['ngayThue'] . "</td>";
-                        echo "<td>" . number_format($row['tongTienThue'], 0, ',', '.') . " VND</td>";
-                        echo "<td>" . number_format($row['phiShip'], 0, ',', '.') . " VND</td>";
-                        echo "<td>" . $row['phuongThucThanhToan'] . "</td>";
-                        echo "<td>" . $row['tinhTrangThanhToan'] . "</td>";
-                        echo "<td><img src='layout/images/" . $row['hinhAnhThanhToan'] . "' alt='Image' style='width: 50px; height: 50px;'></td>";
-                        echo "</tr>";
+                        // Truy vấn bảng 'khachhang' để lấy maKH
+                        $queryKH = "SELECT maKH FROM khachhang WHERE maNguoiDung = '$maNguoiDung'";
+                        $resultKH = mysqli_query($conn, $queryKH);
+
+                        if (mysqli_num_rows($resultKH) == 1) {
+                            $khachhang = mysqli_fetch_assoc($resultKH);
+                            $maKH = $khachhang['maKH']; // Lấy mã khách hàng
+
+                            // Truy vấn lịch sử thuê sách dựa trên maKH
+                            $queryHistory = "SELECT * FROM donthuesach WHERE maKH = '$maKH'";
+                            $resultHistory = mysqli_query($conn, $queryHistory);
+
+                            if (mysqli_num_rows($resultHistory) > 0) {
+                                echo "<ul>";
+                                while ($row = mysqli_fetch_assoc($resultHistory)) {
+                                    echo "<tr onclick=\"redirectToDetails('" . $row['maDon'] . "')\">";
+                                    echo "<td>" . $row['maDon'] . "</td>";
+                                    echo "<td>" . $row['ngayThue'] . "</td>";
+                                    echo "<td>" . number_format($row['tongTienThue'], 0, ',', '.') . " VND</td>";
+                                    echo "<td>" . number_format($row['phiShip'], 0, ',', '.') . " VND</td>";
+                                    echo "<td>" . $row['phuongThucThanhToan'] . "</td>";
+                                    echo "<td>" . $row['tinhTrangThanhToan'] . "</td>";
+                                    echo "<td><img src='layout/images/" . $row['hinhAnhThanhToan'] . "' alt='Image' style='width: 50px; height: 50px;'></td>";
+                                    echo "</tr>";
+                                }
+                                echo "</ul>";
+                            } else {
+                                echo "<tr><td colspan='7'>Không có lịch sử thuê sách.</td></tr>";
+                            }
+                        } else {
+                            echo "<tr><td colspan='7'>Không tìm thấy thông tin khách hàng.</td></tr>";
+                        }
+                    } else {
+                        echo "<tr><td colspan='7'>Không có thông tin người dùng.</td></tr>";
                     }
-                } else {
-                    echo "<tr><td colspan='7'>Không có lịch sử thuê sách.</td></tr>";
-                }
-                ?>
+                    ?>
             </table>
         </div>
     </div>

@@ -39,13 +39,18 @@ if (isset($_POST['btnLogin'])) {
     $result = mysqli_query($conn, $query);
 
     if (mysqli_num_rows($result) == 1) {
+        $user = mysqli_fetch_assoc($result); // Lấy thông tin người dùng từ bảng 'taikhoan'
+        $maNguoiDung = $user['maNguoiDung']; // Lấy maNguoiDung từ tài khoản
+
         // Lưu trạng thái đăng nhập vào session
         $_SESSION['btnLogin'] = 1;
-        $_SESSION['user'] = $_POST['CustomerEmail'];
+        $_SESSION['user'] = $email;
+        $_SESSION['maNguoiDung'] = $maNguoiDung; // Lưu maNguoiDung vào session
+
         // Chuyển hướng đến trang home/index.php
         echo '<script>
             alert("Đăng nhập thành công");
-            window.location.href = "index.php?home"; // Chuyển hướng bằng JavaScript
+            window.location.href = "index.php?home&maNguoiDung=' . $maNguoiDung. '"; // Chuyển hướng đến trang home
           </script>';
     } else {
         echo '<script>

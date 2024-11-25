@@ -186,6 +186,23 @@ if (!$filter) {
                                 <option value="out_of_stock" <?= isset($_GET['filter']) && $_GET['filter'] === 'out_of_stock' ? 'selected' : '' ?>>Hết hàng</option>
                             </select>
                         </form>
+                        <!--<form method="post" action="export.php" style="margin-left: 10px;">
+                            <input type="hidden" name="filter" value="<?//= isset($_GET['filter']) ? $_GET['filter'] : '' ?>">
+                            <button type="submit" class="btn btn-primary">Xuất dữ liệu</button>
+                        </form>-->
+                        <!-- Form chọn định dạng xuất file -->
+                        <form method="post" action="export.php" class="d-flex align-items-center" style="margin-left: 10px;">
+                            <!-- Chuyển bộ lọc hiện tại vào form -->
+                            <input type="hidden" name="filter" value="<?= isset($_GET['filter']) ? $_GET['filter'] : '' ?>">
+                            <!-- Dropdown chọn định dạng -->
+                            <select name="format" class="form-control" style="height: 45px; width: 150px; margin-right: 10px;">
+                                <option value="excel">Excel</option>
+                                <option value="pdf">PDF</option>
+                                <option value="word">Word</option>
+                            </select>
+                            <!-- Nút bấm xuất file -->
+                            <button type="submit" class="btn btn-primary">Xuất báo cáo</button>
+                        </form>
                     </div>
                 </div>
 

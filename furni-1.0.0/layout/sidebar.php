@@ -89,7 +89,7 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="indexAdmin.php?baocaotheodoitonkho">Báo cáo theo dõi tồn
                                 kho</a>
-                            <a class="dropdown-item" href="#">Kiểm tra hư hỏng</a>
+                            <a class="dropdown-item" href="indexAdmin.php?kiemtrahuhong">Kiểm tra hư hỏng</a>
                             <a class="dropdown-item" href="#">Xử lý hư hỏng</a>
                             <a class="dropdown-item" href="#">Thanh lý</a>
                             <a class="dropdown-item" href="#">Báo cáo</a>
