@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     // Cập nhật số lượng và tình trạng trong bảng sach
                     $updateSachQuery = "
                         UPDATE sach 
-                        SET tinhTrang = 'Con sach'       
+                        SET tinhTrang = 'Can kiem tra'       
                         WHERE maSach = '$maSach'
                     ";
                     $updateDauSachQuery = "
