@@ -158,10 +158,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-
                 <div class="card-header bg-white">
                     <h3 class="card-title text-center ">DANH SÁCH SÁCH</h3>
-                    <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal"><i
+                    <button type="button" class="btn btn-success " data-toggle="modal" data-target="#myModal"><i
                             class="fa fa-plus-circle"></i>Thêm
                         mới</button>
                 </div>

@@ -99,8 +99,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div class="card strpied-tabled-with-hover">
                     <div class="card-header">
                         <h4 class="card-title text-center">DANH SÁCH DANH MỤC SÁCH</h4>
-                        <button type="button" class="btn btn-success btn-lg" data-toggle="modal"
-                            data-target="#myModal"><i class="fa fa-plus-circle"></i>Thêm
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal"><i
+                                class="fa fa-plus-circle"></i>Thêm
                             mới</button>
                     </div>
                     <div class="card-body table-full-width table-responsive">
@@ -161,7 +161,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
                             <button type="submit" class="btn btn-primary" name="addCategory">Thêm</button>
                         </div>
                     </div>
@@ -190,7 +190,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
                             <button type="submit" name="btSua" class="btn btn-primary">Cập Nhật</button>
                         </div>
                     </div>
