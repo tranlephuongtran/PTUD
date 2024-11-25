@@ -92,7 +92,7 @@
                             <a class="dropdown-item" href="indexAdmin.php?kiemtrahuhong">Kiểm tra hư hỏng</a>
                             <a class="dropdown-item" href="#">Xử lý hư hỏng</a>
                             <a class="dropdown-item" href="#">Thanh lý</a>
-                            <a class="dropdown-item" href="#">Báo cáo</a>
+                            <a class="dropdown-item" href="indexAdmin.php?baocao">Báo cáo</a>
                         </div>
 
                     </li>
@@ -119,6 +119,12 @@
                         <a class="nav-link" href="indexAdmin.php?quanlydanhmuc">
                             <i class="nc-icon nc-notes"></i>
                             <p>Quản lý danh mục</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="indexAdmin.php?quanlychinhsach">
+                            <i class="nc-icon nc-notes"></i>
+                            <p>Quản lý chính sách</p>
                         </a>
                     </li>
                     <li>
@@ -178,7 +184,7 @@
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link" href="#pablo">
+                                <a class="nav-link" href="indexAdmin.php?logoutAdmin">
                                     <span class="no-icon">Log out</span>
                                 </a>
                             </li>

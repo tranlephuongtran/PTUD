@@ -1,7 +1,21 @@
 <?php
-
 session_start();
 ob_start();
+
+// Kiểm tra nếu đăng xuất
+if (isset($_GET['logoutAdmin'])) {
+    session_unset();
+    session_destroy();
+    header('Location: loginAdmin.php');
+    exit();
+
+}
+// Kiểm tra nếu chưa đăng nhập
+if (!isset($_SESSION['admin_id'])) {
+    header('Location: loginAdmin.php');
+    exit();
+}
+
 include("class/classdatabase.php");
 include("layout/sidebar.php");
 if (isset($_GET['quanlydanhmuc'])) {
@@ -31,6 +45,5 @@ if (isset($_GET['quanlydanhmuc'])) {
 } else {
     $pagead = 'quanlysanpham';
 }
-
 include("page/admin/" . $pagead . "/index.php");
 include("layout/footerAd.php");
