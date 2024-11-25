@@ -26,6 +26,8 @@ if (isset($_GET['quanlydanhmuc'])) {
     $pagead = 'baocaotheodoitonkho';
 } else if (isset($_GET['kiemtrahuhong'])) {
     $pagead = 'kiemtrahuhong';
+} else if (isset($_GET['quanlykhuyenmai'])) {
+    $pagead = 'quanlykhuyenmai';
 } else {
     $pagead = 'quanlysanpham';
 }
