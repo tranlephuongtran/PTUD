@@ -15,42 +15,61 @@
     .pagination {
         display: flex;
         justify-content: center;
+        /* Căn giữa các nút theo chiều ngang */
         margin-top: 10px;
     }
 
     .pagination a {
         text-decoration: none;
         width: 50px;
+        /* Tăng chiều rộng */
         height: 50px;
+        /* Tăng chiều cao */
         border: 2px solid #ccc;
+        /* Thêm đường viền sáng */
         padding: 10px;
+        /* Tăng không gian xung quanh chữ */
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 18px;
+        /* Tăng kích thước chữ */
         border-radius: 5px;
+        /* Thêm bo góc */
         margin: 5px;
+        /* Khoảng cách giữa các nút */
         transition: all 0.3s ease;
+        /* Thêm hiệu ứng chuyển động */
     }
 
     .pagination a:hover {
         background-color: #a76d49;
+        /* Thêm hiệu ứng nền khi hover */
         color: white;
+        /* Thay đổi màu chữ khi hover */
         transform: scale(1.1);
+        /* Phóng to nút khi hover */
     }
 
     .pagination .active {
         background-color: #a76d49;
+        /* Nền trang hiện tại */
         color: white;
         font-weight: bold;
+        /* In đậm chữ */
         border-color: #a76d49;
+        /* Thêm đường viền cùng màu với nền */
+    }
+
+    #search:hover {
+        background-color: black !important;
     }
 </style>
 <?php
-if (!isset($_GET['cate'])) {
-    $cate = 1;
+if (!isset($_GET['shop'])) {
+    $shop = 1;
 } else {
-    $cate = intval($_GET['cate']);
+    $shop = intval($_GET['shop']);
 }
 ?>
 
@@ -60,7 +79,7 @@ if (!isset($_GET['cate'])) {
         <div class="row justify-content-between">
             <div class="col-lg-5">
                 <div class="intro-excerpt">
-                    <h1>Sản phẩm</h1>
+                    <h1>Sản Phẩm</h1>
                 </div>
             </div>
             <div class="col-lg-7">
@@ -81,32 +100,22 @@ if (!isset($_GET['cate'])) {
     <div class="container">
         <div class="row">
             <?php
-            if (!isset($_GET['page'])) {
-                $page = 1;
-            } else {
-                $page = intval($_GET['page']);
-            }
             $conn = mysqli_connect("localhost", "nhomptud", "123456", "ptud");
+            $search = $_GET['search'];
             $results_per_page = 8;
             if ($conn) {
-                $str = "SELECT * 
-                FROM dausach d 
-                JOIN sach s ON d.maDauSach = s.maDauSach 
-                JOIN danhmuc dm ON d.maDM = dm.maDM 
-                WHERE dm.maDM = $cate
-                GROUP BY d.maDauSach";
+                $str = "SELECT *FROM dausach d Join sach s on d.maDauSach = s.maDauSach WHERE tenDauSach like '%$search%'GROUP BY d.maDauSach";
                 $result = $conn->query($str);
                 $number_of_result = mysqli_num_rows($result);
                 $number_of_page = ceil($number_of_result / $results_per_page);
-                $page_first_result = ($page - 1) * $results_per_page;
-                $str = "SELECT * 
-                FROM dausach d 
-                JOIN sach s ON d.maDauSach = s.maDauSach 
-                JOIN danhmuc dm ON d.maDM = dm.maDM 
-                WHERE dm.maDM = $cate
-                GROUP BY d.maDauSach LIMIT $page_first_result, $results_per_page";
+                $page_first_result = ($shop - 1) * $results_per_page;
+                if ($page_first_result < 0) {
+                    $page_first_result = 0; // Đảm bảo rằng page_first_result không âm
+                }
+                $str = "SELECT *FROM dausach d Join sach s on d.maDauSach = s.maDauSach WHERE tenDauSach like '%$search%' GROUP BY d.maDauSach LIMIT $page_first_result, $results_per_page";
                 $result = $conn->query($str);
                 if (mysqli_num_rows($result) > 0) {
+                    echo "<h1 align='center' style ='margin-top: -70px;'>Kết quả tìm kiếm: $search</h1>";
                     while ($row = mysqli_fetch_assoc($result)) {
                         $gia = number_format($row['giaThue'], 0, '.', '.');
 
@@ -126,13 +135,23 @@ if (!isset($_GET['cate'])) {
                     // Phân trang
                     echo "<div class='pagination' style='text-align: center; margin-top: 10px;'>";
                     for ($i = 1; $i <= $number_of_page; $i++) {
-                        if ($i == $page) {
-                            echo "<a class='active' href='index.php?cate={$cate}&page={$i}'>" . $i . '</a> ';
+                        if ($i == $shop) {
+                            echo '<a class="active" href="index.php?shop=' . $i . '">' . $i . '</a> ';
                         } else {
-                            echo "<a href='index.php?cate={$cate}&page={$i}'>" . $i . '</a> ';
+                            echo '<a href="index.php?shop=' . $i . '">' . $i . '</a> ';
                         }
                     }
-                    echo '</div>';
+                    echo "</div>";
+                } else {
+                    echo "<h1 align='center'>Không tìm thấy</h1>";
+                    echo "<script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const searchInput = document.querySelector('input[name=\"searchInput\"]');
+                if (searchInput) {
+                    searchInput.focus();
+                }
+            });
+          </script>";
                 }
             }
             ?>
@@ -148,9 +167,9 @@ if (!isset($_GET['cate'])) {
 <!-- End Footer Section -->
 
 
-<script src="js/bootstrap.bundle.min.js"></script>
-<script src="js/tiny-slider.js"></script>
-<script src="js/custom.js"></script>
+<script src="layout/js/bootstrap.bundle.min.js"></script>
+<script src="layout/js/tiny-slider.js"></script>
+<script src="layout/js/custom.js"></script>
 </body>
 
 </html>

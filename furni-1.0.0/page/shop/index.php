@@ -60,6 +60,10 @@
 		border-color: #a76d49;
 		/* Thêm đường viền cùng màu với nền */
 	}
+
+	#search:hover {
+		background-color: black !important;
+	}
 </style>
 <?php
 if (!isset($_GET['shop'])) {
@@ -85,7 +89,13 @@ if (!isset($_GET['shop'])) {
 	</div>
 </div>
 <!-- End Hero Section -->
-
+<form method="POST">
+	<div class="row" style="position: relative; left: 330px; top: 100px">
+		<input type="text" name="searchInput" style="width: 800px;">
+		<button style="width: 100px; border: 0; background-color: #a76d49; color: white" id="search"
+			name="searchBtn">Tìm</button>
+	</div>
+</form>
 <div class="untree_co-section product-section before-footer-section">
 	<div class="container">
 		<div class="row">
@@ -151,3 +161,10 @@ if (!isset($_GET['shop'])) {
 </body>
 
 </html>
+<?php
+if (isset($_POST['searchBtn'])) {
+	$search = $_POST["searchInput"];
+	$_SESSION['search'] = $search;
+	header("Location: index.php?search=$search");
+}
+?>

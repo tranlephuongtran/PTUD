@@ -46,6 +46,8 @@ if (isset($_GET['about'])) {
     $page = 'profile';
 } else if (isset($_GET['logout'])) {
     $page = 'logout';
+} else if (isset($_GET['search'])) {
+    $page = 'search';
 } else {
     $page = 'home';
 }

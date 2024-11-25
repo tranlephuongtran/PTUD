@@ -152,7 +152,7 @@ error_reporting(0);
                         }
 
                         echo "
-                                    <a class='dropdown-item' href='index.php?payment'>Thanh toán</a>
+                                    <a class='dropdown-item' href='index.php?paymentlate'>Thanh toán</a>
                                     <a class='dropdown-item' href='index.php?logout'>Đăng xuất</a>
                                 </div>
                             </li>
