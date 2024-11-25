@@ -45,6 +45,10 @@
         font-weight: bold;
         border-color: #a76d49;
     }
+
+    #search:hover {
+        background-color: #d1a689 !important;
+    }
 </style>
 <?php
 if (!isset($_GET['cate'])) {

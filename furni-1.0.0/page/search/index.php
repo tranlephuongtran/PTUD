@@ -62,7 +62,7 @@
     }
 
     #search:hover {
-        background-color: black !important;
+        background-color: #d1a689 !important;
     }
 </style>
 <?php
