@@ -42,7 +42,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         SET tinhTrangThue = 'Đã trả', ngayTra = '$currentDate', hinhAnhTraSach = '$fileName' 
                         WHERE maDon = '$maDon' AND maSach = '$maSach'
                     ";
-                    if ($conn->query($updateQuery)) {
+                    $updateQuerySach ="
+                        UPDATE sach
+                        SET tinhTrang = 'Can kiem tra'
+                        WHERE maSach = '$maSach'
+                    ";
+                    if ($conn->query($updateQuery) && $conn->query($updateQuerySach)) {
                         echo "<script>alert('Tình trạng thuê và ảnh đã được cập nhật thành công.');</script>";
                     } else {
                         echo "<script>alert('Lỗi khi cập nhật thông tin: " . $conn->error . "');</script>";

@@ -186,7 +186,7 @@ if (isset($_POST['btn-submit'])) {
                 WHERE maDon = $payment;
             ";
             if ($conn->query($updateQuery)) {
-                echo "<script>alert('Thanh toán thành công! Chờ xác nhận.');window.location.href = 'index.php?history';</script>";
+                echo "<script>alert('Thanh toán thành công! Chờ xác nhận.');window.location.href = 'index.php?home';</script>";
             } else {
                 echo "<script>alert('Lỗi khi cập nhật thông tin: " . $conn->error . "');</script>";
             }

@@ -140,15 +140,27 @@ error_reporting(0);
                                 <!-- Dropdown Menu -->
                                 <div id='userMenu' class='dropdown-menu'>
                                     <a class='dropdown-item' href='index.php?updateProfile'>Cập nhật thông tin</a>
-                                    <a class='dropdown-item' href='index.php?change_password'>Đổi mật khẩu</a>
-                                    <a class='dropdown-item' href='index.php?history'>Xem lịch sử thuê sách</a>
-                                    <a class='dropdown-item' href='index.php?history'>Thanh toán</a>
-                                    <!-- Chỉnh sửa đường dẫn đăng xuất -->
+                                    <a class='dropdown-item' href='index.php?change_password'>Đổi mật khẩu</a>";
+
+                            // Kiểm tra nếu mã khách hàng (maKH) tồn tại trong session
+                            if (isset($_SESSION['maNguoiDung'])) {
+                                echo "
+                                    <a class='dropdown-item' href='index.php?history&maNguoiDung=" . $_SESSION['maNguoiDung'] . "'>Xem lịch sử thuê sách</a>";
+                            } else {
+                                echo "
+                                    <a class='dropdown-item' href='#' onclick='alert(\"Hãy đăng nhập tài khoản khách hàng để xem lịch sử mua hàng của bạn\")'>Xem lịch sử thuê sách</a>";
+                            }
+
+                            echo "
+                                    <a class='dropdown-item' href='index.php?payment'>Thanh toán</a>
                                     <a class='dropdown-item' href='index.php?logout'>Đăng xuất</a>
                                 </div>
                             </li>
-                            <li class='nav-item'><a class='nav-link' href='index.php?cart'><img src='layout/images/cart.svg'></a></li>
-                            ";
+                            <li class='nav-item'>
+                                <a class='nav-link' href='index.php?cart'>
+                                    <img src='layout/images/cart.svg' alt='Cart Icon'>
+                                </a>
+                            </li>";
                     }
                     ?>
                 </ul>
