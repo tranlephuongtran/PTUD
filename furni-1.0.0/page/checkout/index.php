@@ -238,13 +238,17 @@ if ($thanhvien == 1) {
 <?php
 if (isset($_POST['km']) && $_POST['km'] > 0) {
 	$_SESSION['maKM'] = $maKM;
-	$km = $_SESSION['maKM'];
 }
 if (isset($_POST['confirm'])) {
 	$total_deposit = str_replace(',', '', $total_deposit); //tongtiencoc
 	//tong tien thue = total
 	$ship = 30000;
-	$str = "INSERT INTO donthuesach(tongTienThue, tongTienCoc, tinhTrangThanhToan, phiShip, maKM, maKH, maThe ) VALUES($total, $total_deposit, 'Chua thanh toan', $ship, $km, $maKH, '$maThe')";
+	$now = date_create()->format('Y-m-d');
+	$km = $_SESSION['maKM'];
+	$date = new DateTime('now');
+	$date->modify('+15 days');
+	$date = $date->format('Y-m-d');
+	$str = "INSERT INTO donthuesach(ngayThue, tongTienThue, tongTienCoc, tinhTrangThanhToan, phiShip, maKM, maKH, maThe ) VALUES('$now', $total, $total_deposit, 'Chua thanh toan', $ship, $km, $maKH, '$maThe')";
 	$conn = mysqli_connect("localhost", "nhomptud", "123456", "ptud");
 	if ($conn) {
 		if ($conn->query($str)) {
@@ -260,7 +264,7 @@ if (isset($_POST['confirm'])) {
 				$result = $conn->query($str);
 				if (mysqli_num_rows($result) > 0) {
 					while ($row = mysqli_fetch_assoc($result)) {
-						$str = "INSERT INTO chitiethoadon(giaThue, tinhTrangThue, tienCoc, maSach, maDon) VALUES($price, '$tinhTrang', $deposit, {$row['maSach']}, $maDon)";
+						$str = "INSERT INTO chitiethoadon(giaThue, ngayTra, tinhTrangThue, tienCoc, maSach, maDon) VALUES($price, '$date', '$tinhTrang', $deposit, {$row['maSach']}, $maDon)";
 						if ($conn->query($str)) {
 							$str = "UPDATE sach SET tinhTrang='Dang thue' WHERE maSach={$row['maSach']}";
 							if ($conn->query($str)) {
@@ -268,7 +272,7 @@ if (isset($_POST['confirm'])) {
 						}
 					}
 				}
-				$str = "UPDATE dausach SET soLuongDangThue = soLuongDangThue + $quantity WHERE maDauSach=$maDauSach";
+				$str = "UPDATE dausach SET soLuongDangThue = $quantity WHERE maDauSach=$maDauSach";
 				if ($conn->query($str)) {
 				}
 			}

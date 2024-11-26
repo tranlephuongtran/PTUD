@@ -174,9 +174,9 @@
                         echo "<div class='left-section'>";
                         echo "<h2>Hình ảnh</h2>";
                         echo "<h4>Hình ảnh thanh toán:</h4>";
-                        echo "<img class='Hinh' src='layout/images/" . $row['hinhAnhThanhToan'] . "' alt='Hình ảnh thanh toán'>";
+                        echo "<img class='Hinh' src='layout/images/bills/" . $row['hinhAnhThanhToan'] . "' alt='Hình ảnh thanh toán'>";
                         echo "<h4>Hình ảnh trả sách:</h4>";
-                        echo "<img class='Hinh' src='layout/images/" . $row['hinhAnhTraSach'] . "' alt='Hình ảnh sách'>";
+                        echo "<img class='Hinh' src='layout/images/uploads/" . $row['hinhAnhTraSach'] . "' alt='Hình ảnh sách'>";
                         echo "</div>";
                         echo "<div class='right-section'>";
                         echo "<h2>Thông tin chi tiết</h2>";

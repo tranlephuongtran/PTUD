@@ -193,7 +193,7 @@ if (isset($_POST['btn-submit'])) {
                 $str = "UPDATE donthuesach SET ngayThue = '$now' WHERE maDon = $payment";
                 if ($conn->query($str)) {
                     $str = "UPDATE chitiethoadon SET ngayTra = '$date' WHERE maDon = $payment";
-                    echo "<script>alert('Thanh toán thành công! Chờ xác nhận.');window.location.href = 'index.php?history';</script>";
+                    echo "<script>alert('Thanh toán thành công! Chờ xác nhận.');window.location.href = 'index.php?home';</script>";
                 }
             } else {
                 echo "<script>alert('Lỗi khi cập nhật thông tin: " . $conn->error . "');</script>";
