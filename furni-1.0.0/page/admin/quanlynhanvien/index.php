@@ -8,10 +8,12 @@ if (!isset($_GET['quanlynhanvien'])) {
 $obj = new database();
 $sql = "
     SELECT nv.maNhanVien, nv.chucVu, nv.ngayVaoLam, nv.maNguoiDung, 
-           nd.ten, nd.SDT, nd.diaChi, nd.email, tk.password
+           nd.ten, nd.SDT, nd.diaChi, nd.email, tk.password, r.roleName, r.roleId
     FROM nhanvien nv 
     JOIN nguoidung nd ON nv.maNguoiDung = nd.maNguoiDung
     JOIN taikhoan tk ON nd.maNguoiDung = tk.maNguoiDung
+    JOIN userroles us ON tk.maNguoiDung = us.userId
+    JOIN roles r ON us.roleId = r.roleId
 ";
 
 $nhanvien = $obj->xuatdulieu($sql);
@@ -19,13 +21,13 @@ $nhanvien = $obj->xuatdulieu($sql);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['addEmployee'])) {
-        $chucVu = $_POST['chucVu'];
+        $chucVu = $_POST['roleName']; // Chức vụ từ form
         $ngayVaoLam = $_POST['ngayVaoLam'];
         $ten = $_POST['ten'];
         $soDienThoai = $_POST['SDT'];
         $diaChi = $_POST['diaChi'];
         $email = $_POST['email'];
-        $password = $_POST['password']; // Thêm password vào
+        $password = $_POST['password'];
 
         // Thêm vào bảng nguoidung trước
         $sqlNguoiDung = "
@@ -44,6 +46,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             ";
 
             if ($obj->themdulieu($sqlTaiKhoan)) {
+                // Thêm vào bảng roles (nếu vai trò chưa tồn tại)
+                $sqlRoleCheck = "SELECT roleId FROM roles WHERE roleName = '$chucVu'";
+                $roleResult = $obj->xuatdulieu($sqlRoleCheck);
+
+                if (!$roleResult) { // Nếu vai trò chưa tồn tại, thêm mới
+                    $sqlRoleInsert = "INSERT INTO roles (roleName) VALUES ('$chucVu')";
+                    $obj->themdulieu($sqlRoleInsert);
+                    $roleId = $obj->layRoleMoiNhat(); // Giả sử hàm này lấy roleId mới thêm
+                } else {
+                    $roleId = $roleResult[0]['roleId'];
+                }
+
+                // Thêm vào bảng userroles (gán vai trò cho userId)
+                $sqlUserRole = "
+                    INSERT INTO userroles (userId, roleId) 
+                    VALUES ('$maNguoiDung', '$roleId')
+                ";
+                $obj->themdulieu($sqlUserRole);
+
                 // Thêm vào bảng nhanvien
                 $sqlNhanVien = "
                     INSERT INTO nhanvien (chucVu, ngayVaoLam, maNguoiDung) 
@@ -67,6 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
 
+
     if (isset($_POST['btXoa'])) {
         $maNhanVien = $_POST['btXoa'];
 
@@ -76,6 +98,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if ($result) {
             $maNguoiDung = $result[0]['maNguoiDung'];
+
+            // Xóa vai trò liên quan trong bảng userroles
+            $sqlXoaUserRoles = "DELETE FROM userroles WHERE userId='$maNguoiDung'";
+            $obj->xoadulieu($sqlXoaUserRoles);
 
             // Xóa tài khoản liên quan
             $sqlXoaTaiKhoan = "DELETE FROM taikhoan WHERE maNguoiDung='$maNguoiDung'";
@@ -101,10 +127,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
 
+
     if (isset($_POST['btSua'])) {
         // Lấy các giá trị từ $_POST
         $maNhanVien = $_POST['maNhanVien'];
-        $chucVu = $_POST['chucVu'];
+        $chucVu = $_POST['roleName'];
         $ngayVaoLam = $_POST['ngayVaoLam'];
         $hoTen = $_POST['ten'];
         $soDienThoai = $_POST['SDT'];
@@ -118,6 +145,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if ($result && isset($result[0]['maNguoiDung'])) {
             $maNguoiDung = $result[0]['maNguoiDung'];
+
+            // Lấy roleId từ roleName
+            $sqlRole = "SELECT roleId FROM roles WHERE roleName='$chucVu'";
+            $roleResult = $obj->xuatdulieu($sqlRole);
+            if ($roleResult && isset($roleResult[0]['roleId'])) {
+                $roleId = $roleResult[0]['roleId'];
+
+                // Cập nhật bảng userroles
+                $sqlUpdateUserRole = "
+                    UPDATE userroles 
+                    SET roleId='$roleId' 
+                    WHERE userId='$maNguoiDung'
+                ";
+                $updateUserRole = $obj->suadulieu($sqlUpdateUserRole);
+            }
 
             // Cập nhật bảng nhanvien
             $sqlNhanVien = "
@@ -145,7 +187,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $updateNguoiDung = $obj->suadulieu($sqlNguoiDungUpdate);
             $updateTaiKhoan = $obj->suadulieu($sqlTaiKhoan);
 
-            if ($updateNhanVien && $updateNguoiDung && $updateTaiKhoan) {
+            if ($updateNhanVien && $updateNguoiDung && $updateTaiKhoan && $updateUserRole) {
                 $message = "Cập nhật nhân viên thành công";
             } else {
                 $message = "Cập nhật nhân viên thất bại";
@@ -154,6 +196,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $message = "Không tìm thấy mã người dùng cho nhân viên này";
         }
     }
+
 }
 
 
@@ -249,14 +292,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                             <td><?= $item["SDT"] ?></td>
                                             <td><?= $item["diaChi"] ?></td>
                                             <td><?= $item["email"] ?></td>
-                                            <td><?= $item["chucVu"] ?></td>
+                                            <td><?= $item["roleName"] ?></td>
                                             <td><?= $item["ngayVaoLam"] ?></td>
                                             <td>
                                                 <button type="button" class="btn btn-warning" data-toggle="modal"
                                                     data-target="#modalEditEmployee"
                                                     onclick="
                                                         document.getElementById('maNhanVienEdit').value='<?= $item['maNhanVien'] ?>'; 
-                                                        document.getElementById('EditChucVu').value='<?= $item['chucVu'] ?>';
+                                                        document.getElementById('EditChucVu').value='<?= $item['roleName'] ?>';
                                                         document.getElementById('tenEdit').value='<?= $item['ten'] ?>';
                                                         document.getElementById('SDTEdit').value='<?= $item['SDT'] ?>';
                                                         document.getElementById('diaChiEdit').value='<?= $item['diaChi'] ?>';
@@ -315,9 +358,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 <input type="password" class="form-control" id="password" name="password" required>
                             </div>
                             <div class="mb-3">
-                                <label for="chucVu" class="form-label">Chức Vụ</label>
-                                <input type="text" class="form-control" id="chucVu" name="chucVu" required>
+                                <label for="roleName" class="form-label">Chức Vụ</label>
+                                <select name="roleName" class="form-control" style="height: 50px;" required>
+                                    <option value="">- Chọn Chức Vụ -</option>
+                                    <?php echo $obj->selectnhanvien(); ?>
+                                </select>
                             </div>
+
                             <div class="mb-3">
                                 <label for="ngayVaoLam" class="form-label">Ngày Vào Làm</label>
                                 <input type="date" class="form-control" id="ngayVaoLam" name="ngayVaoLam" required>
@@ -367,7 +414,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             </div>
                             <div class="mb-3">
                                 <label for="EditChucVu" class="form-label">Chức Vụ</label>
-                                <input type="text" class="form-control" id="EditChucVu" name="chucVu" required>
+                                <select name="roleName" id="EditChucVu" class="form-control" style="height: 50px;"
+                                    required>
+                                    <option value="">- Chọn Chức Vụ -</option>
+                                    <?php echo $obj->selectnhanvien(); ?>
+                                </select>
+
                             </div>
                             <div class="mb-3">
                                 <label for="ngayVaoLamEdit" class="form-label">Ngày Vào Làm</label>

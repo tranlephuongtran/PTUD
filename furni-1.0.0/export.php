@@ -48,21 +48,21 @@ if ($format === 'excel') {
 
     // Tiêu đề cột
     $sheet->setCellValue('A1', 'Mã Đầu Sách')
-          ->setCellValue('B1', 'Tên Đầu Sách')
-          ->setCellValue('C1', 'Tổng Số Lượng')
-          ->setCellValue('D1', 'Số Lượng Đang Thuê')
-          ->setCellValue('E1', 'Số Lượng Còn Lại')
-          ->setCellValue('F1', 'Mã Danh Mục');
+        ->setCellValue('B1', 'Tên Đầu Sách')
+        ->setCellValue('C1', 'Tổng Số Lượng')
+        ->setCellValue('D1', 'Số Lượng Đang Thuê')
+        ->setCellValue('E1', 'Số Lượng Còn Lại')
+        ->setCellValue('F1', 'Mã Danh Mục');
 
     // Thêm dữ liệu vào các dòng
     $row = 2;
     foreach ($dausach as $item) {
         $sheet->setCellValue("A{$row}", $item['maDauSach'])
-              ->setCellValue("B{$row}", $item['tenDauSach'])
-              ->setCellValue("C{$row}", $item['tongSoLuong'])
-              ->setCellValue("D{$row}", $item['soLuongDangThue'])
-              ->setCellValue("E{$row}", $item['soLuongConLai'])
-              ->setCellValue("F{$row}", $item['maDM']);
+            ->setCellValue("B{$row}", $item['tenDauSach'])
+            ->setCellValue("C{$row}", $item['tongSoLuong'])
+            ->setCellValue("D{$row}", $item['soLuongDangThue'])
+            ->setCellValue("E{$row}", $item['soLuongConLai'])
+            ->setCellValue("F{$row}", $item['maDM']);
         $row++;
     }
 
@@ -89,8 +89,8 @@ if ($format === 'excel') {
     $pdf->SetAuthor('Admin');
     $pdf->SetTitle('Báo Cáo Tồn Kho');
     $pdf->SetHeaderData('', 0, 'Báo Cáo Tồn Kho', '');
-    $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
-    $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+    $pdf->setHeaderFont(array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+    $pdf->setFooterFont(array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
 
     // **Thiết lập font Unicode**
     $pdf->SetFont('dejavusans', '', 12);
