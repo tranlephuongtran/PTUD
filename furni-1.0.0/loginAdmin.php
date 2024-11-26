@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Tìm tài khoản người dùng
     $sql = "SELECT tk.*, ur.roleId, r.roleName 
             FROM taikhoan tk
-            JOIN userroles ur ON tk.nguoiDungID = ur.userId
+            JOIN userroles ur ON tk.maNguoiDung = ur.userId
             JOIN roles r ON ur.roleId = r.roleId
             WHERE tk.email = ? AND tk.Password = ?";
     $stmt = $conn->prepare($sql);
@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['admin_id'] = $user['maTK'];
             $_SESSION['role'] = $user['roleName'];
             $_SESSION['name'] = $user['email'];
-            
+
             // Thêm thông báo và chuyển hướng
             echo "<script>
                     alert('Đăng nhập thành công!');
@@ -55,6 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -64,7 +65,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         /* Toàn bộ body */
         body {
             font-family: 'Roboto', sans-serif;
-            background: linear-gradient(135deg, #6e7cfc, #507bf0); /* Tạo background gradient */
+            background: linear-gradient(135deg, #6e7cfc, #507bf0);
+            /* Tạo background gradient */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -104,7 +106,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         .login-container input:focus {
-            border-color: #507bf0; /* Đổi màu border khi focus */
+            border-color: #507bf0;
+            /* Đổi màu border khi focus */
             outline: none;
         }
 
@@ -122,7 +125,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         .login-container button:hover {
-            background: #4058e2; /* Đổi màu nút khi hover */
+            background: #4058e2;
+            /* Đổi màu nút khi hover */
         }
 
         /* Thông báo lỗi */
@@ -143,13 +147,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             display: flex;
             flex-direction: column;
         }
-
     </style>
 </head>
+
 <body>
     <div class="login-container">
         <h1>Đăng nhập Admin</h1>
-        <?php if (!empty($error)) echo "<p class='error'>$error</p>"; ?>
+        <?php if (!empty($error))
+            echo "<p class='error'>$error</p>"; ?>
         <form method="POST">
             <input type="email" name="email" placeholder="Email" required>
             <input type="password" name="password" placeholder="Mật khẩu" required>
@@ -157,4 +162,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </form>
     </div>
 </body>
+
 </html>

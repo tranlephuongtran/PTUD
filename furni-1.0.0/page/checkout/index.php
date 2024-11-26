@@ -215,7 +215,7 @@ if ($thanhvien == 1) {
 
 							<div class="form-group">
 								<form method="post"><button type='submit' class="btn btn-black btn-lg py-3 btn-block"
-										name="confirm" >Xác
+										name="confirm">Xác
 										nhận</button></form>
 							</div>
 
@@ -238,12 +238,12 @@ if ($thanhvien == 1) {
 <?php
 if (isset($_POST['km']) && $_POST['km'] > 0) {
 	$_SESSION['maKM'] = $maKM;
+	$km = $_SESSION['maKM'];
 }
 if (isset($_POST['confirm'])) {
 	$total_deposit = str_replace(',', '', $total_deposit); //tongtiencoc
 	//tong tien thue = total
 	$ship = 30000;
-	$km = $_SESSION['maKM'];
 	$str = "INSERT INTO donthuesach(tongTienThue, tongTienCoc, tinhTrangThanhToan, phiShip, maKM, maKH, maThe ) VALUES($total, $total_deposit, 'Chua thanh toan', $ship, $km, $maKH, '$maThe')";
 	$conn = mysqli_connect("localhost", "nhomptud", "123456", "ptud");
 	if ($conn) {
