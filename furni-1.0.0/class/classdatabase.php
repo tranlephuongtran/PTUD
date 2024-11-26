@@ -80,6 +80,16 @@ class database
         }
         return $str;
     }
+    public function selectnhanvien()
+    {
+        $str = '';
+        $sql = "SELECT roleName FROM roles"; // Giả sử bạn có bảng roles để lấy chức vụ
+        $arr = $this->xuatdulieu($sql);
+        foreach ($arr as $item) {
+            $str .= '<option value="' . $item["roleName"] . '">' . $item["roleName"] . '</option>';
+        }
+        return $str;
+    }
     public function selectnguoidung($value = '')
     {
         $str = '';
@@ -99,6 +109,12 @@ class database
         $result = $link->query("SELECT MAX(maNguoiDung) AS maNguoiDungMoi FROM nguoidung");
         $row = $result->fetch_assoc();
         return $row['maNguoiDungMoi'] ?? null;
+    }
+    public function layRoleMoiNhat()
+    {
+        $sql = "SELECT roleId FROM roles ORDER BY roleId DESC LIMIT 1";
+        $result = $this->xuatdulieu($sql);
+        return $result ? $result[0]['roleId'] : null;
     }
 
 }
