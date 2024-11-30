@@ -46,6 +46,10 @@ if (isset($_GET['quanlydanhmuc'])) {
     $pagead = 'baocao';
 } else if (isset($_GET['quanlychinhsach'])) {
     $pagead = 'quanlychinhsach';
+} else if (isset($_GET['quanlykhachhang'])) {
+    $pagead = 'quanlykhachhang';
+} else if (isset($_GET['chitietkhachhang'])) {
+    $pagead = 'chitietkhachhang';
 } else {
     $pagead = 'quanlysanpham';
 }
