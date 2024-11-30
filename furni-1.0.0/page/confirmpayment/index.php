@@ -42,7 +42,8 @@ if (!isset($_GET['confirmpayment'])) {
                     <button class="btn btn-primary btn-block"
                         onclick="window.location='index.php?payment=<?php echo $_SESSION['idPay'] ?>'">Thanh
                         toán</button>
-                    <button class="btn btn-primary btn-block" style="width: 150px;" onclick="window.location='#'">Để
+                    <button class="btn btn-primary btn-block" style="width: 150px;"
+                        onclick="window.location='index.php?paymentlate'">Để
                         sau</button>
 
 
