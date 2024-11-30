@@ -37,8 +37,21 @@ if (isset($_POST['quantity'])) {
 	$new_quantity = $_POST['quantity'];
 	foreach ($_SESSION['cart'] as $key => $cart_item) {
 		if ($cart_item['id'] == $id_to_update) {
-			$_SESSION['cart'][$key]['quantity'] = $new_quantity;
-			break;
+			$str = "SELECT tongSoLuong, soLuongDangThue FROM dausach WHERE maDauSach = $id_to_update";
+			$result = $conn->query($str);
+			if (mysqli_num_rows($result) > 0) {
+				while ($row = mysqli_fetch_assoc($result)) {
+					$soLuongConLai = $row['tongSoLuong'] - $row['soLuongDangThue'];
+					if ($new_quantity > $soLuongConLai) {
+						echo "<script>alert('Không đủ số lượng sách! Chỉ còn {$soLuongConLai} quyển')</script>";
+
+					} else {
+						echo "<script>alert('abc quyển')</script>";
+						$_SESSION['cart'][$key]['quantity'] = $new_quantity;
+						break;
+					}
+				}
+			}
 		}
 	}
 	$total_deposit = 0;
@@ -189,7 +202,7 @@ if (isset($_POST['checkout'])) {
 						<!-- Button for Checkout -->
 						<div class="row">
 							<div class="col-md-12">
-								<form method="post" action="index.php?checkout">
+								<form method="post" action="">
 									<button type="submit" class="btn btn-lg py-3 btn-block" name="checkout"
 										style="background-color: #a76d49; color: white !important;">THUÊ SÁCH</button>
 								</form>
@@ -205,3 +218,23 @@ if (isset($_POST['checkout'])) {
 <script src="js/bootstrap.bundle.min.js"></script>
 <script src="js/tiny-slider.js"></script>
 <script src="js/custom.js"></script>
+
+<?php
+if (isset($_POST['checkout'])) {
+	foreach ($_SESSION['cart'] as $key => $cart_item) {
+		$str = "SELECT tongSoLuong, soLuongDangThue FROM dausach WHERE maDauSach = {$cart_item['id']}";
+		$result = $conn->query($str);
+		if (mysqli_num_rows($result) > 0) {
+			while ($row = mysqli_fetch_assoc($result)) {
+				$soLuongConLai = $row['tongSoLuong'] - $row['soLuongDangThue'];
+				if ($cart_item['quantity'] > $soLuongConLai) {
+					echo "<script>alert('Không đủ số lượng! Sách {$cart_item['name']} chỉ còn {$soLuongConLai} quyển')</script>";
+				} else {
+					header("Location: index.php?checkout");
+				}
+			}
+		}
+	}
+
+}
+?>

@@ -244,11 +244,18 @@ if (isset($_POST['confirm'])) {
 	//tong tien thue = total
 	$ship = 30000;
 	$now = date_create()->format('Y-m-d');
-	$km = $_SESSION['maKM'];
+	if (isset($_SESSION['maKM'])) {
+		$km = $_SESSION['maKM'];
+	} else {
+		$km = 0;
+	}
 	$date = new DateTime('now');
 	$date->modify('+15 days');
 	$date = $date->format('Y-m-d');
-	$str = "INSERT INTO donthuesach(ngayThue, tongTienThue, tongTienCoc, tinhTrangThanhToan, phiShip, maKM, maKH, maThe ) VALUES('$now', $total, $total_deposit, 'Chua thanh toan', $ship, $km, $maKH, '$maThe')";
+	if ($km == 0) {
+		$str = "INSERT INTO donthuesach(ngayThue, tongTienThue, tongTienCoc, tinhTrangThanhToan, phiShip, maKH, maThe) VALUES('$now', $total, $total_deposit, 'Chua thanh toan', $ship, $maKH, '$maThe')";
+	} else if ($km != 0)
+		$str = "INSERT INTO donthuesach(ngayThue, tongTienThue, tongTienCoc, tinhTrangThanhToan, phiShip, maKM, maKH, maThe ) VALUES('$now', $total, $total_deposit, 'Chua thanh toan', $ship, $km, $maKH, '$maThe')";
 	$conn = mysqli_connect("localhost", "nhomptud", "123456", "ptud");
 	if ($conn) {
 		if ($conn->query($str)) {
