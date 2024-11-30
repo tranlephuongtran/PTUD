@@ -32,13 +32,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
-        // Kiểm tra vai trò (1: Quản lý, 3: Nhân viên)
+        // Kiểm tra vai trò 
         if (in_array($user['roleId'], [1, 2, 3])) {
             $_SESSION['admin_id'] = $user['maTK'];
             $_SESSION['role'] = $user['roleName'];
             $_SESSION['name'] = $user['email'];
-            
-            // Thêm thông báo và chuyển hướng
             echo "<script>
                     alert('Đăng nhập thành công!');
                     window.location.href = 'indexAdmin.php'; 
@@ -61,10 +59,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>Đăng nhập Admin</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        /* Toàn bộ body */
         body {
             font-family: 'Roboto', sans-serif;
-            background: linear-gradient(135deg, #6e7cfc, #507bf0); /* Tạo background gradient */
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4); /* Gradient mới */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -72,8 +69,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             margin: 0;
             color: #fff;
         }
-
-        /* Container đăng nhập */
         .login-container {
             background: #fff;
             padding: 30px;
@@ -83,16 +78,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             max-width: 400px;
             text-align: center;
         }
-
-        /* Tiêu đề đăng nhập */
         .login-container h1 {
             margin-bottom: 20px;
             color: #333;
             font-size: 24px;
             font-weight: 500;
         }
-
-        /* Các input field */
         .login-container input {
             width: 93%;
             padding: 12px;
@@ -107,8 +98,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             border-color: #507bf0; /* Đổi màu border khi focus */
             outline: none;
         }
-
-        /* Nút đăng nhập */
         .login-container button {
             width: 100%;
             padding: 12px;
@@ -124,26 +113,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         .login-container button:hover {
             background: #4058e2; /* Đổi màu nút khi hover */
         }
-
-        /* Thông báo lỗi */
         .error {
             color: #e74c3c;
             font-size: 14px;
             margin-bottom: 15px;
         }
-
-        /* Hiệu ứng shadow */
         .login-container input,
         .login-container button {
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-
-        /* Thêm space khi form chứa */
         .login-container form {
             display: flex;
             flex-direction: column;
         }
-
+        .login-container button:hover {
+        background: linear-gradient(90deg, #4058e2, #7099f1); /* Gradient nút khi hover */
+        transform: translateY(-2px); /* Nổi nhẹ */
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Shadow mạnh hơn */
+        }
+        .login-container button:active {
+            transform: translateY(1px); /* Nhấn nhẹ */
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2); /* Shadow giảm */
+        }
+        .login-container input:focus {
+            border-color: #ff9a9e;
+            box-shadow: 0 0 8px rgba(255, 154, 158, 0.6); /* Hiệu ứng ánh sáng */
+            outline: none;
+        }
     </style>
 </head>
 <body>
