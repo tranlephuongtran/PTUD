@@ -218,7 +218,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
                                                         <?= $order['tinhTrangThanhToan'] ?>
                                                     </span>
                                                 </td>
-                                                <td><button>Xem chi tiết</button></td>
+                                                <td><a href='indexAdmin.php?chitietdonthue&maDon=<?= $order['maDon'] ?>'>Xem chi
+                                                        tiết</a></td>
                                             </tr>
                                         <?php endforeach; ?>
                                     <?php else: ?>
