@@ -114,6 +114,13 @@
         border-bottom: none;
         /* Loại bỏ đường kẻ cuối cùng */
     }
+    .no-image {
+        font-size: 16px;
+        color: red;
+        font-weight: bold;
+        text-align: center;
+        margin: 20px 0;
+    }
 </style>
 
 <body>
@@ -172,11 +179,15 @@
                     while ($row = $result->fetch_assoc()) {
                         echo "<div class='content-container'>";
                         echo "<div class='left-section'>";
-                        echo "<h2>Hình ảnh</h2>";
-                        echo "<h4>Hình ảnh thanh toán:</h4>";
-                        echo "<img class='Hinh' src='layout/images/bills/" . $row['hinhAnhThanhToan'] . "' alt='Hình ảnh thanh toán'>";
-                        echo "<h4>Hình ảnh trả sách:</h4>";
-                        echo "<img class='Hinh' src='layout/images/uploads/" . $row['hinhAnhTraSach'] . "' alt='Hình ảnh sách'>";
+                        echo "<h2>Hình ảnh trả sách</h2>";
+                        //echo "<h4>Hình ảnh thanh toán:</h4>";
+                        //echo "<img class='Hinh' src='layout/images/bills/" . $row['hinhAnhThanhToan'] . "' alt='Hình ảnh thanh toán'>";
+                        //echo "<h4>Hình ảnh trả sách:</h4>";
+                        if (!empty($row['hinhAnhTraSach'])) {
+                            echo "<img class='Hinh' src='layout/images/uploads/" . $row['hinhAnhTraSach'] . "' alt='Hình ảnh sách'>";
+                        } else {
+                            echo "<p class='no-image'>Bạn chưa thanh toán đơn</p>";
+                        }
                         echo "</div>";
                         echo "<div class='right-section'>";
                         echo "<h2>Thông tin chi tiết</h2>";
@@ -187,10 +198,10 @@
                         echo "<p>Ngày trả: " . $row['ngayTra'] . "</p>";
                         echo "<p>Giá thuê: " . number_format($row['giaThue'], 0, ',', '.') . " VND</p>";
                         echo "<p>Tiền cọc: " . number_format($row['tienCoc'], 0, ',', '.') . " VND</p>";
-                        echo "<p>Phí ship: " . number_format($row['phiShip'], 0, ',', '.') . " VND</p>";
-                        echo "<p>Tổng tiền thuê: " . number_format($row['tongTienThue'], 0, ',', '.') . " VND</p>";
-                        echo "<p>Phương pháp thanh toán: " . $row['phuongThucThanhToan'] . "</p>";
-                        echo "<p>Tình trạng thanh toán: " . $row['tinhTrangThanhToan'] . "</p>";
+                        //echo "<p>Phí ship: " . number_format($row['phiShip'], 0, ',', '.') . " VND</p>";
+                        //echo "<p>Tổng tiền thuê: " . number_format($row['tongTienThue'], 0, ',', '.') . " VND</p>";
+                        //echo "<p>Phương pháp thanh toán: " . $row['phuongThucThanhToan'] . "</p>";
+                        //echo "<p>Tình trạng thanh toán: " . $row['tinhTrangThanhToan'] . "</p>";
                         echo "<p>Tình trạng thuê: " . $row['tinhTrangThue'] . "</p>";
                         echo "</div>";
                         echo "</div>";

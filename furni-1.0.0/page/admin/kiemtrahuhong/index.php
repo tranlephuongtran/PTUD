@@ -33,6 +33,7 @@ if (isset($_POST['update_status'])) {
         $stmt_update_status->execute();
         $stmt_update_status->close();
     }
+    echo "<script>alert('Cập nhật thành công!');</script>";
     $stmt->close();
 }
 
