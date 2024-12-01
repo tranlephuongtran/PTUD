@@ -12,9 +12,9 @@ class User
         $this->conn = $this->db->conn;
     }
 
-    public function register($hoTen, $tenDangNhap, $email, $password, $confirmPassword, $sdt, $diachi, $agree)
+    public function register($hoTen, $email, $password, $confirmPassword, $sdt, $diachi, $agree)
     {
-        if (!empty($hoTen) && !empty($tenDangNhap) && !empty($email) && !empty($sdt) && !empty($password) && !empty($confirmPassword)) {
+        if (!empty($hoTen) && !empty($email) && !empty($sdt) && !empty($password) && !empty($confirmPassword)) {
             // Kiểm tra các trường bắt buộc
             $email_check_query = "SELECT * FROM taikhoan WHERE email='$email' LIMIT 1";
             $result = $this->conn->query($email_check_query);
@@ -39,7 +39,7 @@ class User
                     $maNguoiDung = $this->conn->insert_id;
 
                     // Lưu thông tin vào bảng taikhoan
-                    $taikhoan_query = "INSERT INTO taikhoan (email, Password, nguoiDungID) VALUES ('$email', '$password', '$maNguoiDung')";
+                    $taikhoan_query = "INSERT INTO taikhoan (email, Password, maNguoiDung) VALUES ('$email', '$password', '$maNguoiDung')";
                     if ($this->conn->query($taikhoan_query) === TRUE) {
                         // Lưu thông tin vào bảng khachhang
                         $khachhang_query = "INSERT INTO khachhang (maNguoiDung) VALUES ('$maNguoiDung')";
