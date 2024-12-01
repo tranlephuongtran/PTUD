@@ -14,7 +14,7 @@ class Product
 
     public function getHighlightedBooks()
     {
-        $sql = "SELECT ds.tenDauSach, ds.tacGia, ds.hinhAnh, MIN(s.giaThue) AS giaThue, dm.ten
+        $sql = "SELECT ds.maDauSach, ds.tenDauSach, ds.tacGia, ds.hinhAnh, MIN(s.giaThue) AS giaThue, dm.ten
                 FROM sach s JOIN dausach ds ON s.maDauSach = ds.maDauSach JOIN danhmuc dm ON ds.maDM = dm.maDM 
                 WHERE dm.ten IN ('Lịch sử', 'Tiểu thuyết', 'Trinh thám', 'Khoa học viễn tưởng')
                 GROUP BY ds.maDauSach, dm.maDM
@@ -26,16 +26,16 @@ class Product
 
     public function getUniqueBookImages($limit = 6)
     {
-        $sql = "SELECT DISTINCT hinhAnh FROM dausach LIMIT ?";
+        $sql = "SELECT DISTINCT hinhAnh, maDauSach FROM dausach LIMIT ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("i", $limit);
         $stmt->execute();
         $result = $stmt->get_result();
 
-        // Lấy dữ liệu hình ảnh 
+        // Lấy dữ liệu hình ảnh và maDauSach
         $images = [];
         while ($row = $result->fetch_assoc()) {
-            $images[] = $row['hinhAnh'];
+            $images[] = ['hinhAnh' => $row['hinhAnh'], 'maDauSach' => $row['maDauSach']];
         }
 
         $stmt->close();
@@ -44,7 +44,7 @@ class Product
 
     public function getBooksForCarousel($limit = 9)
     {
-        $sql = "SELECT ds.tenDauSach, ds.hinhAnh, MIN(s.giaThue) AS giaThue 
+        $sql = "SELECT ds.maDauSach, ds.tenDauSach, ds.hinhAnh, MIN(s.giaThue) AS giaThue 
                 FROM sach s JOIN dausach ds ON s.maDauSach = ds.maDauSach 
                 GROUP BY ds.maDauSach 
                 ORDER BY RAND() 
@@ -62,6 +62,47 @@ class Product
 
         $stmt->close();
         return $books;
+    }
+
+    // Phương thức getProductDetails để lấy chi tiết sản phẩm theo maDauSach 
+    public function getProductDetails($maDauSach)
+    {
+        $sql = "SELECT ds.tenDauSach, ds.tacGia, ds.hinhAnh, s.giaThue 
+                FROM dausach ds 
+                JOIN sach s ON ds.maDauSach = s.maDauSach 
+                WHERE ds.maDauSach = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("i", $maDauSach);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $details = $result->fetch_assoc();
+        $stmt->close();
+        return $details;
+    }
+
+    public function getThanhLyBooks()
+    {
+        $sql = "SELECT s.maSach, ds.tenDauSach, ds.tacGia 
+        FROM sach s 
+        JOIN dausach ds ON s.maDauSach = ds.maDauSach 
+        LEFT JOIN chitiethoadon cthd ON s.maSach = cthd.maSach 
+        WHERE (LOWER(s.tinhTrang) = LOWER('Thanh Lý') AND cthd.maSach IS NULL) OR (LOWER(s.tinhTrang) = LOWER('Thanh Lý') AND LOWER(cthd.tinhTrangThue) = LOWER('Đã trả'))";
+        $result = $this->conn->query($sql);
+
+        $books = [];
+        while ($row = $result->fetch_assoc()) {
+            $books[] = $row;
+        }
+        return $books;
+    }
+
+    public function deleteBook($maSach)
+    {
+        $sql = "DELETE FROM sach WHERE maSach = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("i", $maSach);
+        $stmt->execute();
+        $stmt->close();
     }
 
     public function __destruct()

@@ -151,7 +151,12 @@
                             <p>Quản lý khuyến mãi</p>
                         </a>
                     </li>
-
+                    <li>
+                        <a class="nav-link" href="indexAdmin.php?sachthanhly">
+                            <i class="nc-icon nc-notes"></i>
+                            <p>Sách Thanh Lý</p>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>

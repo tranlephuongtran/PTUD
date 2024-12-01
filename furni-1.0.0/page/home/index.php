@@ -50,15 +50,17 @@ if (!isset($_GET['home'])) {
 							<div class="carousel-item active">
 								<?php
 								for ($i = 0; $i < 3; $i++): ?>
-									<a href="#" class="swiper-slide"><img src="layout/images/<?php echo $bookImages[$i]; ?>"
-											alt=""></a>
+									<a href='index.php?productdetails=<?php echo $bookImages[$i]['maDauSach']; ?>' class='swiper-slide'>
+										<img src=" layout/images/<?php echo $bookImages[$i]['hinhAnh']; ?>" alt="">
+									</a>
 								<?php endfor; ?>
 							</div>
 
 							<div class="carousel-item">
 								<?php for ($i = 3; $i < 6; $i++): ?>
-									<a href="#" class="swiper-slide"><img src="layout/images/<?php echo $bookImages[$i]; ?>"
-											alt=""></a>
+									<a href="index.php?productdetails=<?php echo $bookImages[$i]['maDauSach']; ?>" class="swiper-slide">
+										<img src="layout/images/<?php echo $bookImages[$i]['hinhAnh']; ?>" alt="">
+									</a>
 								<?php endfor; ?>
 							</div>
 
@@ -96,12 +98,11 @@ if (!isset($_GET['home'])) {
 								<div class="row">
 									<?php for ($i = 0; $i < 3; $i++): ?>
 										<div class="col-md-4">
-											<a class="product-item" href="cart.html">
+											<a class="product-item" href="index.php?productdetails=<?php echo $books[$i]['maDauSach']; ?>">
 												<img src="layout/images/<?php echo $books[$i]['hinhAnh']; ?>"
 													class="img-fluid product-thumbnail">
 												<h3 class="product-title"><?php echo $books[$i]['tenDauSach']; ?></h3>
-												<strong class="product-price"><?php echo $books[$i]['giaThue'];
-												; ?></strong>
+												<strong class="product-price"><?php echo $books[$i]['giaThue'];; ?></strong>
 												<span class="icon-cross">
 													<img src="layout/images/cross.svg" class="img-fluid">
 												</span>
@@ -114,7 +115,7 @@ if (!isset($_GET['home'])) {
 								<div class="row">
 									<?php for ($i = 3; $i < 6; $i++): ?>
 										<div class="col-md-4">
-											<a class="product-item" href='cart.html'>
+											<a class="product-item" href="index.php?productdetails=<?php echo $books[$i]['maDauSach']; ?>">
 												<img src="layout/images/<?php echo $books[$i]['hinhAnh']; ?>"
 													class="img-fluid product-thumbnail">
 												<h3 class="product-title"><?php echo $books[$i]['tenDauSach']; ?></h3>
@@ -123,7 +124,8 @@ if (!isset($_GET['home'])) {
 													<img src="layout/images/cross.svg" class="img-fluid">
 												</span>
 											</a>
-										</div> <?php endfor; ?>
+										</div>
+									<?php endfor; ?>
 								</div>
 							</div>
 							<!-- Slide 3 with three more products -->
@@ -131,15 +133,16 @@ if (!isset($_GET['home'])) {
 								<div class="row">
 									<?php for ($i = 6; $i < 9; $i++): ?>
 										<div class="col-md-4">
-											<a class="product-item" href='cart.html'>
-												<img src="layout/images/<?php echo $books[$i]['hinhAnh']; ?>"
+											<a class="product-item" href="index.php?productdetails=<?php echo $books[$i]['maDauSach']; ?>">
+												<img src=" layout/images/<?php echo $books[$i]['hinhAnh']; ?>"
 													class="img-fluid product-thumbnail">
 												<h3 class="product-title"><?php echo $books[$i]['tenDauSach']; ?></h3>
 												<strong class="product-price"><?php echo $books[$i]['giaThue']; ?></strong>
 												<span class="icon-cross">
 													<img src="layout/images/cross.svg" class="img-fluid"> </span>
 											</a>
-										</div> <?php endfor; ?>
+										</div>
+									<?php endfor; ?>
 								</div>
 							</div>
 						</div>
@@ -240,7 +243,7 @@ if (!isset($_GET['home'])) {
 			while ($row = $result->fetch_assoc()) {
 				$formatted_price = number_format($row["giaThue"], 0, ',', '.') . ' VND';
 				echo '<div class="col-md-3"> 
-							<a class="product-item" href="cart.html"> 
+							<a class="product-item" href="index.php?productdetails=' . $row["maDauSach"] . '"> 
 								<img src="layout/images/' . $row["hinhAnh"] . '" class="img-fluid product-thumbnail"> 
 								<div class="card-information">
 									<h3 class="product-title">' . $row["tenDauSach"] . '</h3> 
@@ -262,7 +265,7 @@ if (!isset($_GET['home'])) {
 </div>
 <!-- End Featured Books -->
 
-<!-- Start Review Customer's Slider -->
+<!-- Start Review Customer' s Slider -->
 <div class="testimonial-section">
 	<div class="container">
 		<div class="row">

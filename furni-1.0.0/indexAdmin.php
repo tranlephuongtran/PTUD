@@ -8,7 +8,6 @@ if (isset($_GET['logoutAdmin'])) {
     session_destroy();
     header('Location: loginAdmin.php');
     exit();
-
 }
 // Kiểm tra nếu chưa đăng nhập
 if (!isset($_SESSION['admin_id'])) {
@@ -50,6 +49,8 @@ if (isset($_GET['quanlydanhmuc'])) {
     $pagead = 'quanlykhachhang';
 } else if (isset($_GET['chitietkhachhang'])) {
     $pagead = 'chitietkhachhang';
+} else if (isset($_GET['sachthanhly'])) {
+    $pagead = 'sachthanhly';
 } else {
     $pagead = 'quanlysanpham';
 }
