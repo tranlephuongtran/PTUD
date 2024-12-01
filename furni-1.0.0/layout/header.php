@@ -71,7 +71,6 @@ error_reporting(0);
             min-width: 250px;
             z-index: 1000;
             color: brown !important;
-
         }
 
         .dropdown-itemsp {
@@ -83,6 +82,69 @@ error_reporting(0);
 
         .dropdown-itemsp:hover {
             background-color: #f1f1f1;
+        }
+
+
+
+        /* Style cho menu thông báo */
+        #notificationMenu {
+
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            min-width: 350px;
+
+        }
+
+        /* Hiển thị menu khi hover */
+        .nav-item.dropdown:hover #notificationMenu {
+            display: block;
+        }
+
+        /* Tiêu đề thông báo */
+        #notificationMenu b {
+            font-size: 16px;
+            color: #333;
+            padding: 10px 15px;
+            border-bottom: 1px solid #ddd;
+            display: block;
+            font-weight: 600;
+        }
+
+        /* Mục thông báo */
+        #notificationMenu .dropdown-item {
+            padding: 15px;
+            color: #555;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Biểu tượng đơn hàng */
+        #notificationMenu .dropdown-item::before {
+            content: '\f291';
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            font-size: 18px;
+            color: #ff6347;
+            /* Màu cam nhấn */
+        }
+
+        /* Hover cho mục thông báo */
+        #notificationMenu .dropdown-item:hover {
+            background-color: #f9f9f9;
+            color: #000;
+        }
+
+        /* Thông báo trống */
+        #notificationMenu p {
+            padding: 15px;
+            color: #888;
+            font-style: italic;
+            text-align: center;
         }
     </style>
 </head>
@@ -107,9 +169,9 @@ error_reporting(0);
                                 $result = $conn->query($str);
                                 if (mysqli_num_rows($result) > 0) {
                                     while ($row = mysqli_fetch_assoc($result)) {
-                                        echo "<a href='index.php?cate={$row['maDM']}' class='dropdown-itemsp'>";
-                                        echo "{$row['ten']}";
-                                        echo "</a>";
+                                        echo "<a href='index.php?cate={$row['maDM']}' class='dropdown-itemsp'>"
+                                            . "{$row['ten']}"
+                                            . "</a>";
                                     }
                                 }
                             }
@@ -160,12 +222,58 @@ error_reporting(0);
                                 <a class='nav-link' href='index.php?cart'>
                                     <img src='layout/images/cart.svg' alt='Cart Icon'>
                                 </a>
-                            </li>";
+                            </li>
+                            <li class='nav-item dropdown'>
+                                <a class='nav-link' href='#'>
+                                    <i class='fa-regular fa-bell' style='font-size: 24px;'></i>
+                                </a>
+                                <div id='notificationMenu' class='dropdown-menu'>
+                                ";
+                        if ($conn) {
+                            $maNguoiDung = $_SESSION['maNguoiDung']; // Lấy mã người dùng từ session
+                    
+                            // Truy vấn lấy mã khách hàng từ bảng khachhang
+                            $queryKH = "SELECT maKH FROM khachhang WHERE maNguoiDung = '$maNguoiDung'";
+                            $resultKH = mysqli_query($conn, $queryKH);
+
+                            if (mysqli_num_rows($resultKH) == 1) {
+                                $khachhang = mysqli_fetch_assoc($resultKH);
+                                $maKH = $khachhang['maKH']; // Lấy mã khách hàng
+                                $query = "
+                                SELECT ds.maDon, ds.ngayThue, ctdh.tinhTrangThue
+                                FROM donthuesach ds
+                                JOIN chitiethoadon ctdh ON ds.maDon = ctdh.maDon
+                                WHERE DATEDIFF(CURDATE(), ds.ngayThue) >= 12
+                                AND ctdh.tinhTrangThue = 'Đang thuê'
+                                AND ds.maKH = '$maKH'";
+                                $result = $conn->query($query);
+
+                                if (mysqli_num_rows($result) > 0) {
+
+                                    echo "<b>CÁC ĐƠN HÀNG SẮP HẾT HẠN THUÊ</b>";
+
+                                    while ($row = mysqli_fetch_assoc($result)) {
+
+                                        echo "<a href='index.php?invoice_details&maDon={$row['maDon']}' class='dropdown-item'>Mã Đơn: " . "{$row['maDon']}" . " Sắp đến hạn trả !</a>";
+                                    }
+                                } else {
+                                    echo "<p>Không có thông báo mới</p>";
+                                }
+                            }
+                        }
+
+                        echo "
+                            </div>
+                        </li>";
                     }
                     ?>
+
                 </ul>
             </div>
         </div>
     </nav>
     <!-- End Header/Navigation -->
+
+    <!-- JS to show notification on hover -->
+
 </body>

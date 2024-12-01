@@ -33,20 +33,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
         // Kiểm tra vai trò (1: Quản lý, 3: Nhân viên)
-        if (in_array($user['roleId'], [1, 2, 3])) {
-            $_SESSION['admin_id'] = $user['maTK'];
-            $_SESSION['role'] = $user['roleName'];
-            $_SESSION['name'] = $user['email'];
 
-            // Thêm thông báo và chuyển hướng
-            echo "<script>
+        $_SESSION['admin_id'] = $user['maTK'];
+        $_SESSION['role'] = $user['roleName'];
+        $_SESSION['roleId'] = $user['roleId'];
+        $_SESSION['name'] = $user['email'];
+
+        // Thêm thông báo và chuyển hướng
+        echo "<script>
                     alert('Đăng nhập thành công!');
                     window.location.href = 'indexAdmin.php'; 
                   </script>";
-            exit();
-        } else {
-            $error = "Bạn không có quyền truy cập!";
-        }
+        exit();
+
     } else {
         $error = "Email hoặc mật khẩu không chính xác!";
     }

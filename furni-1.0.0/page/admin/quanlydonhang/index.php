@@ -32,23 +32,28 @@ $page_first_result = max(0, ($quanlydonhang - 1) * $results_per_page);
 // Truy vấn lấy danh sách đơn hàng
 $sql = "
     SELECT 
-    dt.maDon,
-    ds.tenDauSach,
-    ds.tacGia,
-    ds.soLuongDangThue,
-    s.tinhTrang,
-    cthd.giaThue,
-    cthd.tienCoc,
-    dt.tinhTrangThanhToan
-FROM 
-    donthuesach dt
-JOIN 
-    chitiethoadon cthd ON dt.maDon = cthd.maDon
-JOIN 
-    sach s ON cthd.maSach = s.maSach
-JOIN 
-    dausach ds ON s.maDauSach = ds.maDauSach
+        dt.maDon,
+        ds.tenDauSach,
+        ds.tacGia,
+        ds.soLuongDangThue,
+        s.tinhTrang,
+        cthd.giaThue,
+        cthd.tienCoc,
+        dt.tinhTrangThanhToan,
+        dt.hinhAnhThanhToan
+    FROM 
+        donthuesach dt
+    JOIN 
+        chitiethoadon cthd ON dt.maDon = cthd.maDon
+    JOIN 
+        sach s ON cthd.maSach = s.maSach
+    JOIN 
+        dausach ds ON s.maDauSach = ds.maDauSach
+    WHERE 
+        dt.tinhTrangThanhToan IN ('Cho xac nhan', 'Da thanh toan', 'Cho lien he')
+    
 ";
+
 
 // Áp dụng bộ lọc cho truy vấn lấy danh sách đơn hàng
 if ($filter === 'pending') {
@@ -174,6 +179,56 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
         background-color: #D8BFD8;
         /* Màu tím nhạt hơn */
     }
+
+    /* Modal image */
+    .modal-image {
+        display: none;
+        position: fixed;
+        z-index: 9999;
+        padding-top: 60px;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.9);
+    }
+
+    .modal-content-image {
+        margin: auto;
+        display: block;
+        max-width: 80%;
+        max-height: 80%;
+        animation-name: zoom;
+        animation-duration: 0.6s;
+    }
+
+    @keyframes zoom {
+        from {
+            transform: scale(0)
+        }
+
+        to {
+            transform: scale(1)
+        }
+    }
+
+    .close {
+        position: absolute;
+        top: 20px;
+        right: 35px;
+        color: white;
+        font-size: 40px;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: #bbb;
+        text-decoration: none;
+        cursor: pointer;
+    }
 </style>
 
 <div class="content">
@@ -207,6 +262,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
                                         <th>Giá Thuê</th>
                                         <th>Tiền Cọc</th>
                                         <th>Tình Trạng Thanh Toán</th>
+                                        <th>Hình Ảnh Thanh Toán</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -222,6 +278,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
                                                 <td><?= $order['soLuongDangThue'] ?></td>
                                                 <td><?= number_format($order['giaThue'], 0, ',', '.') ?> VND</td>
                                                 <td><?= number_format($order['tienCoc'], 0, ',', '.') ?> VND</td>
+                                                <td>
+                                                    <?php if (!empty($order['hinhAnhThanhToan'])): ?>
+                                                        <img src="layout/images/bills/<?= $order['hinhAnhThanhToan'] ?>"
+                                                            alt="Hình thanh toán"
+                                                            style="width: 100px; height: auto; cursor: pointer;"
+                                                            onclick="openImageModal('layout/images/bills/<?= $order['hinhAnhThanhToan'] ?>')">
+                                                    <?php else: ?>
+                                                        <span>Chưa có</span>
+                                                    <?php endif; ?>
+                                                </td>
                                                 <td>
                                                     <span
                                                         class="<?=
@@ -253,6 +319,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
                             <?php endif; ?>
                         <?php endfor; ?>
                     </div>
+                    <!-- Modal -->
+                    <div id="imageModal" class="modal-image">
+                        <span class="close" onclick="closeImageModal()">&times;</span>
+                        <img class="modal-content-image" id="modalImage">
+                    </div>
+
+                    <script>
+                        function openImageModal(src) {
+                            var modal = document.getElementById('imageModal');
+                            var modalImg = document.getElementById('modalImage');
+
+                            modal.style.display = 'block';
+                            modalImg.src = src;
+                        }
+
+                        function closeImageModal() {
+                            var modal = document.getElementById('imageModal');
+                            modal.style.display = 'none';
+                        }
+
+
+                    </script>
                 </div>
             </div>
         </div>

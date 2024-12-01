@@ -46,8 +46,10 @@ if (isset($_GET['quanlydanhmuc'])) {
     $pagead = 'baocao';
 } else if (isset($_GET['quanlychinhsach'])) {
     $pagead = 'quanlychinhsach';
+} else if (isset($_GET['home'])) {
+    $pagead = 'home';
 } else {
-    $pagead = 'quanlysanpham';
+    $pagead = 'home';
 }
 include("page/admin/" . $pagead . "/index.php");
 include("layout/footerAd.php");

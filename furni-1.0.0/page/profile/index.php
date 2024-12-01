@@ -1,6 +1,6 @@
 <?php
 // Kiểm tra nếu người dùng chưa đăng nhập, chuyển hướng về trang đăng nhập
-session_start(); 
+session_start();
 error_reporting(0);
 if (!isset($_SESSION['user'])) {
     header("Location: index.php?login");
@@ -12,7 +12,7 @@ if ($conn) {
     $query = "
         SELECT taikhoan.email, nguoidung.ten, nguoidung.diaChi, nguoidung.SDT
         FROM taikhoan
-        INNER JOIN nguoidung ON taikhoan.nguoiDungID = nguoidung.maNguoiDung
+        INNER JOIN nguoidung ON taikhoan.maNguoiDung = nguoidung.maNguoiDung
         WHERE taikhoan.email = '$email'
     ";
     $result = mysqli_query($conn, $query);
@@ -31,6 +31,7 @@ if ($conn) {
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -51,7 +52,7 @@ if ($conn) {
         }
 
         .menu {
-           
+
             padding: 10px;
             margin-left: -10px;
             /* border-radius: 8px;
@@ -83,63 +84,65 @@ if ($conn) {
         }
     </style>
 </head>
+
 <body>
 
-<div class="container container-main">
-    <div class="row">
-        <!-- Menu bên trái -->
-        <div class="col-md-2">
-            <div class="menu">
-                <ul>
-                    <li>
-                        <a href="#" id="accountToggle">Tài khoản của tôi</a>
-                        <ul id="accountLinks" style="display: none;">
-                            <li><a href="index.php?updateProfile">Cập nhật thông tin</a></li>
-                            <li><a href="index.php?change_password">Đổi mật khẩu</a></li>
-                            <li><a href="index.php?history">Lịch sử thuê</a></li>
-                            <li><a href="index.php?logout">Đăng xuất</a></li>
-                        </ul>
-                    </li>
-                </ul>
+    <div class="container container-main">
+        <div class="row">
+            <!-- Menu bên trái -->
+            <div class="col-md-2">
+                <div class="menu">
+                    <ul>
+                        <li>
+                            <a href="#" id="accountToggle">Tài khoản của tôi</a>
+                            <ul id="accountLinks" style="display: none;">
+                                <li><a href="index.php?updateProfile">Cập nhật thông tin</a></li>
+                                <li><a href="index.php?change_password">Đổi mật khẩu</a></li>
+                                <li><a href="index.php?history">Lịch sử thuê</a></li>
+                                <li><a href="index.php?logout">Đăng xuất</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
-        <!-- Hiển thị thông tin cá nhân -->
-        <div class="col-md-10">
-            <div class="tnb">
-                <h2 class="mb-4">Thông Tin Cá Nhân</h2>
-                <table class="table table-bordered">
-                    <tr>
-                        <th>Email</th>
-                        <td><?php echo htmlspecialchars($user['email']); ?></td>
-                    </tr>
-                    <tr>
-                        <th>Họ tên</th>
-                        <td><?php echo htmlspecialchars($user['ten'] ?? 'Chưa cập nhật'); ?></td>
-                    </tr>
-                    <tr>
-                        <th>Địa chỉ</th>
-                        <td><?php echo htmlspecialchars($user['diaChi'] ?? 'Chưa cập nhật'); ?></td>
-                    </tr>
-                    <tr>
-                        <th>Số điện thoại</th>
-                        <td><?php echo htmlspecialchars($user['SDT'] ?? 'Chưa cập nhật'); ?></td>
-                    </tr>
-                </table>
+            <!-- Hiển thị thông tin cá nhân -->
+            <div class="col-md-10">
+                <div class="tnb">
+                    <h2 class="mb-4">Thông Tin Cá Nhân</h2>
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Email</th>
+                            <td><?php echo htmlspecialchars($user['email']); ?></td>
+                        </tr>
+                        <tr>
+                            <th>Họ tên</th>
+                            <td><?php echo htmlspecialchars($user['ten'] ?? 'Chưa cập nhật'); ?></td>
+                        </tr>
+                        <tr>
+                            <th>Địa chỉ</th>
+                            <td><?php echo htmlspecialchars($user['diaChi'] ?? 'Chưa cập nhật'); ?></td>
+                        </tr>
+                        <tr>
+                            <th>Số điện thoại</th>
+                            <td><?php echo htmlspecialchars($user['SDT'] ?? 'Chưa cập nhật'); ?></td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<script>
-    document.getElementById('accountToggle').addEventListener('click', function() {
-        var links = document.getElementById('accountLinks');
-        if (links.style.display === "none" || links.style.display === "") {
-            links.style.display = "block"; // Hiển thị các đường link
-        } else {
-            links.style.display = "none"; // Ẩn các đường link
-        }
-    });
-</script>
+    <script>
+        document.getElementById('accountToggle').addEventListener('click', function () {
+            var links = document.getElementById('accountLinks');
+            if (links.style.display === "none" || links.style.display === "") {
+                links.style.display = "block"; // Hiển thị các đường link
+            } else {
+                links.style.display = "none"; // Ẩn các đường link
+            }
+        });
+    </script>
 
 </body>
+
 </html>

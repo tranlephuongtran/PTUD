@@ -70,7 +70,8 @@ $khuyenmai = $promotion->getPromotions();
                     <div class="card strpied-tabled-with-hover">
                         <div class="card-header">
                             <h4 class="card-title text-center">DANH SÁCH KHUYẾN MÃI</h4>
-                            <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus-circle"></i>Thêm mới</button>
+                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal"><i
+                                    class="fa fa-plus-circle"></i>Thêm mới</button>
                         </div>
                         <div class="card-body table-full-width table-responsive">
                             <form method="post">
@@ -128,11 +129,13 @@ $khuyenmai = $promotion->getPromotions();
                                 </div>
                                 <div class="mb-3">
                                     <label for="noiDungChuongTrinh" class="form-label">Nội Dung Chương Trình</label>
-                                    <textarea class="form-control" name="noiDungChuongTrinh" id="noiDungChuongTrinh"></textarea>
+                                    <textarea class="form-control" name="noiDungChuongTrinh"
+                                        id="noiDungChuongTrinh"></textarea>
                                 </div>
                                 <div class="mb-3">
                                     <label for="phanTramKM" class="form-label">Phần Trăm Khuyến Mãi</label>
-                                    <input type="number" class="form-control" name="phanTramKM" id="phanTramKM" required>
+                                    <input type="number" class="form-control" name="phanTramKM" id="phanTramKM"
+                                        required>
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -151,7 +154,8 @@ $khuyenmai = $promotion->getPromotions();
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h3 class="modal-title text-center">SỬA KHUYẾN MÃI</h3>
-                                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-dismiss="modal"
+                                    aria-label="Close"></button>
                             </div>
                             <div class="modal-body"> <input type="hidden" name="maKM" id="editMaKM">
                                 <div class="mb-3">
@@ -160,11 +164,13 @@ $khuyenmai = $promotion->getPromotions();
                                 </div>
                                 <div class="mb-3">
                                     <label for="editNoiDungChuongTrinh" class="form-label">Nội Dung Chương Trình</label>
-                                    <textarea class="form-control" name="noiDungChuongTrinh" id="editNoiDungChuongTrinh"></textarea>
+                                    <textarea class="form-control" name="noiDungChuongTrinh"
+                                        id="editNoiDungChuongTrinh"></textarea>
                                 </div>
                                 <div class="mb-3">
                                     <label for="editPhanTramKM" class="form-label">Phần Trăm Khuyến Mãi</label>
-                                    <input type="number" class="form-control" name="phanTramKM" id="editPhanTramKM" required>
+                                    <input type="number" class="form-control" name="phanTramKM" id="editPhanTramKM"
+                                        required>
                                 </div>
                             </div>
                             <div class="modal-footer">
