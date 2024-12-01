@@ -30,44 +30,22 @@ $number_of_page = ceil($total_orders / $results_per_page); // Tính số trang
 $page_first_result = max(0, ($quanlydonhang - 1) * $results_per_page);
 
 // Truy vấn lấy danh sách đơn hàng
-$sql = "
-    SELECT 
-        dt.maDon,
-        ds.tenDauSach,
-        ds.tacGia,
-        ds.soLuongDangThue,
-        s.tinhTrang,
-        cthd.giaThue,
-        cthd.tienCoc,
-        dt.tinhTrangThanhToan,
-        dt.hinhAnhThanhToan
-    FROM 
-        donthuesach dt
-    JOIN 
-        chitiethoadon cthd ON dt.maDon = cthd.maDon
-    JOIN 
-        sach s ON cthd.maSach = s.maSach
-    JOIN 
-        dausach ds ON s.maDauSach = ds.maDauSach
-    WHERE 
-        dt.tinhTrangThanhToan IN ('Cho xac nhan', 'Da thanh toan', 'Cho lien he')
-    
-";
+$sql = "SELECT * FROM donthuesach WHERE tinhTrangThanhToan IN ('Cho xac nhan', 'Da thanh toan', 'Cho lien he')";
 
 
 // Áp dụng bộ lọc cho truy vấn lấy danh sách đơn hàng
 if ($filter === 'pending') {
-    $sql .= " WHERE dt.tinhTrangThanhToan = 'Cho xac nhan'";
+    $sql .= " WHERE tinhTrangThanhToan = 'Cho xac nhan'";
 } elseif ($filter === 'all') {
     // Tất cả đơn hàng (không cần WHERE)
 }
 
 if ($filter !== 'pending') {
     // Chỉ áp dụng LIMIT nếu không có bộ lọc "pending"
-    $sql .= " ORDER BY dt.maDon DESC LIMIT $page_first_result, $results_per_page;";
+    $sql .= " ORDER BY maDon DESC LIMIT $page_first_result, $results_per_page;";
 } else {
     // Nếu bộ lọc là "pending", không cần LIMIT
-    $sql .= " ORDER BY dt.maDon DESC;";
+    $sql .= " ORDER BY maDon DESC;";
 }
 
 $donhang = $obj->xuatdulieu($sql);
@@ -256,13 +234,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
                                 <thead>
                                     <tr>
                                         <th>Mã Đơn</th>
-                                        <th style="width: 200px;">Tên Sách</th>
-                                        <th>Tác Giả</th>
-                                        <th>Số Lượng</th>
-                                        <th>Giá Thuê</th>
-                                        <th>Tiền Cọc</th>
-                                        <th>Tình Trạng Thanh Toán</th>
+
+                                        <th>Phí Ship</th>
+                                        <th>Mã Ưu Đãi</th>
+                                        <th>Tổng Tiền Thuê</th>
+                                        <th>Tổng Tiền Cọc</th>
                                         <th>Hình Ảnh Thanh Toán</th>
+                                        <th>Tình Trạng Thanh Toán</th>
+                                        <th></th>
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -273,11 +253,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
                                                     onclick="openModal(<?= $order['maDon'] ?>, '<?= $order['tinhTrangThanhToan'] ?>')">
                                                     <?= $order['maDon'] ?>
                                                 </td>
-                                                <td><?= $order['tenDauSach'] ?></td>
-                                                <td><?= $order['tacGia'] ?></td>
-                                                <td><?= $order['soLuongDangThue'] ?></td>
-                                                <td><?= number_format($order['giaThue'], 0, ',', '.') ?> VND</td>
-                                                <td><?= number_format($order['tienCoc'], 0, ',', '.') ?> VND</td>
+
+                                                <td><?= $order['phiShip'] ?></td>
+                                                <td><?= $order['maKM'] ?></td>
+                                                <td><?= number_format($order['tongTienThue'], 0, ',', '.') ?> VND</td>
+                                                <td><?= number_format($order['tongTienCoc'], 0, ',', '.') ?> VND</td>
                                                 <td>
                                                     <?php if (!empty($order['hinhAnhThanhToan'])): ?>
                                                         <img src="layout/images/bills/<?= $order['hinhAnhThanhToan'] ?>"
@@ -297,6 +277,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
                                                                     ($order['tinhTrangThanhToan'] == 'Chua thanh toan' ? 'status-unpaid' : ''))) ?>">
                                                         <?= $order['tinhTrangThanhToan'] ?>
                                                     </span>
+                                                </td>
+                                                <td>
+                                                    <a href="indexAdmin.php?chitietdonthue&maDon=<?= $order['maDon'] ?>"
+                                                        class="btn btn-info btn-sm">
+                                                        Xem chi tiết
+                                                    </a>
                                                 </td>
                                             </tr>
                                         <?php endforeach; ?>

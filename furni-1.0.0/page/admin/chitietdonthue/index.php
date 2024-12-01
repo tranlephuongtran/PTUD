@@ -6,7 +6,9 @@ if (!isset($_GET['maDon'])) {
     die("Không tìm thấy mã đơn hàng.");
 }
 $maDon = $conn->real_escape_string($_GET['maDon']);
-
+// Xác định trang nguồn để quay về đúng trang
+$referrer = isset($_GET['referrer']) ? $_GET['referrer'] : 'quanlythuetra';
+$backUrl = ($referrer === 'quanlydonhang') ? 'indexAdmin.php?quanlydonhang' : 'indexAdmin.php?quanlythuetra';
 // Xử lý cập nhật trạng thái và ảnh
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['tinhTrangThueHidden']) && isset($_POST['maSach'])) {
@@ -86,9 +88,8 @@ $sql = "
         ct.ngayTra, 
         ct.tinhTrangThue, 
         ct.hinhAnhTraSach, 
-        ds.maKM, 
-        ds.phiShip, 
-        ds.tongTienThue
+        ct.tienCoc
+        
     FROM donthuesach ds
     JOIN chitiethoadon ct ON ds.maDon = ct.maDon
     JOIN sach s ON ct.maSach = s.maSach
@@ -168,7 +169,7 @@ if (!$result) {
             <div class="col-md-12">
                 <div class=" strpied-tabled-with-hover">
                     <div class="card-header bg-white">
-                        <a href="indexAdmin.php?quanlythuetra" class="btn btn-danger">Quay về</a>
+                        <a href="<?php echo $backUrl; ?>" class="btn btn-danger">Quay về</a>
                         <h4 class="card-title text-center">THÔNG TIN CHI TIẾT ĐƠN THUÊ</h4>
                     </div>
                     <div class="card-body table-full-width table-responsive">
@@ -179,14 +180,11 @@ if (!$result) {
                                     <th style="width: 200px;">Tên Sách</th>
                                     <th>Tác Giả</th>
                                     <th>Giá Thuê</th>
+                                    <th>Tiền Cọc</th>
                                     <th>Ngày Thuê</th>
                                     <th>Ngày Trả</th>
                                     <th>Tình Trạng Thuê</th>
                                     <th>Hình Ảnh Trả</th>
-                                    <th>Ưu Đãi</th>
-                                    <th>Phí Ship</th>
-                                    <th>Tổng Tiền Thuê</th>
-
                                 </tr>
                             </thead>
                             <tbody>
@@ -200,6 +198,7 @@ if (!$result) {
                                         echo "<td>{$row['tenDauSach']}</td>";
                                         echo "<td>{$row['tacGia']}</td>";
                                         echo "<td>{$row['giaThue']}</td>";
+                                        echo "<td>{$row['tienCoc']}</td>";
                                         echo "<td>{$row['ngayThue']}</td>";
                                         echo "<td>" . ($row['tinhTrangThue'] === 'Đã trả' ? $row['ngayTra'] : 'Chưa trả') . "</td>";
                                         echo "<td>
@@ -214,9 +213,6 @@ if (!$result) {
                                         </form>
                                     </td>";
                                         echo "<td><img src='$imageSrc' alt='' width='50'></td>";
-                                        echo "<td>{$row['maKM']}</td>";
-                                        echo "<td>{$row['phiShip']}</td>";
-                                        echo "<td>{$row['tongTienThue']}</td>";
                                         echo "</tr>";
                                     }
                                 }

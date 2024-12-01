@@ -26,7 +26,7 @@ if ($page_first_result < 0) {
 
 // Truy vấn để lấy tổng số đơn thuê
 $total_sql = "
-    SELECT COUNT(*) as total 
+    SELECT COUNT(DISTINCT ds.maDon) as total
     FROM donthuesach ds
     JOIN chitiethoadon ct ON ds.maDon = ct.maDon
     JOIN khachhang kh ON ds.maKH = kh.maKH
@@ -44,11 +44,7 @@ $number_of_page = ceil($total_orders / $results_per_page); // Tính số trang
 
 // Truy vấn để lấy danh sách đơn thuê với phân trang
 $sql = "
-    SELECT 
-        ds.maDon, 
-        ds.maKH, 
-        nd.ten,  
-        ct.tinhTrangThue
+    SELECT DISTINCT ds.maDon, ds.maKH, nd.ten, ct.tinhTrangThue
     FROM donthuesach ds
     JOIN chitiethoadon ct ON ds.maDon = ct.maDon
     JOIN khachhang kh ON ds.maKH = kh.maKH
@@ -117,7 +113,7 @@ $result = $conn->query($sql);
                     <div class="card-header bg-white">
                         <h4 class="card-title text-center">DANH SÁCH ĐƠN THUÊ</h4>
                         <form method="post" class="form-inline mt-4 mb-4" style="float: right;">
-                            <input type=" text" name="searchTerm" class="form-control"
+                            <input type="text" name="searchTerm" class="form-control"
                                 placeholder="Tìm kiếm theo mã đơn, mã khách, tên khách"
                                 value="<?= htmlspecialchars($searchTerm) ?>" style="width: 300px; margin-right: 10px;">
                             <button type="submit" class="btn btn-primary">Tìm kiếm</button>
