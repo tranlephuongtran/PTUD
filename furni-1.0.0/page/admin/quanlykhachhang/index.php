@@ -137,7 +137,7 @@ $result = $conn->query($sql);
                                         echo "</tr>";
                                     }
                                 } else {
-                                    echo "<tr><td class='text-center' colspan='4'>Không có khách hàng nào trên hệ thống</td></tr>";
+                                    echo "<script>alert('Không có khách hàng nào trên hệ thống!'); window.location.href = 'indexAdmin.php?quanlykhachhang'</script>";
                                 }
                                 ?>
                             </tbody>

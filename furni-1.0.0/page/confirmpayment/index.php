@@ -13,6 +13,9 @@ if (!isset($_GET['confirmpayment'])) {
 } else {
     $confirmpayment = $_GET['confirmpayment'];
 }
+if (isset($_POST['paylate'])) {
+    echo "<script>alert('Vui lòng thanh toán trong tối đa 2 ngày. Nếu không đơn sẽ bị hủy!'); window.location.href = 'index.php?paymentlate'</script>";
+}
 ?>
 
 <!-- Start Hero Section -->
@@ -31,29 +34,26 @@ if (!isset($_GET['confirmpayment'])) {
     </div>
 </div>
 <!-- End Hero Section -->
-
-<div class="untree_co-section">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 mb-5 mb-md-0">
-                <!-- <h2 class="h3 mb-3 text-black">THÔNG TIN ĐƠN HÀNG</h2> -->
-                <div class="p-3 p-lg-5 border bg-white text-center">
-                    <h2 class=" mb-3 text-black">BẠN CÓ MUỐN THANH TOÁN NGAY KHÔNG ?</h2>
-                    <button class="btn btn-primary btn-block"
-                        onclick="window.location='index.php?payment=<?php echo $_SESSION['idPay'] ?>'">Thanh
-                        toán</button>
-                    <button class="btn btn-primary btn-block" style="width: 150px;"
-                        onclick="window.location='index.php?paymentlate'">Để
-                        sau</button>
-
-
+<form method="POST">
+    <div class="untree_co-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 mb-5 mb-md-0">
+                    <!-- <h2 class="h3 mb-3 text-black">THÔNG TIN ĐƠN HÀNG</h2> -->
+                    <div class="p-3 p-lg-5 border bg-white text-center">
+                        <h2 class=" mb-3 text-black">BẠN CÓ MUỐN THANH TOÁN NGAY KHÔNG ?</h2>
+                        <button class="btn btn-primary btn-block"
+                            onclick="window.location='index.php?payment=<?php echo $_SESSION['idPay'] ?>'">Thanh
+                            toán</button>
+                        <button class="btn btn-primary btn-block" style="width: 150px;" name="paylate">Để
+                            sau</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+</form>
 
-
-    <!-- </form> -->
+<!-- </form> -->
 </div>
 </div>
 
