@@ -109,10 +109,10 @@ $result = $conn->query($sql);
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-md-12">
-                <div class="card strpied-tabled-with-hover">
-                    <div class="card-header bg-white">
+                <div class="strpied-tabled-with-hover">
+                    <div class="card-header bg-white d-flex justify-content-between align-items-center">
                         <h4 class="card-title text-center">DANH SÁCH ĐƠN THUÊ</h4>
-                        <form method="post" class="form-inline mt-4 mb-4" style="float: right;">
+                        <form method="post" class="form-inline mt-4 mb-4">
                             <input type="text" name="searchTerm" class="form-control"
                                 placeholder="Tìm kiếm theo mã đơn, mã khách, tên khách"
                                 value="<?= htmlspecialchars($searchTerm) ?>" style="width: 300px; margin-right: 10px;">
