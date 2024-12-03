@@ -94,8 +94,7 @@ $roleId = isset($_SESSION['roleId']) ? $_SESSION['roleId'] : null; // Lấy role
                                 <a class="dropdown-item" href="indexAdmin.php?baocaotheodoitonkho">Báo cáo theo dõi tồn
                                     kho</a>
                                 <a class="dropdown-item" href="indexAdmin.php?kiemtrahuhong">Kiểm tra hư hỏng</a>
-
-                                <a class="dropdown-item" href="#">Thanh lý</a>
+                                <a class="dropdown-item" href="index.php?sachthanhly">Thanh lý</a>
                                 <a class="dropdown-item" href="indexAdmin.php?baocao">Báo cáo</a>
                             </div>
                         </li>
@@ -154,7 +153,12 @@ $roleId = isset($_SESSION['roleId']) ? $_SESSION['roleId'] : null; // Lấy role
                                 <p>Quản lý Đơn Hàng</p>
                             </a>
                         </li>
-
+                        <li>
+                            <a class="nav-link" href="indexAdmin.php?quanlykhachhang">
+                                <i class="fa fa-refresh"></i>
+                                <p>Quản lý Khách Hàng</p>
+                            </a>
+                        </li>
 
                     <?php elseif ($roleId == 2): // Kho ?>
                         <li class="nav-item dropdown">
@@ -167,8 +171,7 @@ $roleId = isset($_SESSION['roleId']) ? $_SESSION['roleId'] : null; // Lấy role
                                 <a class="dropdown-item" href="indexAdmin.php?baocaotheodoitonkho">Báo cáo theo dõi tồn
                                     kho</a>
                                 <a class="dropdown-item" href="indexAdmin.php?kiemtrahuhong">Kiểm tra hư hỏng</a>
-                                <a class="dropdown-item" href="#">Xử lý hư hỏng</a>
-                                <a class="dropdown-item" href="#">Thanh lý</a>
+                                <a class="dropdown-item" href="index.php?sachthanhly">Thanh lý</a>
                                 <a class="dropdown-item" href="indexAdmin.php?baocao">Báo cáo</a>
                             </div>
                         </li>
