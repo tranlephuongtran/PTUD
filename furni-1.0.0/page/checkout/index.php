@@ -240,52 +240,68 @@ if (isset($_POST['km']) && $_POST['km'] > 0) {
 	$_SESSION['maKM'] = $maKM;
 }
 if (isset($_POST['confirm'])) {
-	$total_deposit = str_replace(',', '', $total_deposit); //tongtiencoc
-	//tong tien thue = total
-	$ship = 30000;
-	$now = date_create()->format('Y-m-d');
-	if (isset($_SESSION['maKM'])) {
-		$km = $_SESSION['maKM'];
-	} else {
-		$km = 0;
+	$kiemtra = 0;
+	foreach ($_SESSION['cart'] as $key => $cart_item) {
+		$str = "SELECT tongSoLuong, soLuongDangThue FROM dausach WHERE maDauSach = {$cart_item['id']}";
+		$result = $conn->query($str);
+		if (mysqli_num_rows($result) > 0) {
+			while ($row = mysqli_fetch_assoc($result)) {
+				$soLuongConLai = $row['tongSoLuong'] - $row['soLuongDangThue'];
+				if ($cart_item['quantity'] > $soLuongConLai) {
+					echo "<script>alert('Không đủ số lượng! Sách {$cart_item['name']} chỉ còn {$soLuongConLai} quyển')</script>";
+					$kiemtra = 1;
+				}
+			}
+		}
 	}
-	$date = new DateTime('now');
-	$date->modify('+15 days');
-	$date = $date->format('Y-m-d');
-	if ($km == 0) {
-		$str = "INSERT INTO donthuesach(ngayThue, tongTienThue, tongTienCoc, tinhTrangThanhToan, phiShip, maKH, maThe) VALUES('$now', $total, $total_deposit, 'Chua thanh toan', $ship, $maKH, '$maThe')";
-	} else if ($km != 0)
-		$str = "INSERT INTO donthuesach(ngayThue, tongTienThue, tongTienCoc, tinhTrangThanhToan, phiShip, maKM, maKH, maThe ) VALUES('$now', $total, $total_deposit, 'Chua thanh toan', $ship, $km, $maKH, '$maThe')";
-	$conn = mysqli_connect("localhost", "nhomptud", "123456", "ptud");
-	if ($conn) {
-		if ($conn->query($str)) {
-			$maDon = $conn->insert_id;
-			$_SESSION['idPay'] = $maDon;
-			foreach ($_SESSION['cart'] as $item) {
-				$maDauSach = $item['id'];
-				$price = $item['price'];
-				$deposit = $item['deposit'];
-				$quantity = $item['quantity'];
-				$tinhTrang = 'Đang thuê';
-				$str = "SELECT*FROM sach where tinhTrang='Con sach' and maDauSach=$maDauSach LIMIT $quantity";
-				$result = $conn->query($str);
-				if (mysqli_num_rows($result) > 0) {
-					while ($row = mysqli_fetch_assoc($result)) {
-						$str = "INSERT INTO chitiethoadon(giaThue, ngayTra, tinhTrangThue, tienCoc, maSach, maDon) VALUES($price, '$date', '$tinhTrang', $deposit, {$row['maSach']}, $maDon)";
-						if ($conn->query($str)) {
-							$str = "UPDATE sach SET tinhTrang='Dang thue' WHERE maSach={$row['maSach']}";
+	if ($kiemtra == 0) {
+		$total_deposit = str_replace(',', '', $total_deposit); //tongtiencoc
+		//tong tien thue = total
+		$ship = 30000;
+		$now = date_create()->format('Y-m-d');
+		if (isset($_SESSION['maKM'])) {
+			$km = $_SESSION['maKM'];
+		} else {
+			$km = 0;
+		}
+		$date = new DateTime('now');
+		$date->modify('+15 days');
+		$date = $date->format('Y-m-d');
+		if ($km == 0) {
+			$str = "INSERT INTO donthuesach(ngayThue, tongTienThue, tongTienCoc, tinhTrangThanhToan, phiShip, maKH, maThe) VALUES('$now', $total, $total_deposit, 'Chua thanh toan', $ship, $maKH, '$maThe')";
+		} else if ($km != 0)
+			$str = "INSERT INTO donthuesach(ngayThue, tongTienThue, tongTienCoc, tinhTrangThanhToan, phiShip, maKM, maKH, maThe ) VALUES('$now', $total, $total_deposit, 'Chua thanh toan', $ship, $km, $maKH, '$maThe')";
+		$conn = mysqli_connect("localhost", "nhomptud", "123456", "ptud");
+		if ($conn) {
+			if ($conn->query($str)) {
+				$maDon = $conn->insert_id;
+				$_SESSION['idPay'] = $maDon;
+				foreach ($_SESSION['cart'] as $item) {
+					$maDauSach = $item['id'];
+					$price = $item['price'];
+					$deposit = $item['deposit'];
+					$quantity = $item['quantity'];
+					$tinhTrang = 'Đang thuê';
+					$str = "SELECT*FROM sach where tinhTrang='Con sach' and maDauSach=$maDauSach LIMIT $quantity";
+					$result = $conn->query($str);
+					if (mysqli_num_rows($result) > 0) {
+						while ($row = mysqli_fetch_assoc($result)) {
+							$str = "INSERT INTO chitiethoadon(giaThue, ngayTra, tinhTrangThue, tienCoc, maSach, maDon) VALUES($price, '$date', '$tinhTrang', $deposit, {$row['maSach']}, $maDon)";
 							if ($conn->query($str)) {
+								$str = "UPDATE sach SET tinhTrang='Dang thue' WHERE maSach={$row['maSach']}";
+								if ($conn->query($str)) {
+								}
 							}
 						}
 					}
+					$str = "UPDATE dausach SET soLuongDangThue = $quantity WHERE maDauSach=$maDauSach";
+					if ($conn->query($str)) {
+					}
 				}
-				$str = "UPDATE dausach SET soLuongDangThue = $quantity WHERE maDauSach=$maDauSach";
-				if ($conn->query($str)) {
-				}
+				echo "<script>alert('Xác nhận thành công'); window.location.href = 'index.php?confirmpayment'</script>";
 			}
-			echo "<script>alert('Xác nhận thành công'); window.location.href = 'index.php?confirmpayment'</script>";
-		}
-	} else
-		echo "<script>alert('Xác nhận thất bại')</script>";
+		} else
+			echo "<script>alert('Xác nhận thất bại')</script>";
+	}
 }
 ?>

@@ -44,9 +44,7 @@ if (isset($_POST['quantity'])) {
 					$soLuongConLai = $row['tongSoLuong'] - $row['soLuongDangThue'];
 					if ($new_quantity > $soLuongConLai) {
 						echo "<script>alert('Không đủ số lượng sách! Chỉ còn {$soLuongConLai} quyển')</script>";
-
 					} else {
-						echo "<script>alert('abc quyển')</script>";
 						$_SESSION['cart'][$key]['quantity'] = $new_quantity;
 						break;
 					}
