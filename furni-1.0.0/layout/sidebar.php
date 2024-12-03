@@ -142,6 +142,12 @@ $roleId = isset($_SESSION['roleId']) ? $_SESSION['roleId'] : null; // Lấy role
                             </a>
                         </li>
                         <li>
+                            <a class="nav-link" href="indexAdmin.php?quanlykhachhang">
+                                <i class="fa fa-id-card-o"></i>
+                                <p>Quản lý Khách Hàng</p>
+                            </a>
+                        </li>
+                        <li>
                             <a class="nav-link" href="indexAdmin.php?quanlythuetra">
                                 <i class="fa fa-refresh"></i>
                                 <p>Quản lý Trả sách</p>
@@ -151,12 +157,6 @@ $roleId = isset($_SESSION['roleId']) ? $_SESSION['roleId'] : null; // Lấy role
                             <a class="nav-link" href="indexAdmin.php?quanlydonhang">
                                 <i class="fa fa-refresh"></i>
                                 <p>Quản lý Đơn Hàng</p>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="nav-link" href="indexAdmin.php?quanlykhachhang">
-                                <i class="fa fa-id-card-o"></i>
-                                <p>Quản lý Khách Hàng</p>
                             </a>
                         </li>
 
