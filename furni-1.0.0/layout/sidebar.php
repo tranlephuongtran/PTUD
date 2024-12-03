@@ -94,7 +94,7 @@ $roleId = isset($_SESSION['roleId']) ? $_SESSION['roleId'] : null; // Lấy role
                                 <a class="dropdown-item" href="indexAdmin.php?baocaotheodoitonkho">Báo cáo theo dõi tồn
                                     kho</a>
                                 <a class="dropdown-item" href="indexAdmin.php?kiemtrahuhong">Kiểm tra hư hỏng</a>
-                                <a class="dropdown-item" href="index.php?sachthanhly">Thanh lý</a>
+                                <a class="dropdown-item" href="indexAdmin.php?sachthanhly">Thanh lý</a>
                                 <a class="dropdown-item" href="indexAdmin.php?baocao">Báo cáo</a>
                             </div>
                         </li>
@@ -171,7 +171,7 @@ $roleId = isset($_SESSION['roleId']) ? $_SESSION['roleId'] : null; // Lấy role
                                 <a class="dropdown-item" href="indexAdmin.php?baocaotheodoitonkho">Báo cáo theo dõi tồn
                                     kho</a>
                                 <a class="dropdown-item" href="indexAdmin.php?kiemtrahuhong">Kiểm tra hư hỏng</a>
-                                <a class="dropdown-item" href="index.php?sachthanhly">Thanh lý</a>
+                                <a class="dropdown-item" href="indexAdmin.php?sachthanhly">Thanh lý</a>
                                 <a class="dropdown-item" href="indexAdmin.php?baocao">Báo cáo</a>
                             </div>
                         </li>
