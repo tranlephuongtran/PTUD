@@ -8,7 +8,6 @@ if (isset($_GET['logoutAdmin'])) {
     session_destroy();
     header('Location: loginAdmin.php');
     exit();
-
 }
 // Kiểm tra nếu chưa đăng nhập
 if (!isset($_SESSION['admin_id'])) {

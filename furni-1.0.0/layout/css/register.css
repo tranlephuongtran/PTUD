@@ -59,6 +59,9 @@
   border-radius: 6px;
   padding: 15px 15px 15px 40px;
 }
+.input-field input[type="text"] {
+  width: 42.3125rem;
+}
 
 .input-box .input-field input::placeholder {
   color: #fff;

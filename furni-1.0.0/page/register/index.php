@@ -28,7 +28,7 @@ if (!isset($_GET['register'])) {
 require_once 'myclass/user.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") { // Lấy dữ liệu từ form đăng ký 
     $hoTen = trim($_POST['hoTen']);
-    $tenDangNhap = trim($_POST['tenDangNhap']);
+    // $tenDangNhap = trim($_POST['tenDangNhap']);
     $email = trim($_POST['email']);
     $password = $_POST['password'];
     $confirmPassword = $_POST['confirmPassword'];
@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") { // Lấy dữ liệu từ form đăn
     $agree = isset($_POST['agree']);
 
     $user = new User();
-    $result = $user->register($hoTen, $tenDangNhap, $email, $password, $confirmPassword, $sdt, $diachi, $agree);
+    $result = $user->register($hoTen, $email, $password, $confirmPassword, $sdt, $diachi, $agree);
     echo $result;
 }
 ?>
@@ -53,11 +53,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") { // Lấy dữ liệu từ form đăn
                         <input type="text" name="hoTen" placeholder="Họ và tên" id="hoTen" required>
                         <i class='bx bxs-user'></i>
                     </div>
-                    <div class="input-field">
+                </div>
+                <!-- <div class="input-field">
                         <input type="text" name="tenDangNhap" placeholder="Tên đăng nhập" id="tenDangNhap" required>
                         <i class='bx bxs-user'></i>
-                    </div>
-                </div>
+                    </div> -->
                 <div class="input-box">
                     <div class="input-field">
                         <input type="email" name="email" placeholder="Email" id="email" required>
