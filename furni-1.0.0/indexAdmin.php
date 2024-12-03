@@ -50,6 +50,8 @@ if (isset($_GET['quanlydanhmuc'])) {
     $pagead = 'quanlykhachhang';
 } else if (isset($_GET['chitietkhachhang'])) {
     $pagead = 'chitietkhachhang';
+} else if (isset($_GET['home'])) {
+    $pagead = 'home';
 } else {
     $pagead = 'home';
 }
