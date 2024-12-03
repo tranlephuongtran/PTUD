@@ -14,7 +14,7 @@ if (!$conn) {
 $query = "
     SELECT taikhoan.email, nguoidung.ten, nguoidung.diaChi, nguoidung.SDT, nguoidung.maNguoiDung
     FROM taikhoan
-    INNER JOIN nguoidung ON taikhoan.nguoiDungID = nguoidung.maNguoiDung
+    INNER JOIN nguoidung ON taikhoan.maNguoiDung = nguoidung.maNguoiDung
     WHERE taikhoan.email = '$email'
 ";
 $result = mysqli_query($conn, $query);
@@ -97,6 +97,7 @@ mysqli_close($conn);
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -152,10 +153,10 @@ mysqli_close($conn);
                 <div class="menu">
                     <ul>
                         <li><a href="index.php?profile">Tài khoản của tôi</a></li>
-                        
+
                         <li><a href="index.php?change_password">Đổi mật khẩu</a></li>
                         <li><a href="index.php?history">Lịch sử thuê</a></li>
-                        <li><a href="index.php?logout">Đăng xuất</a></li>                       
+                        <li><a href="index.php?logout">Đăng xuất</a></li>
                     </ul>
                 </div>
             </div>
@@ -166,7 +167,7 @@ mysqli_close($conn);
                     <h2 class="mb-4">Cập Nhật Thông Tin</h2>
                     <form method="POST" action="index.php?updateProfile">
                         <div class="mb-3">
-                            <label for="name" class="form-label">Tên</label>
+                            <label for="name" class="form-label">Họ và Tên</label>
                             <input type="text" class="form-control" id="name" name="name" required
                                 value="<?php echo htmlspecialchars($user['ten'] ?? ''); ?>">
                         </div>

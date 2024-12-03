@@ -287,7 +287,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
-                            <button type="submit" class="btn btn-primary" name="addCategory">Thêm</button>
+                            <button type="submit" class="btn btn-primary" name="addCategory">Lưu</button>
                         </div>
                     </div>
                 </form>
@@ -352,7 +352,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
-                            <button type="submit" name="btSua" class="btn btn-primary">Cập Nhật</button>
+                            <button type="submit" name="btSua" class="btn btn-primary">Xác nhận</button>
                         </div>
                     </div>
                 </form>

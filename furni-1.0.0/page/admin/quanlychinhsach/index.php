@@ -57,7 +57,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div class="card strpied-tabled-with-hover">
                     <div class="card-header">
                         <h4 class="card-title text-center">DANH SÁCH CHÍNH SÁCH</h4>
-                        <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#addPolicyModal"><i class="fa fa-plus-circle"></i> Thêm mới</button>
+                        <button type="button" class="btn btn-success" data-toggle="modal"
+                            data-target="#addPolicyModal"><i class="fa fa-plus-circle"></i> Thêm mới</button>
                     </div>
                     <div class="card-body table-full-width table-responsive">
                         <form method="post">
@@ -75,14 +76,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                             <td><?= $item["ten"] ?></td>
                                             <td><?= $item["noiDung"] ?></td>
                                             <td>
-                                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editPolicyModal"
+                                                <button type="button" class="btn btn-warning" data-toggle="modal"
+                                                    data-target="#editPolicyModal"
                                                     onclick="document.getElementById('editMaChinhSach').value='<?= $item['maChinhSach'] ?>';
                                                              document.getElementById('editTen').value='<?= $item['ten'] ?>';
                                                              document.getElementById('editNoiDung').value='<?= $item['noiDung'] ?>';">
                                                     Sửa
                                                 </button>
-                                                <button onclick="return confirm('Bạn có chắc chắn muốn xóa chính sách này không?')"
-                                                        type="submit" name="btXoa" value="<?= $item["maChinhSach"] ?>" class="btn btn-danger">
+                                                <button
+                                                    onclick="return confirm('Bạn có chắc chắn muốn xóa chính sách này không?')"
+                                                    type="submit" name="btXoa" value="<?= $item["maChinhSach"] ?>"
+                                                    class="btn btn-danger">
                                                     Xóa
                                                 </button>
                                             </td>

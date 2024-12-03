@@ -51,7 +51,7 @@ if (isset($_GET['quanlydanhmuc'])) {
 } else if (isset($_GET['chitietkhachhang'])) {
     $pagead = 'chitietkhachhang';
 } else {
-    $pagead = 'quanlysanpham';
+    $pagead = 'home';
 }
 include("page/admin/" . $pagead . "/index.php");
 include("layout/footerAd.php");

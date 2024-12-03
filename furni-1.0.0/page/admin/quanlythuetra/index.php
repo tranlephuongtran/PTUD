@@ -16,7 +16,7 @@ include 'config.php';
 $searchTerm = isset($_POST['searchTerm']) ? $_POST['searchTerm'] : '';
 
 // Số lượng đơn hàng hiển thị trên mỗi trang
-$results_per_page = 10;
+$results_per_page = 5;
 $page_first_result = ($quanlythuetra - 1) * $results_per_page;
 
 // Đảm bảo rằng page_first_result không âm
@@ -26,7 +26,7 @@ if ($page_first_result < 0) {
 
 // Truy vấn để lấy tổng số đơn thuê
 $total_sql = "
-    SELECT COUNT(*) as total 
+    SELECT COUNT(DISTINCT ds.maDon) as total
     FROM donthuesach ds
     JOIN chitiethoadon ct ON ds.maDon = ct.maDon
     JOIN khachhang kh ON ds.maKH = kh.maKH
@@ -44,11 +44,7 @@ $number_of_page = ceil($total_orders / $results_per_page); // Tính số trang
 
 // Truy vấn để lấy danh sách đơn thuê với phân trang
 $sql = "
-    SELECT 
-        ds.maDon, 
-        ds.maKH, 
-        nd.ten,  
-        ct.tinhTrangThue
+    SELECT DISTINCT ds.maDon, ds.maKH, nd.ten, ct.tinhTrangThue
     FROM donthuesach ds
     JOIN chitiethoadon ct ON ds.maDon = ct.maDon
     JOIN khachhang kh ON ds.maKH = kh.maKH
@@ -76,7 +72,7 @@ $result = $conn->query($sql);
 
     .card.strpied-tabled-with-hover .table thead th,
     .card.strpied-tabled-with-hover .table tbody td {
-        /* border: none; */
+        border: none;
     }
 
     .card.strpied-tabled-with-hover .table thead {
@@ -113,11 +109,11 @@ $result = $conn->query($sql);
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-md-12">
-                <div class=" strpied-tabled-with-hover">
-                    <div class="card-header bg-white">
+                <div class="strpied-tabled-with-hover">
+                    <div class="card-header bg-white d-flex justify-content-between align-items-center">
                         <h4 class="card-title text-center">DANH SÁCH ĐƠN THUÊ</h4>
-                        <form method="post" class="form-inline mt-4">
-                            <input type=" text" name="searchTerm" class="form-control"
+                        <form method="post" class="form-inline mt-4 mb-4">
+                            <input type="text" name="searchTerm" class="form-control"
                                 placeholder="Tìm kiếm theo mã đơn, mã khách, tên khách"
                                 value="<?= htmlspecialchars($searchTerm) ?>" style="width: 300px; margin-right: 10px;">
                             <button type="submit" class="btn btn-primary">Tìm kiếm</button>

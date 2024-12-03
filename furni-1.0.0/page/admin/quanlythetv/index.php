@@ -128,8 +128,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
-                            <button type="submit" class="btn btn-primary" name="addMember">Thêm</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Hủy</button>
+                            <button type="submit" class="btn btn-primary" name="addMember">Xác nhận</button>
                         </div>
                     </div>
                 </form>

@@ -306,7 +306,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                                         document.getElementById('emailEdit').value='<?= $item['email'] ?>';
                                                         document.getElementById('passwordEdit').value='<?= $item['password'] ?>';
                                                         document.getElementById('ngayVaoLamEdit').value='<?= $item['ngayVaoLam'] ?>';">
-                                                    Sửa
+                                                    Cập nhật
                                                 </button>
 
                                                 <button
@@ -369,9 +369,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 <label for="ngayVaoLam" class="form-label">Ngày Vào Làm</label>
                                 <input type="date" class="form-control" id="ngayVaoLam" name="ngayVaoLam" required>
                             </div>
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
-                            <button type="submit" class="btn btn-primary" name="addEmployee" style="float: right;">Thêm
-                                Nhân Viên</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Hủy</button>
+                            <button type="submit" class="btn btn-primary" name="addEmployee" style="float: right;">Xác
+                                nhận</button>
                         </form>
                     </div>
                 </div>
@@ -425,9 +425,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 <label for="ngayVaoLamEdit" class="form-label">Ngày Vào Làm</label>
                                 <input type="date" class="form-control" id="ngayVaoLamEdit" name="ngayVaoLam" required>
                             </div>
-                            <button type="button" class="btn btn-danger " data-dismiss="modal">Đóng</button>
-                            <button type="submit" class="btn btn-primary" style="float: right;" name="btSua">Cập
-                                Nhật</button>
+                            <button type="button" class="btn btn-danger " data-dismiss="modal">Hủy</button>
+                            <button type="submit" class="btn btn-primary" style="float: right;" name="btSua">Xác
+                                nhận</button>
                         </form>
 
                     </div>
