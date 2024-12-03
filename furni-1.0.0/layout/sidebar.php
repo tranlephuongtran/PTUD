@@ -95,7 +95,6 @@ $roleId = isset($_SESSION['roleId']) ? $_SESSION['roleId'] : null; // Lấy role
                                     kho</a>
                                 <a class="dropdown-item" href="indexAdmin.php?kiemtrahuhong">Kiểm tra hư hỏng</a>
                                 <a class="dropdown-item" href="indexAdmin.php?sachthanhly">Thanh lý</a>
-                                <a class="dropdown-item" href="indexAdmin.php?baocao">Báo cáo</a>
                             </div>
                         </li>
                         <li>
@@ -159,7 +158,12 @@ $roleId = isset($_SESSION['roleId']) ? $_SESSION['roleId'] : null; // Lấy role
                                 <p>Quản lý Đơn Hàng</p>
                             </a>
                         </li>
-
+                        <li>
+                            <a class="nav-link" href="indexAdmin.php?baocao">
+                                <i class="fa fa-refresh"></i>
+                                <p>Báo cáo</p>
+                            </a>
+                        </li>
                     <?php elseif ($roleId == 2): // Kho ?>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
