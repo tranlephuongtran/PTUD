@@ -27,6 +27,8 @@ if (isset($_GET['productdetails'])) {
 // Xử lý khi nhấn "Thêm vào giỏ hàng"
 if (isset($_POST['add_to_cart'])) {
     if (isset($_SESSION['btnLogin']) && $_SESSION['btnLogin'] == 1) {
+        // Lấy số lượng từ người dùng nhập
+        $quantity = isset($_POST['quantity']) ? intval($_POST['quantity']) : 1;
         // Tạo sản phẩm cần thêm vào giỏ hàng
         $item = [
             'id' => $product['maDauSach'],
@@ -34,7 +36,7 @@ if (isset($_POST['add_to_cart'])) {
             'price' => $product['giaThue'],
             'deposit' => $product['tienCoc'],
             'image' => $product['hinhAnh'],
-            'quantity' => 1
+            'quantity' => $quantity
         ];
 
         // Khởi tạo giỏ hàng trong session nếu chưa có
@@ -46,7 +48,7 @@ if (isset($_POST['add_to_cart'])) {
         $found = false;
         foreach ($_SESSION['cart'] as &$cart_item) {
             if ($cart_item['id'] == $item['id']) {
-                $cart_item['quantity'] += 1;
+                $cart_item['quantity'] += $quantity;
                 $found = true;
                 break;
             }
@@ -92,6 +94,8 @@ if (isset($_POST['add_to_cart'])) {
                     <div class="row">
                         <div class="col-md-8">
                             <form method="post">
+                                <!-- Trường ẩn để gửi giá trị số lượng -->
+                                <input type="hidden" id="hidden_quantity" name="quantity" value="1">
                                 <button type="submit" name="add_to_cart" class="btn btn-primary mt-4 mb-4"
                                     style="border-radius: 10px;">
                                     <img src="layout/images/cart.svg"> Thêm Vào Giỏ Hàng
@@ -119,8 +123,8 @@ if (isset($_POST['add_to_cart'])) {
                         </h4>
                         <div class="mb-3">
                             <label for="quantity" class="form-label">Số lượng:</label>
-                            <input type="number" id="quantity" class="form-control" value="1" min="1"
-                                style="width: 100px;">
+                            <input type="number" id="quantity" name="display_quantity" class="form-control" value="1" min="1"
+                                style="width: 100px;" oninput="updateHiddenQuantity()">
                         </div>
                     </div>
                 </div>
@@ -175,7 +179,14 @@ if (isset($_POST['add_to_cart'])) {
         </div>
     </div>
 </div>
-
+<script>
+    function updateHiddenQuantity() {
+        // Lấy giá trị từ trường hiển thị
+        var displayQuantity = document.getElementById("quantity").value;
+        // Cập nhật giá trị cho trường ẩn
+        document.getElementById("hidden_quantity").value = displayQuantity;
+    }
+</script>
 <script src="js/bootstrap.bundle.min.js"></script>
 <script src="js/tiny-slider.js"></script>
 <script src="js/custom.js"></script>

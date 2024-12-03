@@ -156,10 +156,25 @@
     .modal-content .content-container .right-section {
         flex: 2;
     }
-
+    /* Flex Layout for Modal */
+    .modal-content img {
+        width: 100%;
+        max-width: 100%;
+        border-radius: 8px;
+    }
     .ChiTietDonSach {
         text-align: center;
         color: orange;
+    }
+    /* Ảnh thu nhỏ */
+    img {
+        border-radius: 5px;
+        cursor: pointer;
+        transition: transform 0.2s; /* Hiệu ứng zoom khi hover */
+    }
+    img:hover {
+        transform: scale(1.2); /* Zoom nhẹ khi di chuột qua */
+        cursor: pointer;
     }
 </style>
 
@@ -217,7 +232,7 @@
                                 echo "<td>" . number_format($row['phiShip'], 0, ',', '.') . " VND</td>";
                                 echo "<td>" . $row['phuongThucThanhToan'] . "</td>";
                                 echo "<td>" . $row['tinhTrangThanhToan'] . "</td>";
-                                echo "<td><img src='layout/images/bills/" . $row['hinhAnhThanhToan'] . "' alt='Image' style='width: 50px; height: 50px;'></td>";
+                                echo "<td><img src='layout/images/bills/" . $row['hinhAnhThanhToan'] . "' alt='Image' style='width: 50px; height: 50px;' onclick=\"event.stopPropagation(); openModal('layout/images/bills/" . $row['hinhAnhThanhToan'] . "')\"></td>";
                                 echo "</tr>";
                             }
                             echo "</ul>";
@@ -234,10 +249,35 @@
             </table>
         </div>
     </div>
+    <!-- Modal for image display -->
+    <div id="myModal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <div class="modal-content">
+            <img id="modalImage" src="" alt="Payment Image">
+        </div>
+    </div>
     <script>
         function redirectToDetails(maDon) {
             // Chuyển hướng đến trang chi tiết hóa đơn
             window.location.href = `index.php?invoice_details&maDon=${maDon}`
+        }
+        function openModal(imageSrc) {
+            // Set the source of the modal image and display the modal
+            document.getElementById("modalImage").src = imageSrc;
+            document.getElementById("myModal").style.display = "block";
+        }
+
+        function closeModal() {
+            // Ẩn modal khi nhấn nút đóng
+            document.getElementById("myModal").style.display = "none";
+        }
+
+        // Đóng modal nếu người dùng nhấn ra ngoài nội dung modal
+        window.onclick = function(event) {
+            var modal = document.getElementById("myModal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
         }
     </script>
 </body>
