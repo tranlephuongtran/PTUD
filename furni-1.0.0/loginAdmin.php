@@ -63,8 +63,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <style>
         body {
             font-family: 'Roboto', sans-serif;
-            background: linear-gradient(135deg, #6e7cfc, #507bf0);
-            /* Tạo background gradient */
+            background-image: url('layout/images/anhnenDN.jpg'); 
+            background-size: cover;
+            background-repeat: no-repeat; 
             display: flex;
             justify-content: center;
             align-items: center;
