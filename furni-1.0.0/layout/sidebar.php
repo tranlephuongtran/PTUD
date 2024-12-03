@@ -155,7 +155,7 @@ $roleId = isset($_SESSION['roleId']) ? $_SESSION['roleId'] : null; // Lấy role
                         </li>
                         <li>
                             <a class="nav-link" href="indexAdmin.php?quanlykhachhang">
-                                <i class="fa fa-refresh"></i>
+                                <i class="fa fa-id-card-o"></i>
                                 <p>Quản lý Khách Hàng</p>
                             </a>
                         </li>
