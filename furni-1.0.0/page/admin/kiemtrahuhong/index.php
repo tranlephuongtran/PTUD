@@ -58,7 +58,8 @@ $result = $conn->query($sql);
 
 <style>
     button[type="submit"] {
-        background-color: #4CAF50; /* Màu nút */
+        background-color: #4CAF50;
+        /* Màu nút */
         color: white;
         padding: 5px 10px;
         border: none;
@@ -68,7 +69,8 @@ $result = $conn->query($sql);
     }
 
     button[type="submit"]:hover {
-        background-color: #45a049; /* Màu khi hover */
+        background-color: #45a049;
+        /* Màu khi hover */
     }
 
     select {
@@ -102,11 +104,13 @@ $result = $conn->query($sql);
         height: 50px;
         border-radius: 5px;
         cursor: pointer;
-        transition: transform 0.2s; /* Hiệu ứng zoom khi hover */
+        transition: transform 0.2s;
+        /* Hiệu ứng zoom khi hover */
     }
 
     .img-thumbnail:hover {
-        transform: scale(1.2); /* Zoom nhẹ khi di chuột qua */
+        transform: scale(1.2);
+        /* Zoom nhẹ khi di chuột qua */
         cursor: pointer;
     }
 
@@ -149,8 +153,8 @@ $result = $conn->query($sql);
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-md-12">
-                <div class="card strpied-tabled-with-hover">
-                    <div class="card-header">
+                <div class=" strpied-tabled-with-hover bg-white">
+                    <div class="card-header bg-white">
                         <h4 class="card-title text-center">DANH SÁCH KIỂM TRA HƯ HỎNG</h4>
                     </div>
                     <div class="card-body table-full-width table-responsive">
@@ -169,7 +173,7 @@ $result = $conn->query($sql);
                                     <th>Thao tác</th>
                                 </thead>
                                 <tbody>
-                                <?php
+                                    <?php
                                     if ($result && mysqli_num_rows($result) > 0) {
                                         while ($row = mysqli_fetch_assoc($result)) {
                                             $hinhAnhTraSach = htmlspecialchars($row['hinhAnhTraSach']);
@@ -199,7 +203,7 @@ $result = $conn->query($sql);
                                     }
 
                                     mysqli_close($conn);
-                                ?>
+                                    ?>
                                 </tbody>
                             </table>
                         </form>
@@ -217,17 +221,17 @@ $result = $conn->query($sql);
 </div>
 
 <script>
-// Hàm mở modal khi nhấn vào ảnh
-function openModal(img) {
-    var modal = document.getElementById("myModal");
-    var modalImg = document.getElementById("img01");
-    modal.style.display = "block";
-    modalImg.src = img.src;
-}
+    // Hàm mở modal khi nhấn vào ảnh
+    function openModal(img) {
+        var modal = document.getElementById("myModal");
+        var modalImg = document.getElementById("img01");
+        modal.style.display = "block";
+        modalImg.src = img.src;
+    }
 
-// Hàm đóng modal
-function closeModal() {
-    var modal = document.getElementById("myModal");
-    modal.style.display = "none";
-}
+    // Hàm đóng modal
+    function closeModal() {
+        var modal = document.getElementById("myModal");
+        modal.style.display = "none";
+    }
 </script>

@@ -172,83 +172,87 @@ if (!$filter) {
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-
-                <div class="card-header bg-white d-flex justify-content-between align-items-center">
-                    <h3 class="card-title">DANH SÁCH TỒN KHO</h3>
-                    <!-- Bộ lọc -->
-                    <div class="filter-section d-flex">
-                        <form method="get" action="indexAdmin.php" class="d-flex align-items-center">
-                            <input type="hidden" name="baocaotheodoitonkho" value="<?= $baocaotheodoitonkho ?>">
-                            <select name="filter" class="form-control"
-                                style="height: 45px;width: 200px; margin-right: 10px;" onchange="this.form.submit()">
-                                <option value="">Tất cả</option>
-                                <option value="low_stock" <?= isset($_GET['filter']) && $_GET['filter'] === 'low_stock' ? 'selected' : '' ?>>Sắp hết hàng (Dưới 3)</option>
-                                <option value="out_of_stock" <?= isset($_GET['filter']) && $_GET['filter'] === 'out_of_stock' ? 'selected' : '' ?>>Hết hàng</option>
-                            </select>
-                        </form>
-                        <!--<form method="post" action="export.php" style="margin-left: 10px;">
+                <div class=" strpied-tabled-with-hover bg-white">
+                    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                        <h3 class="card-title">DANH SÁCH TỒN KHO</h3>
+                        <!-- Bộ lọc -->
+                        <div class="filter-section d-flex">
+                            <form method="get" action="indexAdmin.php" class="d-flex align-items-center">
+                                <input type="hidden" name="baocaotheodoitonkho" value="<?= $baocaotheodoitonkho ?>">
+                                <select name="filter" class="form-control"
+                                    style="height: 45px;width: 200px; margin-right: 10px;"
+                                    onchange="this.form.submit()">
+                                    <option value="">Tất cả</option>
+                                    <option value="low_stock" <?= isset($_GET['filter']) && $_GET['filter'] === 'low_stock' ? 'selected' : '' ?>>Sắp hết hàng (Dưới 3)</option>
+                                    <option value="out_of_stock" <?= isset($_GET['filter']) && $_GET['filter'] === 'out_of_stock' ? 'selected' : '' ?>>Hết hàng</option>
+                                </select>
+                            </form>
+                            <!--<form method="post" action="export.php" style="margin-left: 10px;">
                             <input type="hidden" name="filter" value="<?//= isset($_GET['filter']) ? $_GET['filter'] : '' ?>">
                             <button type="submit" class="btn btn-primary">Xuất dữ liệu</button>
                         </form>-->
-                        <!-- Form chọn định dạng xuất file -->
-                        <form method="post" action="export.php" class="d-flex align-items-center" style="margin-left: 10px;">
-                            <!-- Chuyển bộ lọc hiện tại vào form -->
-                            <input type="hidden" name="filter" value="<?= isset($_GET['filter']) ? $_GET['filter'] : '' ?>">
-                            <!-- Dropdown chọn định dạng -->
-                            <select name="format" class="form-control" style="height: 45px; width: 150px; margin-right: 10px;">
-                                <option value="excel">Excel</option>
-                                <option value="pdf">PDF</option>
-                                <option value="word">Word</option>
-                            </select>
-                            <!-- Nút bấm xuất file -->
-                            <button type="submit" class="btn btn-primary">Xuất báo cáo</button>
+                            <!-- Form chọn định dạng xuất file -->
+                            <form method="post" action="export.php" class="d-flex align-items-center"
+                                style="margin-left: 10px;">
+                                <!-- Chuyển bộ lọc hiện tại vào form -->
+                                <input type="hidden" name="filter"
+                                    value="<?= isset($_GET['filter']) ? $_GET['filter'] : '' ?>">
+                                <!-- Dropdown chọn định dạng -->
+                                <select name="format" class="form-control"
+                                    style="height: 45px; width: 150px; margin-right: 10px;">
+                                    <option value="excel">Excel</option>
+                                    <option value="pdf">PDF</option>
+                                    <option value="word">Word</option>
+                                </select>
+                                <!-- Nút bấm xuất file -->
+                                <button type="submit" class="btn btn-primary">Xuất báo cáo</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="card-body table-full-width table-responsive">
+                        <form method="post">
+                            <table class="table table-hover table-striped">
+                                <thead>
+                                    <th>Mã Đầu Sách</th>
+                                    <th style="width: 600px;">Tên Đầu Sách</th>
+                                    <th>Tổng số lượng</th>
+                                    <th>Số lượng đang thuê</th>
+                                    <th>Số lượng còn lại</th>
+                                    <th>Mã Danh Mục</th>
+                                    <th>Tình Trạng</th>
+                                </thead>
+                                <tbody>
+                                    <?php if (!empty($dausach) && is_array($dausach)): ?>
+                                        <?php foreach ($dausach as $item): ?>
+                                            <tr>
+                                                <td><?= $item["maDauSach"] ?></td>
+                                                <td><?= $item["tenDauSach"] ?></td>
+                                                <td><?= $item["tongSoLuong"] ?></td>
+                                                <td><?= $item["soLuongDangThue"] ?></td>
+                                                <td><?= $item["soLuongConLai"] ?></td>
+                                                <td><?= $item["maDM"] ?></td>
+                                                <td>
+                                                    <?php if ($item["soLuongConLai"] == 0): ?>
+                                                        <span style="color: red;">Hết hàng</span>
+                                                    <?php elseif ($item["soLuongConLai"] < 3): ?>
+                                                        <span style="color: orange;">Sắp hết hàng</span>
+                                                    <?php else: ?>
+                                                        <span style="color: green;">Còn hàng</span>
+                                                    <?php endif; ?>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    <?php else: ?>
+                                        <tr>
+                                            <td colspan="7" class="text-center">Không có sách nào phù hợp với bộ lọc</td>
+                                        </tr>
+                                    <?php endif; ?>
+                                </tbody>
+                            </table>
                         </form>
                     </div>
                 </div>
-
-                <div class="card-body table-full-width table-responsive">
-                    <form method="post">
-                        <table class="table table-hover table-striped">
-                            <thead>
-                                <th>Mã Đầu Sách</th>
-                                <th style="width: 600px;">Tên Đầu Sách</th>
-                                <th>Tổng số lượng</th>
-                                <th>Số lượng đang thuê</th>
-                                <th>Số lượng còn lại</th>
-                                <th>Mã Danh Mục</th>
-                                <th>Tình Trạng</th>
-                            </thead>
-                            <tbody>
-                                <?php if (!empty($dausach) && is_array($dausach)): ?>
-                                    <?php foreach ($dausach as $item): ?>
-                                        <tr>
-                                            <td><?= $item["maDauSach"] ?></td>
-                                            <td><?= $item["tenDauSach"] ?></td>
-                                            <td><?= $item["tongSoLuong"] ?></td>
-                                            <td><?= $item["soLuongDangThue"] ?></td>
-                                            <td><?= $item["soLuongConLai"] ?></td>
-                                            <td><?= $item["maDM"] ?></td>
-                                            <td>
-                                                <?php if ($item["soLuongConLai"] == 0): ?>
-                                                    <span style="color: red;">Hết hàng</span>
-                                                <?php elseif ($item["soLuongConLai"] < 3): ?>
-                                                    <span style="color: orange;">Sắp hết hàng</span>
-                                                <?php else: ?>
-                                                    <span style="color: green;">Còn hàng</span>
-                                                <?php endif; ?>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                <?php else: ?>
-                                    <tr>
-                                        <td colspan="7" class="text-center">Không có sách nào phù hợp với bộ lọc</td>
-                                    </tr>
-                                <?php endif; ?>
-                            </tbody>
-                        </table>
-                    </form>
-                </div>
-
             </div>
         </div>
         <!-- Phân trang -->

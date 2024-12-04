@@ -64,8 +64,8 @@ $sachthanhly = $product->getThanhLyBooks();
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="card strpied-tabled-with-hover">
-                        <div class="card-header">
+                    <div class=" strpied-tabled-with-hover bg-white">
+                        <div class="card-header bg-white">
                             <h4 class="card-title text-center">DANH SÁCH SÁCH THANH LÝ</h4>
                         </div>
                         <div class="card-body table-full-width table-responsive">
@@ -84,7 +84,8 @@ $sachthanhly = $product->getThanhLyBooks();
                                         <?php if (count($sachthanhly) > 0): ?>
                                             <?php foreach ($sachthanhly as $item): ?>
                                                 <tr>
-                                                    <td><input type="checkbox" name="btXoa[]" value="<?= $item["maSach"] ?>"></td>
+                                                    <td><input type="checkbox" name="btXoa[]" value="<?= $item["maSach"] ?>">
+                                                    </td>
                                                     <td><?= $item["maSach"] ?></td>
                                                     <td><?= $item["tenDauSach"] ?></td>
                                                     <td><?= $item["tacGia"] ?></td>
@@ -112,7 +113,7 @@ $sachthanhly = $product->getThanhLyBooks();
         </div>
     </div>
     <script>
-        document.querySelector('form').addEventListener('submit', function(event) {
+        document.querySelector('form').addEventListener('submit', function (event) {
             if (!confirm('Bạn có chắc chắn muốn thanh lý các sách đã chọn không?')) {
                 event.preventDefault();
             }

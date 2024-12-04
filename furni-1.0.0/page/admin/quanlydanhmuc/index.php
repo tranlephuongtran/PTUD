@@ -52,20 +52,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <?php endif; ?>
 </script>
 <style>
-    .card.strpied-tabled-with-hover {
-        border-radius: 15px;
-        overflow: hidden;
-    }
-
-    .card.strpied-tabled-with-hover .table thead th,
-    .card.strpied-tabled-with-hover .table tbody td {
-        border: none;
-    }
-
-    .card.strpied-tabled-with-hover .table thead {
-        background-color: #f8f9fa;
-    }
-
     .modal.show {
         display: block !important;
         /* Đảm bảo modal hiển thị */
@@ -83,8 +69,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     }
 
-
-
     .modal-body {
         overflow-y: auto;
         max-height: 70vh;
@@ -95,9 +79,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <div class="content">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-12">
-                <div class="card strpied-tabled-with-hover">
-                    <div class="card-header">
+            <div class="col-md-12 ">
+                <div class=" strpied-tabled-with-hover bg-white ">
+                    <div class="card-header bg-white">
                         <h4 class="card-title text-center">DANH SÁCH DANH MỤC SÁCH</h4>
                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal"><i
                                 class="fa fa-plus-circle"></i>Thêm

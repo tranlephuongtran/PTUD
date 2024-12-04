@@ -167,7 +167,7 @@ if (!$result) {
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <div class=" strpied-tabled-with-hover">
+                <div class=" strpied-tabled-with-hover bg-white">
                     <div class="card-header bg-white">
                         <a href="<?php echo $backUrl; ?>" class="btn btn-danger">Quay về</a>
                         <h4 class="card-title text-center">THÔNG TIN CHI TIẾT ĐƠN THUÊ</h4>

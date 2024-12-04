@@ -67,8 +67,8 @@ $khuyenmai = $promotion->getPromotions();
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="card strpied-tabled-with-hover">
-                        <div class="card-header">
+                    <div class="strpied-tabled-with-hover bg-white">
+                        <div class="card-header bg-white">
                             <h4 class="card-title text-center">DANH SÁCH KHUYẾN MÃI</h4>
                             <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal"><i
                                     class="fa fa-plus-circle"></i>Thêm mới</button>

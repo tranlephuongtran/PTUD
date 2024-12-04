@@ -103,7 +103,7 @@ $result = $conn->query($sql);
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-md-12">
-                <div class=" strpied-tabled-with-hover">
+                <div class=" strpied-tabled-with-hover bg-white">
                     <div class="card-header bg-white">
                         <h3 class="card-title text-center">DANH SÁCH KHÁCH HÀNG</h3>
                         <form method="post" class="form-inline mt-4" style="position: relative; left:800px">

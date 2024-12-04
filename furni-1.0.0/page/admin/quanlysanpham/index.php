@@ -158,44 +158,45 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <div class="card-header bg-white">
-                    <h3 class="card-title text-center ">DANH SÁCH SÁCH</h3>
-                    <button type="button" class="btn btn-success " data-toggle="modal" data-target="#myModal"><i
-                            class="fa fa-plus-circle"></i>Thêm
-                        mới</button>
-                </div>
-                <div class="card-body table-full-width table-responsive">
-                    <form method="post">
-                        <table class="table table-hover table-striped">
-                            <thead>
-                                <th>Mã Sách</th>
-                                <th style="width: 150px;">Tựa Đề</th>
-                                <th>Giá Thuê</th>
-                                <th>Tiền Cọc</th>
-                                <th>Mã ISBN</th>
-                                <th>Ngày XB</th>
-                                <th style="width: 250px; text-align: justify;">Mô Tả</th>
-                                <th>Tình Trạng</th>
-                                <th>Mã Đầu Sách</th>
-                                <th>Thao Tác</th>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($sach as $item): ?>
-                                    <tr>
-                                        <td><?= $item["maSach"] ?></td>
-                                        <td><?= $item["tuaDe"] ?></td>
-                                        <td><?= $item["giaThue"] ?></td>
-                                        <td><?= $item["tienCoc"] ?></td>
-                                        <td><?= $item["maISBN"] ?></td>
-                                        <td><?= $item["ngayXB"] ?></td>
-                                        <td><?= $item["moTa"] ?></td>
-                                        <td><?= $item["tinhTrang"] ?></td>
-                                        <td><?= $item["maDauSach"] ?></td>
-                                        <td>
-                                            <div class="thao-tac">
-                                                <button type="button" class="btn btn-warning" data-toggle="modal"
-                                                    data-target="#editCategoryModal"
-                                                    onclick="document.getElementById('editMaSach').value='<?= $item['maSach'] ?>'; 
+                <div class=" strpied-tabled-with-hover bg-white">
+                    <div class="card-header bg-white">
+                        <h3 class="card-title text-center ">DANH SÁCH SÁCH</h3>
+                        <button type="button" class="btn btn-success " data-toggle="modal" data-target="#myModal"><i
+                                class="fa fa-plus-circle"></i>Thêm
+                            mới</button>
+                    </div>
+                    <div class="card-body table-full-width table-responsive">
+                        <form method="post">
+                            <table class="table table-hover table-striped">
+                                <thead>
+                                    <th>Mã Sách</th>
+                                    <th style="width: 150px;">Tựa Đề</th>
+                                    <th>Giá Thuê</th>
+                                    <th>Tiền Cọc</th>
+                                    <th>Mã ISBN</th>
+                                    <th>Ngày XB</th>
+                                    <th style="width: 250px; text-align: justify;">Mô Tả</th>
+                                    <th>Tình Trạng</th>
+                                    <th>Mã Đầu Sách</th>
+                                    <th>Thao Tác</th>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($sach as $item): ?>
+                                        <tr>
+                                            <td><?= $item["maSach"] ?></td>
+                                            <td><?= $item["tuaDe"] ?></td>
+                                            <td><?= $item["giaThue"] ?></td>
+                                            <td><?= $item["tienCoc"] ?></td>
+                                            <td><?= $item["maISBN"] ?></td>
+                                            <td><?= $item["ngayXB"] ?></td>
+                                            <td><?= $item["moTa"] ?></td>
+                                            <td><?= $item["tinhTrang"] ?></td>
+                                            <td><?= $item["maDauSach"] ?></td>
+                                            <td>
+                                                <div class="thao-tac">
+                                                    <button type="button" class="btn btn-warning" data-toggle="modal"
+                                                        data-target="#editCategoryModal"
+                                                        onclick="document.getElementById('editMaSach').value='<?= $item['maSach'] ?>'; 
                                                     document.getElementById('editTuaDe').value='<?= $item['tuaDe'] ?>'; 
                                                     document.getElementById('editGiaThue').value='<?= $item['giaThue'] ?>';
                                                     document.getElementById('editTienCoc').value='<?= $item['tienCoc'] ?>';
@@ -204,21 +205,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                                     document.getElementById('editMoTa').value='<?= $item['moTa'] ?>';
                                                     document.getElementById('editTinhTrang').value='<?= $item['tinhTrang'] ?>';
                                                     document.getElementById('editMaDauSach').value='<?= $item['maDauSach'] ?>';">
-                                                    Sửa
-                                                </button>
-                                                <button
-                                                    onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?')"
-                                                    type="submit" name="btXoa" value="<?= $item["maSach"] ?>"
-                                                    class="btn btn-danger">Xóa</button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                    </form>
+                                                        Sửa
+                                                    </button>
+                                                    <button
+                                                        onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?')"
+                                                        type="submit" name="btXoa" value="<?= $item["maSach"] ?>"
+                                                        class="btn btn-danger">Xóa</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
                 </div>
-
             </div>
         </div>
 

@@ -4,13 +4,12 @@ if (!isset($_GET['quanlydonhang'])) {
 } else {
     $quanlydonhang = intval($_GET['quanlydonhang']);
 }
+
 $obj = new database();
 $results_per_page = 5;
+$filter = isset($_GET['filter']) ? $_GET['filter'] : 'all';
 
-
-$filter = isset($_GET['filter']) ? $_GET['filter'] : '';
-
-
+// Lấy tổng số đơn hàng theo bộ lọc
 $total_sql = "
     SELECT COUNT(*) as total 
     FROM donthuesach dt 
@@ -19,55 +18,57 @@ $total_sql = "
     JOIN dausach ds ON s.maDauSach = ds.maDauSach
 ";
 
-// Apply filter if any
 if ($filter === 'pending') {
-    $total_sql .= " WHERE tinhTrangThanhToan = 'Cho xac nhan'";
+    $total_sql .= " WHERE dt.tinhTrangThanhToan = 'Cho xac nhan'";
+} elseif ($filter === 'nopay') {
+    $total_sql .= " WHERE dt.tinhTrangThanhToan = 'Chua thanh toan'";
+} elseif ($filter === 'pay') {
+    $total_sql .= " WHERE dt.tinhTrangThanhToan = 'Da thanh toan'";
 }
 
 $total_result = $obj->xuatdulieu($total_sql);
-$total_orders = $total_result[0]['total'] ?? 0; // Total number of orders
-$number_of_page = ceil($total_orders / $results_per_page); // Calculate total pages
+$total_orders = $total_result[0]['total'];
+$number_of_page = ceil($total_orders / $results_per_page);
 $page_first_result = max(0, ($quanlydonhang - 1) * $results_per_page);
 
-// Fetch orders for current page
-$sql = "SELECT * FROM donthuesach WHERE tinhTrangThanhToan IN ('Cho xac nhan', 'Da thanh toan', 'Cho lien he')";
+// Lấy danh sách đơn hàng theo bộ lọc và phân trang
+$sql = "
+    SELECT dt.*, s.*, cthd.*, ds.*, dt.tinhTrangThanhToan 
+    FROM donthuesach dt 
+    JOIN chitiethoadon cthd ON dt.maDon = cthd.maDon 
+    JOIN sach s ON cthd.maSach = s.maSach 
+    JOIN dausach ds ON s.maDauSach = ds.maDauSach
+";
 
-// Apply filter to the order query
 if ($filter === 'pending') {
-    $sql .= " AND tinhTrangThanhToan = 'Cho xac nhan'";
+    $sql .= " WHERE dt.tinhTrangThanhToan = 'Cho xac nhan'";
+} elseif ($filter === 'nopay') {
+    $sql .= " WHERE dt.tinhTrangThanhToan = 'Chua thanh toan'";
+} elseif ($filter === 'pay') {
+    $sql .= " WHERE dt.tinhTrangThanhToan = 'Da thanh toan'";
 }
-$sql .= " ORDER BY maDon DESC LIMIT $page_first_result, $results_per_page";
 
+$sql .= " ORDER BY dt.maDon DESC LIMIT $page_first_result, $results_per_page;";
 $donhang = $obj->xuatdulieu($sql);
 
+// Xử lý cập nhật trạng thái đơn hàng
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     $maDon = $_POST['maDon'];
     $tinhTrangThanhToan = $_POST['tinhTrangThanhToan'];
 
-    // Lấy tình trạng hiện tại của đơn hàng
     $currentStatusSql = "SELECT tinhTrangThanhToan FROM donthuesach WHERE maDon = '$maDon'";
     $currentStatusResult = $obj->xuatdulieu($currentStatusSql);
     $currentStatus = $currentStatusResult[0]['tinhTrangThanhToan'] ?? '';
 
-    // Kiểm tra điều kiện cập nhật
-    if ($currentStatus === 'Cho xac nhan' && $tinhTrangThanhToan === 'Da thanh toan') {
-        // Cập nhật từ 'Cho xác nhận' sang 'Đã thanh toán'
+    if (
+        ($currentStatus === 'Cho xac nhan' && in_array($tinhTrangThanhToan, ['Da thanh toan', 'Cho lien he'])) ||
+        ($currentStatus === 'Cho lien he' && $tinhTrangThanhToan === 'Da thanh toan')
+    ) {
         $updateSql = "UPDATE donthuesach SET tinhTrangThanhToan = '$tinhTrangThanhToan' WHERE maDon = '$maDon'";
-        $result = $obj->suadulieu($updateSql);
-        echo "<script>alert('Cập nhật trạng thái thanh toán thành công.');</script>";
-    } else if ($currentStatus === 'Cho xac nhan' && $tinhTrangThanhToan === 'Cho lien he') {
-        // Cập nhật từ 'Cho xác nhận' sang 'Chờ liên hệ'
-        $updateSql = "UPDATE donthuesach SET tinhTrangThanhToan = '$tinhTrangThanhToan' WHERE maDon = '$maDon'";
-        $result = $obj->suadulieu($updateSql);
+        $obj->suadulieu($updateSql);
         echo "<script>alert('Cập nhật trạng thái thành công.');</script>";
-    } else if ($currentStatus === 'Cho lien he' && $tinhTrangThanhToan === 'Da thanh toan') {
-        // Cập nhật từ 'Chờ liên hệ' sang 'Đã thanh toán'
-        $updateSql = "UPDATE donthuesach SET tinhTrangThanhToan = '$tinhTrangThanhToan' WHERE maDon = '$maDon'";
-        $result = $obj->suadulieu($updateSql);
-        echo "<script>alert('Cập nhật trạng thái thanh toán thành công.');</script>";
     } else {
-        // Nếu không cho phép cập nhật, thông báo lỗi
-        echo "<script>alert('Cập nhật trạng thái thanh toán thất bại!');</script>";
+        echo "<script>alert('Cập nhật trạng thái thất bại!');</script>";
     }
 
     echo "<script>setTimeout(function() {
@@ -204,16 +205,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <div class="strpied-tabled-with-hover">
+                <div class="strpied-tabled-with-hover bg-white">
                     <div class="card-header bg-white d-flex justify-content-between align-items-center">
                         <h4 class="card-title text-center">DANH SÁCH ĐƠN</h4>
-                        <form method="get" action="indexAdmin.php" class="ml-auto">
+                        <form method="get" action="indexAdmin.php">
                             <input type="hidden" name="quanlydonhang" value="<?= $quanlydonhang ?>">
-                            <select name="filter" class="form-control" onchange="this.form.submit()"
-                                style="height: 45px; width: 200px;">
+                            <select name="filter" class="form-control" onchange="this.form.submit()">
                                 <option value="all" <?= $filter === 'all' ? 'selected' : '' ?>>Tất cả</option>
                                 <option value="pending" <?= $filter === 'pending' ? 'selected' : '' ?>>Chờ xác nhận
                                 </option>
+                                <option value="nopay" <?= $filter === 'nopay' ? 'selected' : '' ?>>Chưa thanh toán</option>
+                                <option value="pay" <?= $filter === 'pay' ? 'selected' : '' ?>>Đã thanh toán</option>
                             </select>
                         </form>
                     </div>
@@ -227,45 +229,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
                                         <th>Mã Ưu Đãi</th>
                                         <th>Tổng Tiền Thuê</th>
                                         <th>Tổng Tiền Cọc</th>
-                                        <th>Hình Ảnh Thanh Toán</th>
-                                        <th>Tình Trạng Thanh Toán</th>
-                                        <th></th>
+                                        <th>Hình Ảnh</th>
+                                        <th>Trạng Thái</th>
+                                        <th>Chi Tiết</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php if (!empty($donhang) && is_array($donhang)): ?>
+                                    <?php if (!empty($donhang)): ?>
                                         <?php foreach ($donhang as $order): ?>
                                             <tr>
                                                 <td class="clickable"
                                                     onclick="openModal(<?= $order['maDon'] ?>, '<?= $order['tinhTrangThanhToan'] ?>')">
                                                     <?= $order['maDon'] ?>
                                                 </td>
-                                                <td><?= $order['phiShip'] ?></td>
+                                                <td><?= number_format($order['phiShip'], 0, ',', '.') ?> VND</td>
                                                 <td><?= $order['maKM'] ?></td>
                                                 <td><?= number_format($order['tongTienThue'], 0, ',', '.') ?> VND</td>
                                                 <td><?= number_format($order['tongTienCoc'], 0, ',', '.') ?> VND</td>
                                                 <td>
                                                     <?php if (!empty($order['hinhAnhThanhToan'])): ?>
                                                         <img src="layout/images/bills/<?= $order['hinhAnhThanhToan'] ?>"
-                                                            alt="Hình thanh toán"
-                                                            style="width: 100px; height: auto; cursor: pointer;"
-                                                            onclick="openImageModal('layout/images/bills/<?= $order['hinhAnhThanhToan'] ?>')">
+                                                            alt="Hình thanh toán" style="width: 100px;">
                                                     <?php else: ?>
-                                                        <span>Chưa có</span>
+                                                        Chưa có
                                                     <?php endif; ?>
                                                 </td>
                                                 <td>
                                                     <span
-                                                        class="<?=
-                                                            $order['tinhTrangThanhToan'] == 'Da thanh toan' ? 'status-paid' :
-                                                            ($order['tinhTrangThanhToan'] == 'Cho xac nhan' ? 'status-pending' :
-                                                                ($order['tinhTrangThanhToan'] == 'Cho lien he' ? 'status-unpaid' : '')) ?>">
+                                                        class="<?= $order['tinhTrangThanhToan'] === 'Da thanh toan' ? 'status-paid' : ($order['tinhTrangThanhToan'] === 'Cho xac nhan' ? 'status-pending' : 'status-unpaid') ?>">
                                                         <?= $order['tinhTrangThanhToan'] ?>
                                                     </span>
                                                 </td>
                                                 <td>
-                                                    <a href="indexAdmin.php?chitietdonthue&maDon=<?= $order['maDon'] ?>"
-                                                        class="btn btn-info btn-sm">Xem chi tiết</a>
+                                                    <a href="indexAdmin.php?chitietdonthue&maDon=<?= $order['maDon'] ?>">Xem chi
+                                                        tiết</a>
                                                 </td>
                                             </tr>
                                         <?php endforeach; ?>
@@ -279,15 +276,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
                         </form>
                     </div>
 
-                    <!-- Pagination -->
-                    <?php if ($total_orders > 0): ?>
-                        <div class="pagination" style="text-align: center; margin-top: 20px;">
-                            <?php for ($i = 1; $i <= $number_of_page; $i++): ?>
-                                <a class="<?= $i == $quanlydonhang ? 'active' : '' ?>"
-                                    href="indexAdmin.php?quanlydonhang=<?= $i ?>&filter=<?= $filter ?>"><?= $i ?></a>
-                            <?php endfor; ?>
-                        </div>
-                    <?php endif; ?>
+
+                    <div class="pagination">
+                        <?php for ($i = 1; $i <= $number_of_page; $i++): ?>
+                            <a href="indexAdmin.php?quanlydonhang=<?= $i ?>&filter=<?= $filter ?>"
+                                class="<?= $i == $quanlydonhang ? 'active' : '' ?>"><?= $i ?></a>
+                        <?php endfor; ?>
+                    </div>
 
                     <!-- Modal and other scripts -->
                     <div id="imageModal" class="modal-image">
@@ -321,7 +316,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     </div>
 </div>
 
-<!-- Modal for updating payment status -->
 <div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="orderModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">

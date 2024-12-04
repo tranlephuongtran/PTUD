@@ -264,7 +264,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <div class="strpied-tabled-with-hover">
+                <div class="strpied-tabled-with-hover bg-white">
                     <div class="card-header bg-white">
                         <h4 class="card-title text-center">DANH SÁCH NHÂN VIÊN</h4>
                         <button type="button" class="btn btn-success" data-toggle="modal"
@@ -275,8 +275,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <form method="post">
                             <table class="table table-hover table-striped">
                                 <thead>
-                                    <th>Mã Nhân Viên</th>
-                                    <th>Họ Tên</th>
+                                    <th><b>Mã Nhân Viên</b></th>
+                                    <th><b>Họ Tên</b></th>
                                     <th>Số Điện Thoại</th>
                                     <th>Địa Chỉ</th>
                                     <th>Email</th>
@@ -343,7 +343,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             </div>
                             <div class="mb-3">
                                 <label for="SDT" class="form-label">Số Điện Thoại</label>
-                                <input type="text" class="form-control" id="SDT" name="SDT" required>
+                                <input type="tel" class="form-control" id="SDT" name="SDT" pattern="[0-9]{10}" required>
                             </div>
                             <div class="mb-3">
                                 <label for="diaChi" class="form-label">Địa Chỉ</label>
@@ -364,7 +364,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     <?php echo $obj->selectnhanvien(); ?>
                                 </select>
                             </div>
-
                             <div class="mb-3">
                                 <label for="ngayVaoLam" class="form-label">Ngày Vào Làm</label>
                                 <input type="date" class="form-control" id="ngayVaoLam" name="ngayVaoLam" required>
@@ -377,9 +376,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
             </div>
         </div>
-
-
-
         <!-- Modal Sửa Nhân Viên -->
         <div class="modal fade" id="modalEditEmployee" tabindex="-1" aria-labelledby="modalEditEmployeeLabel"
             aria-hidden="true">
@@ -398,7 +394,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             </div>
                             <div class="mb-3">
                                 <label for="SDTEdit" class="form-label">Số Điện Thoại</label>
-                                <input type="text" class="form-control" id="SDTEdit" name="SDT" required>
+                                <input type="tel" class="form-control" id="SDTEdit" name="SDT" pattern="[0-9]{10}"
+                                    required>
                             </div>
                             <div class="mb-3">
                                 <label for="diaChiEdit" class="form-label">Địa Chỉ</label>
@@ -419,16 +416,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     <option value="">- Chọn Chức Vụ -</option>
                                     <?php echo $obj->selectnhanvien(); ?>
                                 </select>
-
                             </div>
                             <div class="mb-3">
                                 <label for="ngayVaoLamEdit" class="form-label">Ngày Vào Làm</label>
                                 <input type="date" class="form-control" id="ngayVaoLamEdit" name="ngayVaoLam" required>
                             </div>
-                            <button type="button" class="btn btn-danger " data-dismiss="modal">Hủy</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Hủy</button>
                             <button type="submit" class="btn btn-primary" style="float: right;" name="btSua">Xác
                                 nhận</button>
                         </form>
+
 
                     </div>
 

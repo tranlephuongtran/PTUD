@@ -165,7 +165,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <div class="strpied-tabled-with-hover">
+                <div class="strpied-tabled-with-hover bg-white">
                     <div class="card-header bg-white">
                         <h3 class="card-title text-center">DANH SÁCH ĐƠN</h3>
                         <h4 class="card-title text-center">(MÃ KHÁCH HÀNG: <?= $maKH ?>)</h4>
