@@ -26,9 +26,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['btXoa'])) {
         $maDM = $_POST['btXoa'];
         $sql = "DELETE FROM danhmuc WHERE maDM='$maDM'";
-        $obj->xoadulieu($sql);
-        $message = "Xóa danh mục thành công";
+        $result = $obj->xoadulieu($sql);
+
+        if ($result === true) {
+            $message = "Xóa danh mục thành công";
+        } else {
+            // Kiểm tra nếu lỗi liên quan đến khóa ngoại
+            if (str_contains($result, 'a foreign key constraint fails')) {
+                $message = "Không thể xóa danh mục ! Đầu sách thuộc danh mục vẫn tồn tại.";
+            } else {
+                $message = "Lỗi khi xóa danh mục: " . $result;
+            }
+        }
     }
+
+
+
 
     if (isset($_POST['btSua'])) {
         $maDM = $_POST['maDM'];

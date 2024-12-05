@@ -25,11 +25,18 @@ class database
     public function xoadulieu($sql)
     {
         $link = $this->connect();
-        if ($link->query($sql))
-            return 1;
-        else
-            return 0;
+        try {
+            if ($link->query($sql)) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (mysqli_sql_exception $e) {
+            // Trả về thông báo lỗi chi tiết cho người dùng
+            return $e->getMessage();
+        }
     }
+
     public function themdulieu($sql)
     {
         $link = $this->connect();
