@@ -15,14 +15,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $maThe = $_POST['maThe'];
         $hoTen = $_POST['hoTen'];
         $email = $_POST['email'];
-        $sql = "INSERT INTO thethanhvien (maThe, hoTen, email) VALUES ('$maThe','$hoTen', '$email')";
-        if ($obj->themdulieu($sql)) {
-            $message = "Thêm mới thẻ thành viên thành công";
+
+        // Kiểm tra mã thẻ đã tồn tại hay chưa
+        $checkSql = "SELECT maThe FROM thethanhvien WHERE maThe='$maThe'";
+        $checkResult = $obj->xuatdulieu($checkSql);
+
+        if ($checkResult) {
+            $message = "Thêm Thất Bại ! Do số điện thoại đã tồn tại !";
         } else {
-            $message = "Thêm mới thẻ thành viên thất bại";
+            $sql = "INSERT INTO thethanhvien (maThe, hoTen, email) VALUES ('$maThe','$hoTen', '$email')";
+            if ($obj->themdulieu($sql)) {
+                $message = "Thêm mới thẻ thành viên thành công";
+            } else {
+                $message = "Thêm mới thẻ thành viên thất bại, vui lòng thử lại.";
+            }
         }
     }
 }
+
 ?>
 <script>
     // Show alert message if exists
@@ -116,7 +126,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <div class="modal-body">
                             <div class="mb-3">
                                 <label for="maThe" class="form-label">Mã thẻ</label>
-                                <input type="number" class="form-control" name="maThe" id="maThe" required>
+                                <input type="tel" class="form-control" id="maThe" name="maThe" pattern="[0-9]{10}"
+                                    required>
                             </div>
                             <div class="mb-3">
                                 <label for="hoTen" class="form-label">Họ và Tên</label>
@@ -124,7 +135,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             </div>
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email</label>
-                                <input class="form-control" name="email" id="email"></input>
+                                <input type="email" class="form-control" name="email" id="email"></input>
                             </div>
                         </div>
                         <div class="modal-footer">
