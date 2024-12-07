@@ -26,9 +26,9 @@ if (!isset($_GET['register'])) {
 <?php
 // Đảm bảo BASE_PATH được định nghĩa
 require_once 'myclass/user.php';
-if ($_SERVER["REQUEST_METHOD"] == "POST") { // Lấy dữ liệu từ form đăng ký 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Lấy dữ liệu từ form đăng ký 
     $hoTen = trim($_POST['hoTen']);
-    // $tenDangNhap = trim($_POST['tenDangNhap']);
     $email = trim($_POST['email']);
     $password = $_POST['password'];
     $confirmPassword = $_POST['confirmPassword'];
@@ -54,10 +54,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") { // Lấy dữ liệu từ form đăn
                         <i class='bx bxs-user'></i>
                     </div>
                 </div>
-                <!-- <div class="input-field">
-                        <input type="text" name="tenDangNhap" placeholder="Tên đăng nhập" id="tenDangNhap" required>
-                        <i class='bx bxs-user'></i>
-                    </div> -->
                 <div class="input-box">
                     <div class="input-field">
                         <input type="email" name="email" placeholder="Email" id="email" required>
@@ -89,8 +85,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") { // Lấy dữ liệu từ form đăn
 </body>
 
 </html>
-
-
-<!-- <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="js/tiny-slider.js"></script>
-    <script src="js/custom.js"></script> -->

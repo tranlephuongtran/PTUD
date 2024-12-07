@@ -24,15 +24,14 @@ if (isset($_POST['update_status'])) {
     $stmt->bind_param("si", $tinhTrang, $maSach);
     $stmt->execute();
     // Cập nhật sách khỏi danh sách kiểm tra hư hỏng nếu trạng thái đã thay đổi
-    if ($tinhTrang == 'Thanh ly' || $tinhTrang == 'Con sach') {
-        // Không xóa dữ liệu khỏi bảng chitiethoadon, thay vào đó chỉ cập nhật hoặc làm mất liên kết
-        // Ví dụ: Cập nhật trạng thái sách trong chitiethoadon thành 'Đã thanh lý'
-        $sql_update_status = "UPDATE chitiethoadon SET tinhTrangThue = 'Hoàn thành' WHERE maSach = ?";
-        $stmt_update_status = $conn->prepare($sql_update_status);
-        $stmt_update_status->bind_param("i", $maSach);
-        $stmt_update_status->execute();
-        $stmt_update_status->close();
-    }
+    // if ($tinhTrang == 'Thanh ly' || $tinhTrang == 'Con sach') {
+
+    //     $sql_update_status = "UPDATE chitiethoadon SET tinhTrangThue = 'Hoàn thành' WHERE maSach = ?";
+    //     $stmt_update_status = $conn->prepare($sql_update_status);
+    //     $stmt_update_status->bind_param("i", $maSach);
+    //     $stmt_update_status->execute();
+    //     $stmt_update_status->close();
+    // }
     echo "<script>alert('Cập nhật thành công!');</script>";
     $stmt->close();
 }
@@ -51,14 +50,14 @@ $sql = "
     FROM sach s
     JOIN chitiethoadon ct ON s.maSach = ct.maSach
     JOIN donthuesach ds ON ct.maDon = ds.maDon
-    WHERE s.tinhTrang = 'Can kiem tra'
-    AND ct.tinhTrangThue != 'Hoan thanh'";
+    WHERE s.tinhTrang = 'Can kiem tra'";
 $result = $conn->query($sql);
 ?>
 
 <style>
     button[type="submit"] {
-        background-color: #4CAF50; /* Màu nút */
+        background-color: #4CAF50;
+        /* Màu nút */
         color: white;
         padding: 5px 10px;
         border: none;
@@ -68,7 +67,8 @@ $result = $conn->query($sql);
     }
 
     button[type="submit"]:hover {
-        background-color: #45a049; /* Màu khi hover */
+        background-color: #45a049;
+        /* Màu khi hover */
     }
 
     select {
@@ -102,11 +102,13 @@ $result = $conn->query($sql);
         height: 50px;
         border-radius: 5px;
         cursor: pointer;
-        transition: transform 0.2s; /* Hiệu ứng zoom khi hover */
+        transition: transform 0.2s;
+        /* Hiệu ứng zoom khi hover */
     }
 
     .img-thumbnail:hover {
-        transform: scale(1.2); /* Zoom nhẹ khi di chuột qua */
+        transform: scale(1.2);
+        /* Zoom nhẹ khi di chuột qua */
         cursor: pointer;
     }
 
@@ -169,7 +171,7 @@ $result = $conn->query($sql);
                                     <th>Thao tác</th>
                                 </thead>
                                 <tbody>
-                                <?php
+                                    <?php
                                     if ($result && mysqli_num_rows($result) > 0) {
                                         while ($row = mysqli_fetch_assoc($result)) {
                                             $hinhAnhTraSach = htmlspecialchars($row['hinhAnhTraSach']);
@@ -199,7 +201,7 @@ $result = $conn->query($sql);
                                     }
 
                                     mysqli_close($conn);
-                                ?>
+                                    ?>
                                 </tbody>
                             </table>
                         </form>
@@ -217,17 +219,17 @@ $result = $conn->query($sql);
 </div>
 
 <script>
-// Hàm mở modal khi nhấn vào ảnh
-function openModal(img) {
-    var modal = document.getElementById("myModal");
-    var modalImg = document.getElementById("img01");
-    modal.style.display = "block";
-    modalImg.src = img.src;
-}
+    // Hàm mở modal khi nhấn vào ảnh
+    function openModal(img) {
+        var modal = document.getElementById("myModal");
+        var modalImg = document.getElementById("img01");
+        modal.style.display = "block";
+        modalImg.src = img.src;
+    }
 
-// Hàm đóng modal
-function closeModal() {
-    var modal = document.getElementById("myModal");
-    modal.style.display = "none";
-}
+    // Hàm đóng modal
+    function closeModal() {
+        var modal = document.getElementById("myModal");
+        modal.style.display = "none";
+    }
 </script>
