@@ -86,7 +86,7 @@ class Product
         FROM sach s 
         JOIN dausach ds ON s.maDauSach = ds.maDauSach 
         LEFT JOIN chitiethoadon cthd ON s.maSach = cthd.maSach 
-        WHERE (LOWER(s.tinhTrang) = LOWER('Thanh Lý') AND cthd.maSach IS NULL) OR (LOWER(s.tinhTrang) = LOWER('Thanh Lý') AND LOWER(cthd.tinhTrangThue) = LOWER('Đã trả'))";
+        WHERE LOWER(s.tinhTrang) = LOWER('Thanh Ly') AND LOWER(cthd.tinhTrangThue) = LOWER('Đã trả')";
         $result = $this->conn->query($sql);
 
         $books = [];
@@ -96,9 +96,9 @@ class Product
         return $books;
     }
 
-    public function deleteBook($maSach)
+    public function updateBookStatus($maSach)
     {
-        $sql = "DELETE FROM sach WHERE maSach = ?";
+        $sql = "UPDATE sach SET tinhTrang = 'Đã Thanh Lý' WHERE maSach = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("i", $maSach);
         $stmt->execute();
