@@ -155,7 +155,7 @@ mysqli_close($conn);
                         <li><a href="index.php?profile">Tài khoản của tôi</a></li>
 
                         <li><a href="index.php?change_password">Đổi mật khẩu</a></li>
-                        <li><a href="index.php?history">Lịch sử thuê</a></li>
+                        <li><a href="index.php?history&maNguoiDung=<?php echo $_SESSION['maNguoiDung']; ?>">Lịch sử thuê sách</a></li>
                         <li><a href="index.php?logout">Đăng xuất</a></li>
                     </ul>
                 </div>
