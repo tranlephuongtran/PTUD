@@ -15,7 +15,7 @@ if (!isset($_GET['checkout'])) {
 	$checkout = $_GET['checkout'];
 }
 $maKM = '';
-$maThe = '';
+$maThe = '0';
 $maKH = '';
 $khuyenMai = $_SESSION['total_rent'];
 $tongtienThueSauUuDai = $_SESSION['total_rent'];
@@ -267,10 +267,15 @@ if (isset($_POST['confirm'])) {
 		$date = new DateTime('now');
 		$date->modify('+15 days');
 		$date = $date->format('Y-m-d');
-		if ($km == 0) {
+		if ($km == 0 && $maThe != '0') {
 			$str = "INSERT INTO donthuesach(ngayThue, tongTienThue, tongTienCoc, tinhTrangThanhToan, phiShip, maKH, maThe) VALUES('$now', $total, $total_deposit, 'Chua thanh toan', $ship, $maKH, '$maThe')";
-		} else if ($km != 0)
+		} else if ($km != 0 && $maThe != '0')
 			$str = "INSERT INTO donthuesach(ngayThue, tongTienThue, tongTienCoc, tinhTrangThanhToan, phiShip, maKM, maKH, maThe ) VALUES('$now', $total, $total_deposit, 'Chua thanh toan', $ship, $km, $maKH, '$maThe')";
+		else if ($km != 0 && $maThe == '0')
+			$str = "INSERT INTO donthuesach(ngayThue, tongTienThue, tongTienCoc, tinhTrangThanhToan, phiShip, maKM, maKH) VALUES('$now', $total, $total_deposit, 'Chua thanh toan', $ship, $km, $maKH)";
+		else if ($km == 0 && $maThe == '0') {
+			$str = "INSERT INTO donthuesach(ngayThue, tongTienThue, tongTienCoc, tinhTrangThanhToan, phiShip, maKH) VALUES('$now', $total, $total_deposit, 'Chua thanh toan', $ship, $maKH)";
+		}
 		$conn = mysqli_connect("localhost", "nhomptud", "123456", "ptud");
 		if ($conn) {
 			if ($conn->query($str)) {
