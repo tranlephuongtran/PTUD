@@ -31,23 +31,40 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $tinhTrang = $_POST['tinhTrang'];
         $maDauSach = $_POST['maDauSach'];
 
+        // Thêm sách vào cơ sở dữ liệu
         $sql = "INSERT INTO sach (tuaDe, giaThue, tienCoc, maISBN, ngayXB, moTa, tinhTrang, maDauSach) 
-        VALUES ('$tuaDe', '$giaThue', '$tienCoc', '$maISBN', '$ngayXB', '$moTa', '$tinhTrang', '$maDauSach')";
-
+                VALUES ('$tuaDe', '$giaThue', '$tienCoc', '$maISBN', '$ngayXB', '$moTa', '$tinhTrang', '$maDauSach')";
         if ($obj->themdulieu($sql)) {
+            // Cập nhật tongSoLuong của đầu sách
+            $updateSQL = "UPDATE dausach SET tongSoLuong = tongSoLuong + 1 WHERE maDauSach = '$maDauSach'";
+            $obj->suadulieu($updateSQL);
             $message = "Thêm mới sách thành công";
         } else {
             $message = "Thêm mới sách thất bại";
         }
-
     }
+
 
     if (isset($_POST['btXoa'])) {
         $maSach = $_POST['btXoa'];
-        $sql = "DELETE FROM sach WHERE maSach='$maSach'";
-        $obj->xoadulieu($sql);
 
+        // Lấy mã đầu sách của sách cần xóa
+        $currentData = $obj->xuatdulieu("SELECT maDauSach FROM sach WHERE maSach = '$maSach'");
+        $maDauSach = $currentData[0]['maDauSach'];
+
+        // Xóa sách
+        $sql = "DELETE FROM sach WHERE maSach = '$maSach'";
+        if ($obj->xoadulieu($sql)) {
+            // Giảm tongSoLuong cho đầu sách
+            $updateSQL = "UPDATE dausach SET tongSoLuong = tongSoLuong - 1 WHERE maDauSach = '$maDauSach'";
+            $obj->suadulieu($updateSQL);
+
+            $message = "Xóa sách thành công";
+        } else {
+            $message = "Xóa sách thất bại";
+        }
     }
+
 
     if (isset($_POST['btSua'])) {
         $maSach = $_POST['maSach'];
@@ -60,16 +77,37 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $tinhTrang = $_POST['tinhTrang'];
         $maDauSach = $_POST['maDauSach'];
 
-        $sql = "UPDATE sach SET tuaDe = '$tuaDe', giaThue='$giaThue', tienCoc='$tienCoc', maISBN='$maISBN', 
-        ngayXB='$ngayXB', moTa='$moTa', tinhTrang='$tinhTrang', maDauSach='$maDauSach' WHERE maSach='$maSach'";
+        // Lấy mã đầu sách cũ
+        $oldMaDauSachSQL = "SELECT maDauSach, tinhTrang FROM sach WHERE maSach = '$maSach'";
+        $oldData = $obj->xuatdulieu($oldMaDauSachSQL);
+        $oldMaDauSach = $oldData[0]['maDauSach'];
+        $oldTinhTrang = $oldData[0]['tinhTrang'];
 
-        if ($obj->suadulieu($sql)) {
-            $message = "Cập nhật sách thành công";
+        // Chỉ cho phép sửa tình trạng khi tinhTrang là "Con sach"
+        if ($oldTinhTrang != "Con sach" && $tinhTrang != $oldTinhTrang) {
+            $message = "Sách ở tình trạng này không thể sửa !";
         } else {
-            $message = "Cập nhật sách thất bại";
-        }
+            // Cập nhật sách
+            $sql = "UPDATE sach SET tuaDe = '$tuaDe', giaThue='$giaThue', tienCoc='$tienCoc', maISBN='$maISBN', 
+                    ngayXB='$ngayXB', moTa='$moTa', tinhTrang='$tinhTrang', maDauSach='$maDauSach' WHERE maSach='$maSach'";
+            if ($obj->suadulieu($sql)) {
+                // Nếu mã đầu sách thay đổi
+                if ($oldMaDauSach != $maDauSach) {
+                    // Giảm tongSoLuong ở mã đầu sách cũ
+                    $reduceSQL = "UPDATE dausach SET tongSoLuong = tongSoLuong - 1 WHERE maDauSach = '$oldMaDauSach'";
+                    $obj->suadulieu($reduceSQL);
 
+                    // Tăng tongSoLuong ở mã đầu sách mới
+                    $increaseSQL = "UPDATE dausach SET tongSoLuong = tongSoLuong + 1 WHERE maDauSach = '$maDauSach'";
+                    $obj->suadulieu($increaseSQL);
+                }
+                $message = "Cập nhật sách thành công";
+            } else {
+                $message = "Cập nhật sách thất bại";
+            }
+        }
     }
+
 }
 
 
@@ -196,17 +234,44 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                                 <div class="thao-tac">
                                                     <button type="button" class="btn btn-warning" data-toggle="modal"
                                                         data-target="#editCategoryModal"
-                                                        onclick="document.getElementById('editMaSach').value='<?= $item['maSach'] ?>'; 
-                                                    document.getElementById('editTuaDe').value='<?= $item['tuaDe'] ?>'; 
-                                                    document.getElementById('editGiaThue').value='<?= $item['giaThue'] ?>';
-                                                    document.getElementById('editTienCoc').value='<?= $item['tienCoc'] ?>';
-                                                    document.getElementById('editMaISBN').value='<?= $item['maISBN'] ?>';
-                                                    document.getElementById('editNgayXB').value='<?= $item['ngayXB'] ?>';
-                                                    document.getElementById('editMoTa').value='<?= $item['moTa'] ?>';
-                                                    document.getElementById('editTinhTrang').value='<?= $item['tinhTrang'] ?>';
-                                                    document.getElementById('editMaDauSach').value='<?= $item['maDauSach'] ?>';">
+                                                        onclick="loadEditForm('<?= $item['maSach'] ?>', '<?= $item['tuaDe'] ?>', '<?= $item['giaThue'] ?>', 
+                                                        '<?= $item['tienCoc'] ?>', '<?= $item['maISBN'] ?>', '<?= $item['ngayXB'] ?>', 
+                                                        '<?= $item['moTa'] ?>', '<?= $item['tinhTrang'] ?>', '<?= $item['maDauSach'] ?>')">
                                                         Sửa
                                                     </button>
+                                                    <script>
+                                                        // JavaScript để kiểm tra tình trạng sách và cập nhật trạng thái các trường
+                                                        function loadEditForm(maSach, tuaDe, giaThue, tienCoc, maISBN, ngayXB, moTa, tinhTrang, maDauSach) {
+                                                            document.getElementById('editMaSach').value = maSach;
+                                                            document.getElementById('editTuaDe').value = tuaDe;
+                                                            document.getElementById('editGiaThue').value = giaThue;
+                                                            document.getElementById('editTienCoc').value = tienCoc;
+                                                            document.getElementById('editMaISBN').value = maISBN;
+                                                            document.getElementById('editNgayXB').value = ngayXB;
+                                                            document.getElementById('editMoTa').value = moTa;
+                                                            document.getElementById('editTinhTrang').value = tinhTrang;
+                                                            document.getElementById('editMaDauSach').value = maDauSach;
+
+                                                            // Kiểm tra tình trạng sách
+                                                            const isEditable = tinhTrang === "Con sach";
+
+                                                            // Nếu tình trạng không phải là "Còn sách", khóa các trường
+                                                            document.getElementById('editTuaDe').disabled = !isEditable;
+                                                            document.getElementById('editGiaThue').disabled = !isEditable;
+                                                            document.getElementById('editTienCoc').disabled = !isEditable;
+                                                            document.getElementById('editMaISBN').disabled = !isEditable;
+                                                            document.getElementById('editNgayXB').disabled = !isEditable;
+                                                            document.getElementById('editMoTa').disabled = !isEditable;
+                                                            document.getElementById('editMaDauSach').disabled = !isEditable;
+
+                                                            // Hiển thị thông báo
+                                                            document.getElementById('btnConfirmEdit').disabled = !isEditable;
+                                                            if (!isEditable) {
+                                                                alert('Sách ở tình trạng này không thể sửa !');
+                                                            }
+                                                        }
+
+                                                    </script>
                                                     <button
                                                         onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?')"
                                                         type="submit" name="btXoa" value="<?= $item["maSach"] ?>"
@@ -251,13 +316,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="giaThue" class="form-label">Giá thuê</label>
-                                    <input type="text" class="form-control" name="giaThue" id="giaThue" required>
+                                    <input type="number" class="form-control" name="giaThue" id="giaThue" required>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="tienCoc" class="form-label">Tiền cọc</label>
-                                    <input type="text" class="form-control" name="tienCoc" id="tienCoc" required>
+                                    <input type="number" class="form-control" name="tienCoc" id="tienCoc" required>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="maISBN" class="form-label">Mã ISBN</label>
@@ -271,12 +336,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="tinhTrang" class="form-label">Tình Trạng</label>
-                                    <input type="text" class="form-control" name="tinhTrang" id="tinhTrang" required>
+                                    <input type="text" class="form-control" name="tinhTrang" id="tinhTrang"
+                                        value="Con sach" readonly>
                                 </div>
+
                             </div>
                             <div class="mb-3">
                                 <label for="moTa" class="form-label">Mô Tả</label>
-                                <textarea class="form-control" name="moTa" id="moTa"></textarea>
+                                <textarea class="form-control" name="moTa" id="moTa" required></textarea>
                             </div>
                             <div class="mb-3">
                                 <label for="maDauSach" class="form-label">Mã Đầu Sách</label>
@@ -284,6 +351,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     <option value="">- Chọn Đầu Sách -</option>
                                     <?php echo $obj->selectdausach(); ?>
                                 </select>
+
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -301,7 +369,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <div class="modal-content">
                         <div class="modal-header">
                             <h3 class="modal-title text-center">CẬP NHẬT THÔNG TIN SẢN PHẨM</h3>
-
                         </div>
                         <div class="modal-body">
                             <input type="hidden" name="maSach" id="editMaSach">
@@ -332,32 +399,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="editTinhTrang" class="form-label">Tình Trạng</label>
-                                    <input type="text" class="form-control" name="tinhTrang" id="editTinhTrang"
-                                        required>
+                                    <input type="text" class="form-control" name="tinhTrang" id="editTinhTrang" required
+                                        readonly>
                                 </div>
                             </div>
-
                             <div class="mb-3">
                                 <label for="editMoTa" class="form-label">Mô Tả</label>
-                                <textarea class="form-control" name="moTa" id="editMoTa"></textarea>
+                                <textarea class="form-control" name="moTa" id="editMoTa" required></textarea>
                             </div>
-
                             <div class="mb-3">
                                 <label for="editMaDauSach" class="form-label">Mã Đầu Sách</label>
                                 <select name="maDauSach" id="editMaDauSach" class="form-control" style="height: 50px;"
                                     required>
-                                    <option value="">- Chọn mã người dùng -</option>
+                                    <option value="">- Chọn mã đầu sách -</option>
                                     <?php echo $obj->selectdausach(); ?>
                                 </select>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
-                            <button type="submit" name="btSua" class="btn btn-primary">Xác nhận</button>
+                            <button type="submit" name="btSua" class="btn btn-primary" id="btnConfirmEdit">Xác
+                                nhận</button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
+
     </div>
 </div>
