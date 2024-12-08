@@ -154,7 +154,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             </div>
                             <div class="mb-3">
                                 <label for="moTa" class="form-label">Mô Tả</label>
-                                <textarea class="form-control" name="moTa" id="moTa"></textarea>
+                                <textarea class="form-control" name="moTa" id="moTa" required></textarea>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -173,7 +173,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <div class="modal-content">
                         <div class="modal-header">
                             <h3 class="modal-title text-center">SỬA DANH MỤC</h3>
-                            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+
                         </div>
                         <div class="modal-body">
                             <input type="hidden" name="maDM" id="editMaDM">
