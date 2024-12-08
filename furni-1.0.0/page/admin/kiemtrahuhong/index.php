@@ -16,24 +16,17 @@ if ($conn->connect_error) {
 
 // Xử lý cập nhật tình trạng
 if (isset($_POST['update_status'])) {
-    $maSach = $_POST['maSach'];
-    $tinhTrang = $_POST['tinhTrang'];
+    $maSach = $_POST['update_status']; // Lấy mã sách từ nút bấm
+    $tinhTrang = $_POST['tinhTrang'][$maSach]; // Lấy tình trạng tương ứng với mã sách
 
     $sql_update = "UPDATE sach SET tinhTrang = ? WHERE maSach = ?";
     $stmt = $conn->prepare($sql_update);
     $stmt->bind_param("si", $tinhTrang, $maSach);
-    $stmt->execute();
-    // Cập nhật sách khỏi danh sách kiểm tra hư hỏng nếu trạng thái đã thay đổi
-    if ($tinhTrang == 'Thanh ly' || $tinhTrang == 'Con sach') {
-        // Không xóa dữ liệu khỏi bảng chitiethoadon, thay vào đó chỉ cập nhật hoặc làm mất liên kết
-        // Ví dụ: Cập nhật trạng thái sách trong chitiethoadon thành 'Đã thanh lý'
-        $sql_update_status = "UPDATE chitiethoadon SET tinhTrangThue = 'Hoàn thành' WHERE maSach = ?";
-        $stmt_update_status = $conn->prepare($sql_update_status);
-        $stmt_update_status->bind_param("i", $maSach);
-        $stmt_update_status->execute();
-        $stmt_update_status->close();
+    if ($stmt->execute()) {
+        echo "<script>alert('Cập nhật thành công!');</script>";
+    } else {
+        echo "<script>alert('Cập nhật thất bại!');</script>";
     }
-    echo "<script>alert('Cập nhật thành công!');</script>";
     $stmt->close();
 }
 
@@ -52,7 +45,13 @@ $sql = "
     JOIN chitiethoadon ct ON s.maSach = ct.maSach
     JOIN donthuesach ds ON ct.maDon = ds.maDon
     WHERE s.tinhTrang = 'Can kiem tra'
-    AND ct.tinhTrangThue != 'Hoan thanh'";
+    AND s.tinhTrang NOT IN ('Thanh ly', 'Con sach')
+    AND ds.maDon = (
+        SELECT MAX(sub_ds.maDon)
+        FROM donthuesach sub_ds
+        JOIN chitiethoadon sub_ct ON sub_ds.maDon = sub_ct.maDon
+        WHERE sub_ct.maSach = s.maSach
+    )";
 $result = $conn->query($sql);
 ?>
 
@@ -188,14 +187,14 @@ $result = $conn->query($sql);
                                             echo "<td>" . $row['ngayTra'] . "</td>";
                                             echo "<td><img src='" . $imagePath . "' alt='Hình ảnh trả sách' class='img-thumbnail' onclick='openModal(this)'></td>";
                                             echo "<td>";
-                                            echo "<select name='tinhTrang'>";
-                                            echo "<option>Cần kiểm tra</option>";
+                                            echo "<select name='tinhTrang[" . $row['maSach'] . "]'>";
+                                            echo "<option>Hãy Chọn</option>";
                                             echo "<option value='Con sach'" . ($row['tinhTrang'] == 'Con sach' ? ' selected' : '') . ">Bình thường</option>";
                                             echo "<option value='Thanh ly'" . ($row['tinhTrang'] == 'Thanh ly' ? ' selected' : '') . ">Thanh lý</option>";
                                             echo "</select>";
                                             echo "<input type='hidden' name='maSach' value='" . $row['maSach'] . "'>";
                                             echo "</td>";
-                                            echo "<td><button type='submit' name='update_status'>Cập nhật</button></td>";
+                                            echo "<td><button type='submit' name='update_status' value='" . $row['maSach'] . "'>Cập nhật</button></td>";
                                             echo "</tr>";
                                         }
                                     } else {

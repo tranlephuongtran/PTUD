@@ -98,7 +98,7 @@ if ($conn) {
                             <ul id="accountLinks" style="display: none;">
                                 <li><a href="index.php?updateProfile">Cập nhật thông tin</a></li>
                                 <li><a href="index.php?change_password">Đổi mật khẩu</a></li>
-                                <li><a href="index.php?history">Lịch sử thuê</a></li>
+                                <li><a href="index.php?history&maNguoiDung=<?php echo $_SESSION['maNguoiDung']; ?>">Lịch sử thuê sách</a></li>
                                 <li><a href="index.php?logout">Đăng xuất</a></li>
                             </ul>
                         </li>
