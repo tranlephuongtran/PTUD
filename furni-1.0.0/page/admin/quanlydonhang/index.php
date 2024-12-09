@@ -11,7 +11,7 @@ $filter = isset($_GET['filter']) ? $_GET['filter'] : 'all';
 
 // Lấy tổng số đơn hàng theo bộ lọc
 $total_sql = "
-    SELECT COUNT(*) as total 
+    SELECT COUNT(DISTINCT dt.maDon) as total 
     FROM donthuesach dt 
     JOIN chitiethoadon cthd ON dt.maDon = cthd.maDon 
     JOIN sach s ON cthd.maSach = s.maSach 
@@ -33,7 +33,7 @@ $page_first_result = max(0, ($quanlydonhang - 1) * $results_per_page);
 
 // Lấy danh sách đơn hàng theo bộ lọc và phân trang
 $sql = "
-    SELECT dt.*, s.*, cthd.*, ds.*, dt.tinhTrangThanhToan 
+    SELECT dt.maDon, dt.phiShip, dt.maKM, dt.tongTienThue, dt.tongTienCoc, dt.hinhAnhThanhToan, dt.tinhTrangThanhToan
     FROM donthuesach dt 
     JOIN chitiethoadon cthd ON dt.maDon = cthd.maDon 
     JOIN sach s ON cthd.maSach = s.maSach 
@@ -48,7 +48,9 @@ if ($filter === 'pending') {
     $sql .= " WHERE dt.tinhTrangThanhToan = 'Da thanh toan'";
 }
 
-$sql .= " ORDER BY dt.maDon DESC LIMIT $page_first_result, $results_per_page;";
+$sql .= " GROUP BY dt.maDon 
+          ORDER BY dt.maDon DESC 
+          LIMIT $page_first_result, $results_per_page;";
 $donhang = $obj->xuatdulieu($sql);
 
 // Xử lý cập nhật trạng thái đơn hàng
@@ -61,8 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     $currentStatus = $currentStatusResult[0]['tinhTrangThanhToan'] ?? '';
 
     if (
-        ($currentStatus === 'Cho xac nhan' && in_array($tinhTrangThanhToan, ['Da thanh toan', 'Cho lien he'])) ||
-        ($currentStatus === 'Cho lien he' && $tinhTrangThanhToan === 'Da thanh toan')
+        ($currentStatus === 'Cho xac nhan' && $tinhTrangThanhToan === 'Da thanh toan')
     ) {
         $updateSql = "UPDATE donthuesach SET tinhTrangThanhToan = '$tinhTrangThanhToan' WHERE maDon = '$maDon'";
         $obj->suadulieu($updateSql);
@@ -77,6 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     exit();
 }
 ?>
+
 
 <style>
     .status-paid {
@@ -224,14 +226,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
                             <table class="table table-hover table-striped">
                                 <thead>
                                     <tr>
-                                        <th>Mã Đơn</th>
-                                        <th>Phí Ship</th>
-                                        <th>Mã Ưu Đãi</th>
-                                        <th>Tổng Tiền Thuê</th>
-                                        <th>Tổng Tiền Cọc</th>
-                                        <th>Hình Ảnh</th>
-                                        <th>Trạng Thái</th>
-                                        <th>Chi Tiết</th>
+                                        <th><b>Mã Đơn</b></th>
+                                        <th><b>Phí Ship</b></th>
+                                        <th><b>Mã Ưu Đãi</b></th>
+                                        <th><b>Tổng Tiền Thuê</b></th>
+                                        <th><b>Tổng Tiền Cọc</b></th>
+                                        <th><b>Hình Ảnh</b></th>
+                                        <th><b>Trạng Thái</b></th>
+                                        <th><b>Chi Tiết</b></th>
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -249,9 +252,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
                                                 <td>
                                                     <?php if (!empty($order['hinhAnhThanhToan'])): ?>
                                                         <img src="layout/images/bills/<?= $order['hinhAnhThanhToan'] ?>"
-                                                            alt="Hình thanh toán" style="width: 100px;">
+                                                            alt="Hình thanh toán"
+                                                            style="width: 100px; height: auto; cursor: pointer;"
+                                                            onclick="openImageModal('layout/images/bills/<?= $order['hinhAnhThanhToan'] ?>')">
                                                     <?php else: ?>
-                                                        Chưa có
+                                                        <span>Chưa có</span>
                                                     <?php endif; ?>
                                                 </td>
                                                 <td>
@@ -330,7 +335,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
                         <label for="tinhTrangThanhToan">Tình Trạng Thanh Toán</label>
                         <select name="tinhTrangThanhToan" id="tinhTrangThanhToan" class="form-control">
                             <option value="Cho xac nhan">Chờ xác nhận</option>
-                            <option value="Cho lien he">Chờ liên hệ</option>
                             <option value="Da thanh toan">Đã thanh toán</option>
                         </select>
                     </div>

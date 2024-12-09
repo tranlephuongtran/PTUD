@@ -104,10 +104,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <form method="post">
                             <table class="table table-hover table-striped">
                                 <thead>
-                                    <th>Mã Danh Mục</th>
-                                    <th>Tên Danh Mục</th>
-                                    <th>Mô Tả</th>
-                                    <th>Thao Tác</th>
+                                    <th><b>Mã Danh Mục</b></th>
+                                    <th><b>Tên Danh Mục</b></th>
+                                    <th><b>Mô Tả</b></th>
+                                    <th><b>Thao Tác</b></th>
                                 </thead>
                                 <tbody>
                                     <?php foreach ($danhmuc as $item): ?>

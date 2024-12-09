@@ -31,18 +31,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $tinhTrang = $_POST['tinhTrang'];
         $maDauSach = $_POST['maDauSach'];
 
-        // Thêm sách vào cơ sở dữ liệu
-        $sql = "INSERT INTO sach (tuaDe, giaThue, tienCoc, maISBN, ngayXB, moTa, tinhTrang, maDauSach) 
-                VALUES ('$tuaDe', '$giaThue', '$tienCoc', '$maISBN', '$ngayXB', '$moTa', '$tinhTrang', '$maDauSach')";
-        if ($obj->themdulieu($sql)) {
-            // Cập nhật tongSoLuong của đầu sách
-            $updateSQL = "UPDATE dausach SET tongSoLuong = tongSoLuong + 1 WHERE maDauSach = '$maDauSach'";
-            $obj->suadulieu($updateSQL);
-            $message = "Thêm mới sách thành công";
+        // Kiểm tra điều kiện giá thuê và tiền cọc
+        if ($giaThue <= 0 || !is_numeric($giaThue) || $tienCoc <= 0 || !is_numeric($tienCoc)) {
+            $message = "Giá thuê và tiền cọc phải là số lớn hơn 0.";
         } else {
-            $message = "Thêm mới sách thất bại";
+            // Thêm sách vào cơ sở dữ liệu
+            $sql = "INSERT INTO sach (tuaDe, giaThue, tienCoc, maISBN, ngayXB, moTa, tinhTrang, maDauSach) 
+                    VALUES ('$tuaDe', '$giaThue', '$tienCoc', '$maISBN', '$ngayXB', '$moTa', '$tinhTrang', '$maDauSach')";
+            if ($obj->themdulieu($sql)) {
+                // Cập nhật tongSoLuong của đầu sách
+                $updateSQL = "UPDATE dausach SET tongSoLuong = tongSoLuong + 1 WHERE maDauSach = '$maDauSach'";
+                $obj->suadulieu($updateSQL);
+                $message = "Thêm mới sách thành công";
+            } else {
+                $message = "Thêm mới sách thất bại";
+            }
         }
     }
+
 
 
     if (isset($_POST['btXoa'])) {
@@ -77,36 +83,36 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $tinhTrang = $_POST['tinhTrang'];
         $maDauSach = $_POST['maDauSach'];
 
-        // Lấy mã đầu sách cũ
-        $oldMaDauSachSQL = "SELECT maDauSach, tinhTrang FROM sach WHERE maSach = '$maSach'";
-        $oldData = $obj->xuatdulieu($oldMaDauSachSQL);
-        $oldMaDauSach = $oldData[0]['maDauSach'];
-        $oldTinhTrang = $oldData[0]['tinhTrang'];
-
-        // Chỉ cho phép sửa tình trạng khi tinhTrang là "Con sach"
-        if ($oldTinhTrang != "Con sach" && $tinhTrang != $oldTinhTrang) {
-            $message = "Sách ở tình trạng này không thể sửa !";
+        // Kiểm tra điều kiện giá thuê và tiền cọc
+        if ($giaThue <= 0 || !is_numeric($giaThue) || $tienCoc <= 0 || !is_numeric($tienCoc)) {
+            $message = "Giá thuê và tiền cọc phải là số lớn hơn 0.";
         } else {
-            // Cập nhật sách
-            $sql = "UPDATE sach SET tuaDe = '$tuaDe', giaThue='$giaThue', tienCoc='$tienCoc', maISBN='$maISBN', 
-                    ngayXB='$ngayXB', moTa='$moTa', tinhTrang='$tinhTrang', maDauSach='$maDauSach' WHERE maSach='$maSach'";
-            if ($obj->suadulieu($sql)) {
-                // Nếu mã đầu sách thay đổi
-                if ($oldMaDauSach != $maDauSach) {
-                    // Giảm tongSoLuong ở mã đầu sách cũ
-                    $reduceSQL = "UPDATE dausach SET tongSoLuong = tongSoLuong - 1 WHERE maDauSach = '$oldMaDauSach'";
-                    $obj->suadulieu($reduceSQL);
+            // Lấy mã đầu sách cũ
+            $oldMaDauSachSQL = "SELECT maDauSach, tinhTrang FROM sach WHERE maSach = '$maSach'";
+            $oldData = $obj->xuatdulieu($oldMaDauSachSQL);
+            $oldMaDauSach = $oldData[0]['maDauSach'];
+            $oldTinhTrang = $oldData[0]['tinhTrang'];
 
-                    // Tăng tongSoLuong ở mã đầu sách mới
-                    $increaseSQL = "UPDATE dausach SET tongSoLuong = tongSoLuong + 1 WHERE maDauSach = '$maDauSach'";
-                    $obj->suadulieu($increaseSQL);
-                }
-                $message = "Cập nhật sách thành công";
+            if ($oldTinhTrang != "Con sach" && $tinhTrang != $oldTinhTrang) {
+                $message = "Sách ở tình trạng này không thể sửa !";
             } else {
-                $message = "Cập nhật sách thất bại";
+                $sql = "UPDATE sach SET tuaDe = '$tuaDe', giaThue='$giaThue', tienCoc='$tienCoc', maISBN='$maISBN', 
+                        ngayXB='$ngayXB', moTa='$moTa', tinhTrang='$tinhTrang', maDauSach='$maDauSach' WHERE maSach='$maSach'";
+                if ($obj->suadulieu($sql)) {
+                    if ($oldMaDauSach != $maDauSach) {
+                        $reduceSQL = "UPDATE dausach SET tongSoLuong = tongSoLuong - 1 WHERE maDauSach = '$oldMaDauSach'";
+                        $obj->suadulieu($reduceSQL);
+                        $increaseSQL = "UPDATE dausach SET tongSoLuong = tongSoLuong + 1 WHERE maDauSach = '$maDauSach'";
+                        $obj->suadulieu($increaseSQL);
+                    }
+                    $message = "Cập nhật sách thành công";
+                } else {
+                    $message = "Cập nhật sách thất bại";
+                }
             }
         }
     }
+
 
 }
 
@@ -207,16 +213,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <form method="post">
                             <table class="table table-hover table-striped">
                                 <thead>
-                                    <th>Mã Sách</th>
-                                    <th style="width: 150px;">Tựa Đề</th>
-                                    <th>Giá Thuê</th>
-                                    <th>Tiền Cọc</th>
-                                    <th>Mã ISBN</th>
-                                    <th>Ngày XB</th>
-                                    <th style="width: 250px; text-align: justify;">Mô Tả</th>
-                                    <th>Tình Trạng</th>
-                                    <th>Mã Đầu Sách</th>
-                                    <th>Thao Tác</th>
+                                    <th><b>Mã Sách</b></th>
+                                    <th style="width: 150px;"><b>Tựa Đề</b></th>
+                                    <th><b>Giá Thuê</b></th>
+                                    <th><b>Tiền Cọc</b></th>
+                                    <th><b>Mã ISBN</b></th>
+                                    <th><b>Ngày XB</b></th>
+                                    <th style="width: 250px; text-align: justify;"><b>Mô Tả</b></th>
+                                    <th><b>Tình Trạng</b></th>
+                                    <th><b>Mã Đầu Sách</b></th>
+                                    <th><b>Thao Tác</b></th>
                                 </thead>
                                 <tbody>
                                     <?php foreach ($sach as $item): ?>
@@ -425,6 +431,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </form>
             </div>
         </div>
+        <script>
+            // Validate form trước khi submit
+            function validateForm(formId) {
+                const form = document.getElementById(formId);
+                const giaThue = parseFloat(form.querySelector('[name="giaThue"]').value);
+                const tienCoc = parseFloat(form.querySelector('[name="tienCoc"]').value);
+
+                if (isNaN(giaThue) || giaThue <= 0 || isNaN(tienCoc) || tienCoc <= 0) {
+                    alert("Giá thuê và tiền cọc phải là số lớn hơn 0.");
+                    return false; // Ngăn submit
+                }
+                return true; // Tiếp tục submit
+            }
+
+            // Gắn sự kiện validate vào form
+            document.getElementById('addCategoryForm').onsubmit = function () {
+                return validateForm('addCategoryForm');
+            };
+
+            document.getElementById('editCategoryForm').onsubmit = function () {
+                return validateForm('editCategoryForm');
+            };
+        </script>
 
     </div>
 </div>
