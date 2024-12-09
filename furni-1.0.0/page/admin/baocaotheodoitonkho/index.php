@@ -214,13 +214,14 @@ if (!$filter) {
                         <form method="post">
                             <table class="table table-hover table-striped">
                                 <thead>
-                                    <th>Mã Đầu Sách</th>
-                                    <th style="width: 600px;">Tên Đầu Sách</th>
-                                    <th>Tổng số lượng</th>
-                                    <th>Số lượng đang thuê</th>
-                                    <th>Số lượng còn lại</th>
-                                    <th>Mã Danh Mục</th>
-                                    <th>Tình Trạng</th>
+                                    <th><b>Mã Đầu Sách</b></th>
+                                    <th style="width: 600px;"><b>Tên Đầu Sách</b></th>
+                                    <th><b>Tổng số lượng</b></th>
+                                    <th><b>Số lượng đang thuê</b></th>
+                                    <th><b>Số lượng còn lại</b></th>
+                                    <th><b>Mã Danh Mục</b></th>
+                                    <th><b>Tình Trạng</b></th>
+
                                 </thead>
                                 <tbody>
                                     <?php if (!empty($dausach) && is_array($dausach)): ?>

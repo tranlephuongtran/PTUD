@@ -123,10 +123,11 @@ $result = $conn->query($sql);
                         <table class="table table-hover table-striped">
                             <thead>
                                 <tr>
-                                    <th>Mã Đơn</th>
-                                    <th>Mã Khách Hàng</th>
-                                    <th>Tên Khách Hàng</th>
-                                    <th>Tình Trạng Thuê</th>
+                                    <th><b>Mã Đơn</b></th>
+                                    <th><b>Mã Khách Hàng</b></th>
+                                    <th><b>Tên Khách Hàng</b></th>
+                                    <th><b>Tình Trạng Thuê</b></th>
+
                                 </tr>
                             </thead>
                             <tbody>

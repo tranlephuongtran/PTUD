@@ -189,12 +189,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
                             <table class="table table-hover table-striped">
                                 <thead>
                                     <tr>
-                                        <th>Mã Đơn</th>
-                                        <th style="width: 200px;">Ngày Thuê</th>
-                                        <th>Tổng Tiền Thuê</th>
-                                        <th>Tổng Tiền Cọc</th>
-                                        <th>Tình Trạng Thanh Toán</th>
-                                        <th>Thao tác</th>
+                                        <th><b>Mã Đơn</b></th>
+                                        <th style="width: 200px;"><b>Ngày Thuê</b></th>
+                                        <th><b>Tổng Tiền Thuê</b></th>
+                                        <th><b>Tổng Tiền Cọc</b></th>
+                                        <th><b>Tình Trạng Thanh Toán</b></th>
+                                        <th><b>Thao Tác</b></th>
+
                                     </tr>
                                 </thead>
                                 <tbody>

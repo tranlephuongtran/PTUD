@@ -117,11 +117,12 @@ $result = $conn->query($sql);
                         <table class="table table-hover table-striped">
                             <thead>
                                 <tr>
-                                    <th>Mã Khách Hàng</th>
-                                    <th>Tên khách hàng</th>
-                                    <th>Email</th>
-                                    <th>Số Điện Thoại</th>
-                                    <th>Địa chỉ</th>
+                                    <th><b>Mã Khách Hàng</b></th>
+                                    <th><b>Tên Khách Hàng</b></th>
+                                    <th><b>Email</b></th>
+                                    <th><b>Số Điện Thoại</b></th>
+                                    <th><b>Địa Chỉ</b></th>
+
                                 </tr>
                             </thead>
                             <tbody>

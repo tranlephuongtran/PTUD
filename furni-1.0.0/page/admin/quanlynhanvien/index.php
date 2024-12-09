@@ -256,12 +256,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 <thead>
                                     <th><b>Mã Nhân Viên</b></th>
                                     <th><b>Họ Tên</b></th>
-                                    <th>Số Điện Thoại</th>
-                                    <th>Địa Chỉ</th>
-                                    <th>Email</th>
-                                    <th>Chức Vụ</th>
-                                    <th>Ngày Vào Làm</th>
-                                    <th>Thao Tác</th>
+                                    <th><b>Số Điện Thoại</b></th>
+                                    <th><b>Địa Chỉ</b></th>
+                                    <th><b>Email</b></th>
+                                    <th><b>Chức Vụ</b></th>
+                                    <th><b>Ngày Vào Làm</b></th>
+                                    <th><b>Thao Tác</b></th>
                                 </thead>
                                 <tbody>
                                     <?php foreach ($nhanvien as $item): ?>

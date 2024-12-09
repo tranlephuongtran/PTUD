@@ -90,9 +90,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <div class="card-body table-full-width table-responsive">
                         <table class="table table-hover table-striped">
                             <thead>
-                                <th>Mã Thẻ</th>
-                                <th>Họ Tên Thành Viên</th>
-                                <th>Email Thành Viên</th>
+                                <th><b>Mã Thẻ</b></th>
+                                <th><b>Họ Tên Thành Viên</b></th>
+                                <th><b>Email Thành Viên</b></th>
                             </thead>
                             <tbody>
                                 <?php foreach ($thethanhvien as $item): ?>
