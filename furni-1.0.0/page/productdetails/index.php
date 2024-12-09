@@ -27,44 +27,67 @@ if (isset($_GET['productdetails'])) {
 // Xử lý khi nhấn "Thêm vào giỏ hàng"
 if (isset($_POST['add_to_cart'])) {
     if (isset($_SESSION['btnLogin']) && $_SESSION['btnLogin'] == 1) {
-        // Lấy số lượng từ người dùng nhập
+        $maDauSach = intval($product['maDauSach']); // Lấy maDauSach
         $quantity = isset($_POST['quantity']) ? intval($_POST['quantity']) : 1;
-        // Tạo sản phẩm cần thêm vào giỏ hàng
-        $item = [
-            'id' => $product['maDauSach'],
-            'name' => $product['tenDauSach'],
-            'price' => $product['giaThue'],
-            'deposit' => $product['tienCoc'],
-            'image' => $product['hinhAnh'],
-            'quantity' => $quantity
-        ];
 
-        // Khởi tạo giỏ hàng trong session nếu chưa có
-        if (!isset($_SESSION['cart'])) {
-            $_SESSION['cart'] = [];
-        }
+        // Truy vấn tổng số sách còn trong cơ sở dữ liệu
+        $queryCheckStock = "SELECT SUM(tinhTrang = 'Con sach') as total FROM sach WHERE maDauSach = $maDauSach";
+        $resultCheckStock = $conn->query($queryCheckStock);
 
-        // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
-        $found = false;
-        foreach ($_SESSION['cart'] as &$cart_item) {
-            if ($cart_item['id'] == $item['id']) {
-                $cart_item['quantity'] += $quantity;
-                $found = true;
-                break;
+        if ($resultCheckStock && $resultCheckStock->num_rows > 0) {
+            $stockData = $resultCheckStock->fetch_assoc();
+            $totalStock = intval($stockData['total']); // Tổng số sách còn trong cơ sở dữ liệu
+
+            if ($quantity > $totalStock) {
+                echo "<script>alert('Sách đã hết hàng!');</script>";
+            } else {
+                // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
+                $item = [
+                    'id' => $product['maDauSach'],
+                    'name' => $product['tenDauSach'],
+                    'price' => $product['giaThue'],
+                    'deposit' => $product['tienCoc'],
+                    'image' => $product['hinhAnh'],
+                    'quantity' => $quantity
+                ];
+
+                if (!isset($_SESSION['cart'])) {
+                    $_SESSION['cart'] = [];
+                }
+
+                $found = false;
+                // Duyệt qua giỏ hàng để tìm xem sách đã tồn tại hay chưa
+                foreach ($_SESSION['cart'] as &$cart_item) {
+                    if ($cart_item['id'] == $item['id']) {
+                        if ($cart_item['quantity'] + $quantity > $totalStock) {
+                            echo "<script>alert('Sách đã hết hàng!');</script>";
+                            $found = true;
+                            break;
+                        }
+                        $cart_item['quantity'] += $quantity;
+                        $found = true;
+                        break;
+                    }
+                }
+
+                // Nếu sách chưa tìm thấy trong giỏ hàng và giỏ hàng còn đủ sách trong kho
+                if (!$found) {
+                    if ($quantity > $totalStock) {
+                        echo "<script>alert('Sách đã hết hàng!');</script>";
+                    } else {
+                        $_SESSION['cart'][] = $item;
+                        echo "<script>alert('Sách đã được thêm vào giỏ hàng thành công!');</script>";
+                    }
+                }
             }
+        } else {
+            echo "<script>alert('Không thể kiểm tra thông tin sách!');</script>";
         }
-
-        // Nếu sản phẩm chưa có trong giỏ hàng, thêm vào giỏ
-        if (!$found) {
-            $_SESSION['cart'][] = $item;
-        }
-
-        // Trả về JSON để xác nhận thành công
-        echo "<script>alert('Sách đã được thêm vào giỏ hàng thành công!');</script>";
     } else {
         header("Location: index.php?login");
     }
 }
+
 ?>
 <!doctype html>
 <html lang="en">

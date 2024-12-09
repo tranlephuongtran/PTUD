@@ -165,7 +165,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <div class="strpied-tabled-with-hover">
+                <div class="strpied-tabled-with-hover bg-white">
                     <div class="card-header bg-white">
                         <h3 class="card-title text-center">DANH SÁCH ĐƠN</h3>
                         <h4 class="card-title text-center">(MÃ KHÁCH HÀNG: <?= $maKH ?>)</h4>
@@ -189,12 +189,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
                             <table class="table table-hover table-striped">
                                 <thead>
                                     <tr>
-                                        <th>Mã Đơn</th>
-                                        <th style="width: 200px;">Ngày Thuê</th>
-                                        <th>Tổng Tiền Thuê</th>
-                                        <th>Tổng Tiền Cọc</th>
-                                        <th>Tình Trạng Thanh Toán</th>
-                                        <th>Thao tác</th>
+                                        <th><b>Mã Đơn</b></th>
+                                        <th style="width: 200px;"><b>Ngày Thuê</b></th>
+                                        <th><b>Tổng Tiền Thuê</b></th>
+                                        <th><b>Tổng Tiền Cọc</b></th>
+                                        <th><b>Tình Trạng Thanh Toán</b></th>
+                                        <th><b>Thao Tác</b></th>
+
                                     </tr>
                                 </thead>
                                 <tbody>

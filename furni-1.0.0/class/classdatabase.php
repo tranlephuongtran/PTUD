@@ -25,11 +25,18 @@ class database
     public function xoadulieu($sql)
     {
         $link = $this->connect();
-        if ($link->query($sql))
-            return 1;
-        else
-            return 0;
+        try {
+            if ($link->query($sql)) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (mysqli_sql_exception $e) {
+            // Trả về thông báo lỗi chi tiết cho người dùng
+            return $e->getMessage();
+        }
     }
+
     public function themdulieu($sql)
     {
         $link = $this->connect();
@@ -67,19 +74,17 @@ class database
             $sql = "select * from danhmuc";
         return $this->xuatdulieu($sql);
     }
-    public function selectdausach($value = '')
+    public function selectdausach()
     {
-        $str = '';
-        $sql = "select * from dausach";
-        $arr = $this->xuatdulieu($sql);
-        for ($i = 0; $i < count($arr); $i++) {
-            if ($arr[$i]["maDauSach"] == $value)
-                $str .= '<option selected value="' . $arr[$i]["maDauSach"] . '">' . $arr[$i]["maDauSach"] . '</option>';
-            else
-                $str .= '<option value="' . $arr[$i]["maDauSach"] . '">' . $arr[$i]["maDauSach"] . '</option>';
+        $sql = "SELECT maDauSach, tenDauSach FROM dausach"; // Giả sử bảng đầu sách là "dausach"
+        $result = $this->xuatdulieu($sql);
+        $options = '';
+        foreach ($result as $row) {
+            $options .= '<option value="' . $row['maDauSach'] . '">' . $row['maDauSach'] . ' - ' . $row['tenDauSach'] . '</option>';
         }
-        return $str;
+        return $options;
     }
+
     public function selectnhanvien()
     {
         $str = '';

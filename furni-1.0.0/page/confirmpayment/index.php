@@ -16,6 +16,9 @@ if (!isset($_GET['confirmpayment'])) {
 if (isset($_POST['paylate'])) {
     echo "<script>alert('Vui lòng thanh toán trong tối đa 2 ngày. Nếu không đơn sẽ bị hủy!'); window.location.href = 'index.php?paymentlate'</script>";
 }
+if (isset($_POST['pay'])) {
+    echo "<script>window.location.href = 'index.php?payment={$_SESSION['idPay']}'</script>";
+}
 ?>
 
 <!-- Start Hero Section -->
@@ -42,8 +45,7 @@ if (isset($_POST['paylate'])) {
                     <!-- <h2 class="h3 mb-3 text-black">THÔNG TIN ĐƠN HÀNG</h2> -->
                     <div class="p-3 p-lg-5 border bg-white text-center">
                         <h2 class=" mb-3 text-black">BẠN CÓ MUỐN THANH TOÁN NGAY KHÔNG ?</h2>
-                        <button class="btn btn-primary btn-block"
-                            onclick="window.location='index.php?payment=<?php echo $_SESSION['idPay'] ?>'">Thanh
+                        <button class="btn btn-primary btn-block" name='pay'>Thanh
                             toán</button>
                         <button class="btn btn-primary btn-block" style="width: 150px;" name="paylate">Để
                             sau</button>

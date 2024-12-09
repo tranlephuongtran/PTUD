@@ -26,9 +26,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['btXoa'])) {
         $maDM = $_POST['btXoa'];
         $sql = "DELETE FROM danhmuc WHERE maDM='$maDM'";
-        $obj->xoadulieu($sql);
-        $message = "Xóa danh mục thành công";
+        $result = $obj->xoadulieu($sql);
+
+        if ($result === true) {
+            $message = "Xóa danh mục thành công";
+        } else {
+            // Kiểm tra nếu lỗi liên quan đến khóa ngoại
+            if (str_contains($result, 'a foreign key constraint fails')) {
+                $message = "Không thể xóa danh mục ! Đầu sách thuộc danh mục vẫn tồn tại.";
+            } else {
+                $message = "Lỗi khi xóa danh mục: " . $result;
+            }
+        }
     }
+
+
+
 
     if (isset($_POST['btSua'])) {
         $maDM = $_POST['maDM'];
@@ -52,20 +65,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <?php endif; ?>
 </script>
 <style>
-    .card.strpied-tabled-with-hover {
-        border-radius: 15px;
-        overflow: hidden;
-    }
-
-    .card.strpied-tabled-with-hover .table thead th,
-    .card.strpied-tabled-with-hover .table tbody td {
-        border: none;
-    }
-
-    .card.strpied-tabled-with-hover .table thead {
-        background-color: #f8f9fa;
-    }
-
     .modal.show {
         display: block !important;
         /* Đảm bảo modal hiển thị */
@@ -83,8 +82,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     }
 
-
-
     .modal-body {
         overflow-y: auto;
         max-height: 70vh;
@@ -95,9 +92,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <div class="content">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-12">
-                <div class="card strpied-tabled-with-hover">
-                    <div class="card-header">
+            <div class="col-md-12 ">
+                <div class=" strpied-tabled-with-hover bg-white ">
+                    <div class="card-header bg-white">
                         <h4 class="card-title text-center">DANH SÁCH DANH MỤC SÁCH</h4>
                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal"><i
                                 class="fa fa-plus-circle"></i>Thêm
@@ -107,10 +104,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <form method="post">
                             <table class="table table-hover table-striped">
                                 <thead>
-                                    <th>Mã Danh Mục</th>
-                                    <th>Tên Danh Mục</th>
-                                    <th>Mô Tả</th>
-                                    <th>Thao Tác</th>
+                                    <th><b>Mã Danh Mục</b></th>
+                                    <th><b>Tên Danh Mục</b></th>
+                                    <th><b>Mô Tả</b></th>
+                                    <th><b>Thao Tác</b></th>
                                 </thead>
                                 <tbody>
                                     <?php foreach ($danhmuc as $item): ?>
@@ -157,7 +154,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             </div>
                             <div class="mb-3">
                                 <label for="moTa" class="form-label">Mô Tả</label>
-                                <textarea class="form-control" name="moTa" id="moTa"></textarea>
+                                <textarea class="form-control" name="moTa" id="moTa" required></textarea>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -176,7 +173,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <div class="modal-content">
                         <div class="modal-header">
                             <h3 class="modal-title text-center">SỬA DANH MỤC</h3>
-                            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+
                         </div>
                         <div class="modal-body">
                             <input type="hidden" name="maDM" id="editMaDM">

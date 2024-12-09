@@ -88,7 +88,7 @@ mysqli_close($conn);
                     <ul>
                         <li><a href="index.php?profile">Tài khoản của tôi</a></li>
                         <li><a href="index.php?updateProfile">Cập nhật thông tin</a></li>
-                        <li><a href="index.php?history">Lịch sử thuê</a></li>
+                        <li><a href="index.php?history&maNguoiDung=<?php echo $_SESSION['maNguoiDung']; ?>">Lịch sử thuê sách</a></li>
                         <li><a href="index.php?logout">Đăng Xuất</a></li>
                     </ul>
                 </div>

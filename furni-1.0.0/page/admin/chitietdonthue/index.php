@@ -167,7 +167,7 @@ if (!$result) {
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <div class=" strpied-tabled-with-hover">
+                <div class=" strpied-tabled-with-hover bg-white">
                     <div class="card-header bg-white">
                         <a href="<?php echo $backUrl; ?>" class="btn btn-danger">Quay về</a>
                         <h4 class="card-title text-center">THÔNG TIN CHI TIẾT ĐƠN THUÊ</h4>
@@ -176,15 +176,16 @@ if (!$result) {
                         <table class="table table-hover table-striped">
                             <thead>
                                 <tr>
-                                    <th>Mã Sách</th>
-                                    <th style="width: 200px;">Tên Sách</th>
-                                    <th>Tác Giả</th>
-                                    <th>Giá Thuê</th>
-                                    <th>Tiền Cọc</th>
-                                    <th>Ngày Thuê</th>
-                                    <th>Ngày Trả</th>
-                                    <th>Tình Trạng Thuê</th>
-                                    <th>Hình Ảnh Trả</th>
+                                    <th><b>Mã Sách</b></th>
+                                    <th style="width: 200px;"><b>Tên Sách</b></th>
+                                    <th><b>Tác Giả</b></th>
+                                    <th><b>Giá Thuê</b></th>
+                                    <th><b>Tiền Cọc</b></th>
+                                    <th><b>Ngày Thuê</b></th>
+                                    <th><b>Ngày Trả</b></th>
+                                    <th><b>Tình Trạng Thuê</b></th>
+                                    <th><b>Hình Ảnh Trả</b></th>
+
                                 </tr>
                             </thead>
                             <tbody>

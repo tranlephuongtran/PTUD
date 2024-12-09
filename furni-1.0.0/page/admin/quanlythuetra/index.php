@@ -109,7 +109,7 @@ $result = $conn->query($sql);
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-md-12">
-                <div class="strpied-tabled-with-hover">
+                <div class="strpied-tabled-with-hover bg-white">
                     <div class="card-header bg-white d-flex justify-content-between align-items-center">
                         <h4 class="card-title text-center">DANH SÁCH ĐƠN THUÊ</h4>
                         <form method="post" class="form-inline mt-4 mb-4">
@@ -123,10 +123,11 @@ $result = $conn->query($sql);
                         <table class="table table-hover table-striped">
                             <thead>
                                 <tr>
-                                    <th>Mã Đơn</th>
-                                    <th>Mã Khách Hàng</th>
-                                    <th>Tên Khách Hàng</th>
-                                    <th>Tình Trạng Thuê</th>
+                                    <th><b>Mã Đơn</b></th>
+                                    <th><b>Mã Khách Hàng</b></th>
+                                    <th><b>Tên Khách Hàng</b></th>
+                                    <th><b>Tình Trạng Thuê</b></th>
+
                                 </tr>
                             </thead>
                             <tbody>

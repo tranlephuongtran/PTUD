@@ -58,3 +58,4 @@ if (isset($_GET['quanlydanhmuc'])) {
 }
 include("page/admin/" . $pagead . "/index.php");
 include("layout/footerAd.php");
+?>

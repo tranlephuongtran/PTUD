@@ -56,8 +56,8 @@ $sachthanhly = $product->getThanhLyBooks();
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="card strpied-tabled-with-hover">
-                        <div class="card-header">
+                    <div class=" strpied-tabled-with-hover bg-white">
+                        <div class="card-header bg-white">
                             <h4 class="card-title text-center">DANH SÁCH SÁCH THANH LÝ</h4>
                         </div>
                         <div class="card-body table-full-width table-responsive">

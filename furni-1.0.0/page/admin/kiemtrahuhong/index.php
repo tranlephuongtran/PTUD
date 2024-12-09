@@ -16,8 +16,8 @@ if ($conn->connect_error) {
 
 // Xử lý cập nhật tình trạng
 if (isset($_POST['update_status'])) {
-    $maSach = $_POST['maSach'];
-    $tinhTrang = $_POST['tinhTrang'];
+    $maSach = $_POST['update_status']; // Lấy mã sách từ nút bấm
+    $tinhTrang = $_POST['tinhTrang'][$maSach]; // Lấy tình trạng tương ứng với mã sách
 
     $sql_update = "UPDATE sach SET tinhTrang = ? WHERE maSach = ?";
     $stmt = $conn->prepare($sql_update);
@@ -151,8 +151,8 @@ $result = $conn->query($sql);
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-md-12">
-                <div class="card strpied-tabled-with-hover">
-                    <div class="card-header">
+                <div class=" strpied-tabled-with-hover bg-white">
+                    <div class="card-header bg-white">
                         <h4 class="card-title text-center">DANH SÁCH KIỂM TRA HƯ HỎNG</h4>
                     </div>
                     <div class="card-body table-full-width table-responsive">
@@ -186,14 +186,14 @@ $result = $conn->query($sql);
                                             echo "<td>" . $row['ngayTra'] . "</td>";
                                             echo "<td><img src='" . $imagePath . "' alt='Hình ảnh trả sách' class='img-thumbnail' onclick='openModal(this)'></td>";
                                             echo "<td>";
-                                            echo "<select name='tinhTrang'>";
-                                            echo "<option>Cần kiểm tra</option>";
+                                            echo "<select name='tinhTrang[" . $row['maSach'] . "]'>";
+                                            echo "<option>Hãy Chọn</option>";
                                             echo "<option value='Con sach'" . ($row['tinhTrang'] == 'Con sach' ? ' selected' : '') . ">Bình thường</option>";
                                             echo "<option value='Thanh ly'" . ($row['tinhTrang'] == 'Thanh ly' ? ' selected' : '') . ">Thanh lý</option>";
                                             echo "</select>";
                                             echo "<input type='hidden' name='maSach' value='" . $row['maSach'] . "'>";
                                             echo "</td>";
-                                            echo "<td><button type='submit' name='update_status'>Cập nhật</button></td>";
+                                            echo "<td><button type='submit' name='update_status' value='" . $row['maSach'] . "'>Cập nhật</button></td>";
                                             echo "</tr>";
                                         }
                                     } else {
