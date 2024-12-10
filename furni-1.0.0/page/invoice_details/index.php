@@ -114,6 +114,7 @@
         border-bottom: none;
         /* Loại bỏ đường kẻ cuối cùng */
     }
+
     .no-image {
         font-size: 16px;
         color: red;
@@ -186,7 +187,7 @@
                         if (!empty($row['hinhAnhTraSach'])) {
                             echo "<img class='Hinh' src='layout/images/uploads/" . $row['hinhAnhTraSach'] . "' alt='Hình ảnh sách'>";
                         } else {
-                            echo "<p class='no-image'>Bạn chưa thanh toán đơn</p>";
+                            echo "<p class='no-image'>Hiện bạn chưa trả sách</p>";
                         }
                         echo "</div>";
                         echo "<div class='right-section'>";
