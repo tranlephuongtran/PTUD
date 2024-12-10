@@ -63,7 +63,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     $currentStatus = $currentStatusResult[0]['tinhTrangThanhToan'] ?? '';
 
     if (
-        ($currentStatus === 'Cho xac nhan' && $tinhTrangThanhToan === 'Da thanh toan')
+        ($currentStatus === 'Cho xac nhan' && in_array($tinhTrangThanhToan, ['Da thanh toan', 'Cho lien he'])) ||
+        ($currentStatus === 'Cho lien he' && $tinhTrangThanhToan === 'Da thanh toan')
     ) {
         $updateSql = "UPDATE donthuesach SET tinhTrangThanhToan = '$tinhTrangThanhToan' WHERE maDon = '$maDon'";
         $obj->suadulieu($updateSql);
@@ -336,6 +337,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
                         <select name="tinhTrangThanhToan" id="tinhTrangThanhToan" class="form-control">
                             <option value="Cho xac nhan">Chờ xác nhận</option>
                             <option value="Da thanh toan">Đã thanh toán</option>
+                            <option value="Cho lien he">Chờ liên hệ</option>
                         </select>
                     </div>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Hủy</button>
