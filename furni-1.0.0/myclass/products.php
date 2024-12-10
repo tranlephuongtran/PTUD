@@ -82,11 +82,18 @@ class Product
 
     public function getThanhLyBooks()
     {
-        $sql = "SELECT s.maSach, ds.tenDauSach, ds.tacGia 
-        FROM sach s 
-        JOIN dausach ds ON s.maDauSach = ds.maDauSach 
-        LEFT JOIN chitiethoadon cthd ON s.maSach = cthd.maSach 
-        WHERE LOWER(s.tinhTrang) = LOWER('Thanh Ly') AND LOWER(cthd.tinhTrangThue) = LOWER('Đã trả')";
+        $sql = "SELECT DISTINCT s.maSach, ds.tenDauSach, ds.tacGia 
+                FROM sach s 
+                JOIN dausach ds ON s.maDauSach = ds.maDauSach 
+                LEFT JOIN ( SELECT maSach, MAX(ngayTra) as ngayTraCuoi, tinhTrangThue 
+                            FROM chitiethoadon 
+                            GROUP BY maSach, tinhTrangThue 
+                ) cthd ON s.maSach = cthd.maSach 
+                WHERE LOWER(s.tinhTrang) = LOWER('Thanh Ly') 
+                AND (cthd.maSach IS NULL OR LOWER(cthd.tinhTrangThue) = LOWER('Đã trả')) 
+                GROUP BY s.maSach, ds.tenDauSach, ds.tacGia";
+
+
         $result = $this->conn->query($sql);
 
         $books = [];

@@ -12,7 +12,23 @@ require_once 'myclass/products.php';
 $product = new Product();
 
 // Xử lý cập nhật trạng thái sách thanh lý 
-if (isset($_POST['btXoa']) && !empty($_POST['btXoa'])) {
+// if (isset($_POST['btXoa']) && !empty($_POST['btXoa'])) {
+//     $maSachXoa = $_POST['btXoa'];
+//     foreach ($maSachXoa as $maSach) {
+//         $product->updateBookStatus($maSach);
+//     }
+//     echo "<script>alert('Sách đã được Thanh Lý thành công!'); window.location.href='';</script>";
+// }
+
+// Xử lý cập nhật trạng thái sách thanh lý 
+if (isset($_POST['btXoaSingle'])) {
+    $maSach = $_POST['btXoaSingle'];
+    $product->updateBookStatus($maSach);
+    echo "<script>alert('Sách đã được Thanh Lý thành công!'); window.location.href='';</script>";
+}
+
+// Xử lý thanh lý toàn bộ sách đã chọn 
+if (isset($_POST['btXoaAll']) && !empty($_POST['btXoa'])) {
     $maSachXoa = $_POST['btXoa'];
     foreach ($maSachXoa as $maSach) {
         $product->updateBookStatus($maSach);
@@ -72,16 +88,28 @@ $sachthanhly = $product->getThanhLyBooks();
                                             <th>Thao Tác</th>
                                         </tr>
                                     </thead>
-                                    <tbody> <?php if (count($sachthanhly) > 0): ?> <?php foreach ($sachthanhly as $item): ?> <tr>
+                                    <tbody>
+                                        <?php if (count($sachthanhly) > 0): ?>
+                                            <?php foreach ($sachthanhly as $item): ?>
+                                                <tr>
                                                     <td><input type="checkbox" name="btXoa[]" value="<?= $item["maSach"] ?>"></td>
                                                     <td><?= $item["maSach"] ?></td>
                                                     <td><?= $item["tenDauSach"] ?></td>
                                                     <td><?= $item["tacGia"] ?></td>
-                                                    <td> <button type="submit" name="btXoaSingle" value="<?= $item["maSach"] ?>" class="btn btn-danger">Thanh Lý</button> </td>
-                                                </tr> <?php endforeach; ?> <?php else: ?> <tr>
+                                                    <td>
+                                                        <button type="submit" name="btXoaSingle" value="<?= $item["maSach"] ?>" class="btn btn-danger">Thanh Lý</button>
+                                                    </td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        <?php else: ?> <tr>
                                                 <td colspan="5" class="text-center">Chưa có sách cần Thanh Lý</td>
-                                            </tr> <?php endif; ?> </tbody>
-                                </table> <?php if (count($sachthanhly) > 0): ?> <button type="submit" class="btn btn-danger ml-custom">Thanh Lý Sách Đã Chọn</button> <?php endif; ?>
+                                            </tr>
+                                        <?php endif; ?>
+                                    </tbody>
+                                </table>
+                                <?php if (count($sachthanhly) > 0): ?>
+                                    <button type="submit" name="btXoaAll" class="btn btn-danger ml-custom">Thanh Lý Sách Đã Chọn</button>
+                                <?php endif; ?>
                             </form>
                         </div>
                     </div>
@@ -92,10 +120,10 @@ $sachthanhly = $product->getThanhLyBooks();
     <script>
         document.getElementById('thanhLyForm').addEventListener('submit', function(event) {
             var checkboxes = document.querySelectorAll('input[name="btXoa[]"]:checked');
-            if (checkboxes.length === 0) {
+            if (checkboxes.length === 0 && event.submitter.name === 'btXoaAll') {
                 alert('Vui lòng chọn ít nhất một sách để thanh lý!');
                 event.preventDefault();
-            } else {
+            } else if (event.submitter.name === 'btXoaAll') {
                 if (!confirm('Bạn có chắc chắn muốn thanh lý các sách đã chọn không?')) {
                     event.preventDefault();
                 }
