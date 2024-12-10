@@ -21,6 +21,7 @@ $nhanvien = $obj->xuatdulieu($sql);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['addEmployee'])) {
+        $ngayHienTai = date('Y-m-d');
         $chucVu = $_POST['roleName'];
         $ngayVaoLam = $_POST['ngayVaoLam'];
         $ten = $_POST['ten'];
@@ -31,57 +32,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         // Kiểm tra email trùng lặp
         $checkEmail = "SELECT email FROM nguoidung WHERE email = '$email'";
-        $checkResult = $obj->xuatdulieu($checkEmail);
-
-        if ($checkResult) {
+        $checkSDT = "SELECT SDT FROM nguoidung WHERE SDT = '$soDienThoai'";
+        if ($obj->xuatdulieu($checkEmail)) {
             $message = "Email đã tồn tại. Vui lòng sử dụng email khác.";
+        } elseif ($obj->xuatdulieu($checkSDT)) {
+            $message = "Số điện thoại đã tồn tại. Vui lòng sử dụng số điện thoại khác.";
+        } elseif ($ngayVaoLam > $ngayHienTai) {
+            $message = "Ngày vào làm phải nhỏ hơn ngày hiện tại.";
         } else {
             // Thực hiện thêm nhân viên
-            $sqlNguoiDung = "
-                INSERT INTO nguoidung (ten, SDT, diaChi, email) 
-                VALUES ('$ten', '$soDienThoai', '$diaChi', '$email')
-            ";
-
+            $sqlNguoiDung = "INSERT INTO nguoidung (ten, SDT, diaChi, email) VALUES ('$ten', '$soDienThoai', '$diaChi', '$email')";
             if ($obj->themdulieu($sqlNguoiDung)) {
                 $maNguoiDung = $obj->layMaNguoiDungMoiNhat();
-                $sqlTaiKhoan = "
-                    INSERT INTO taikhoan (email, password, maNguoiDung) 
-                    VALUES ('$email', '$password', '$maNguoiDung')
-                ";
+                $sqlTaiKhoan = "INSERT INTO taikhoan (email, password, maNguoiDung) VALUES ('$email', '$password', '$maNguoiDung')";
+                $obj->themdulieu($sqlTaiKhoan);
 
-                if ($obj->themdulieu($sqlTaiKhoan)) {
-                    $sqlRoleCheck = "SELECT roleId FROM roles WHERE roleName = '$chucVu'";
-                    $roleResult = $obj->xuatdulieu($sqlRoleCheck);
+                $roleResult = $obj->xuatdulieu("SELECT roleId FROM roles WHERE roleName = '$chucVu'");
+                $roleId = $roleResult ? $roleResult[0]['roleId'] : $obj->themdulieu("INSERT INTO roles (roleName) VALUES ('$chucVu')");
 
-                    if (!$roleResult) {
-                        $sqlRoleInsert = "INSERT INTO roles (roleName) VALUES ('$chucVu')";
-                        $obj->themdulieu($sqlRoleInsert);
-                        $roleId = $obj->layRoleMoiNhat();
-                    } else {
-                        $roleId = $roleResult[0]['roleId'];
-                    }
-
-                    $sqlUserRole = "
-                        INSERT INTO userroles (userId, roleId) 
-                        VALUES ('$maNguoiDung', '$roleId')
-                    ";
-                    $obj->themdulieu($sqlUserRole);
-
-                    $sqlNhanVien = "
-                        INSERT INTO nhanvien (chucVu, ngayVaoLam, maNguoiDung) 
-                        VALUES ('$chucVu', '$ngayVaoLam', '$maNguoiDung')
-                    ";
-
-                    if ($obj->themdulieu($sqlNhanVien)) {
-                        $message = "Thêm mới nhân viên thành công";
-                    } else {
-                        $message = "Thêm mới nhân viên thất bại";
-                    }
-                } else {
-                    $message = "Thêm mới tài khoản thất bại";
-                }
-            } else {
-                $message = "Thêm mới người dùng thất bại";
+                $obj->themdulieu("INSERT INTO userroles (userId, roleId) VALUES ('$maNguoiDung', '$roleId')");
+                $obj->themdulieu("INSERT INTO nhanvien (chucVu, ngayVaoLam, maNguoiDung) VALUES ('$chucVu', '$ngayVaoLam', '$maNguoiDung')");
+                $message = "Thêm mới nhân viên thành công";
             }
         }
     }
@@ -126,6 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
     if (isset($_POST['btSua'])) {
+        $ngayHienTai = date('Y-m-d');
         $maNhanVien = $_POST['maNhanVien'];
         $chucVu = $_POST['roleName'];
         $ngayVaoLam = $_POST['ngayVaoLam'];
@@ -135,48 +107,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $email = $_POST['email'];
         $password = $_POST['password'];
 
-        // Kiểm tra email trùng lặp
-        $sqlEmailCheck = "
+        $maNguoiDung = $obj->xuatdulieu("SELECT maNguoiDung FROM nhanvien WHERE maNhanVien='$maNhanVien'")[0]['maNguoiDung'];
+        $checkEmail = "
             SELECT email 
             FROM nguoidung 
-            WHERE email = '$email' AND maNguoiDung NOT IN (
-                SELECT maNguoiDung 
-                FROM nhanvien 
-                WHERE maNhanVien = '$maNhanVien'
-            )
+            WHERE email = '$email' AND maNguoiDung != '$maNguoiDung'
         ";
-        $emailResult = $obj->xuatdulieu($sqlEmailCheck);
+        $checkSDT = "
+            SELECT SDT 
+            FROM nguoidung 
+            WHERE SDT = '$soDienThoai' AND maNguoiDung != '$maNguoiDung'
+        ";
 
-        if ($emailResult) {
+        if ($obj->xuatdulieu($checkEmail)) {
             $message = "Email đã tồn tại. Vui lòng sử dụng email khác.";
+        } elseif ($obj->xuatdulieu($checkSDT)) {
+            $message = "Số điện thoại đã tồn tại. Vui lòng sử dụng số điện thoại khác.";
+        } elseif ($ngayVaoLam > $ngayHienTai) {
+            $message = "Ngày vào làm phải nhỏ hơn ngày hiện tại.";
         } else {
-            $sqlNguoiDung = "SELECT maNguoiDung FROM nhanvien WHERE maNhanVien='$maNhanVien'";
-            $result = $obj->xuatdulieu($sqlNguoiDung);
-
-            if ($result) {
-                $maNguoiDung = $result[0]['maNguoiDung'];
-                $sqlNhanVien = "
-                    UPDATE nhanvien 
-                    SET chucVu='$chucVu', ngayVaoLam='$ngayVaoLam' 
-                    WHERE maNhanVien='$maNhanVien'
-                ";
-                $sqlNguoiDungUpdate = "
-                    UPDATE nguoidung 
-                    SET ten='$hoTen', SDT='$soDienThoai', diaChi='$diaChi', email='$email' 
-                    WHERE maNguoiDung='$maNguoiDung'
-                ";
-                $sqlTaiKhoan = "
-                    UPDATE taikhoan 
-                    SET email='$email', password='$password' 
-                    WHERE maNguoiDung='$maNguoiDung'
-                ";
-                $obj->suadulieu($sqlNhanVien);
-                $obj->suadulieu($sqlNguoiDungUpdate);
-                $obj->suadulieu($sqlTaiKhoan);
-                $message = "Cập nhật nhân viên thành công";
-            } else {
-                $message = "Không tìm thấy mã người dùng";
-            }
+            $obj->suadulieu("UPDATE nguoidung SET ten='$hoTen', SDT='$soDienThoai', diaChi='$diaChi', email='$email' WHERE maNguoiDung='$maNguoiDung'");
+            $obj->suadulieu("UPDATE taikhoan SET email='$email', password='$password' WHERE maNguoiDung='$maNguoiDung'");
+            $obj->suadulieu("UPDATE nhanvien SET chucVu='$chucVu', ngayVaoLam='$ngayVaoLam' WHERE maNhanVien='$maNhanVien'");
+            $message = "Cập nhật nhân viên thành công";
         }
     }
 }
