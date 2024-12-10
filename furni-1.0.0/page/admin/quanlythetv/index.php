@@ -33,9 +33,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Kiểm tra mã thẻ đã tồn tại
         $checkSql = "SELECT maThe FROM thethanhvien WHERE maThe='$maThe'";
         $checkResult = $obj->xuatdulieu($checkSql);
-
+        $checkEmailSql = "SELECT email FROM thethanhvien WHERE email='$email'";
+        $emailResult = $obj->xuatdulieu($checkEmailSql);
         if ($checkResult) {
             $message = "Thêm thất bại! Mã thẻ đã tồn tại.";
+        }
+        if ($emailResult) {
+            $message = "Thêm thất bại! Email đã tồn tại.";
         } else {
             // Thêm mới vào bảng thethanhvien
             $sql = "INSERT INTO thethanhvien (maThe, hoTen, email) VALUES ('$maThe', '$hoTen', '$email')";
