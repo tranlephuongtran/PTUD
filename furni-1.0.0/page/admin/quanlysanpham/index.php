@@ -21,6 +21,7 @@ $sql = "SELECT * FROM sach LIMIT $page_first_result, $results_per_page";
 $sach = $obj->xuatdulieu($sql);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $ngayHienTai = date('Y-m-d'); // Lấy ngày hiện tại
     if (isset($_POST['addCategory'])) {
         $tuaDe = $_POST['tuaDe'];
         $giaThue = $_POST['giaThue'];
@@ -34,6 +35,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Kiểm tra điều kiện giá thuê và tiền cọc
         if ($giaThue <= 0 || !is_numeric($giaThue) || $tienCoc <= 0 || !is_numeric($tienCoc)) {
             $message = "Giá thuê và tiền cọc phải là số lớn hơn 0.";
+        } elseif ($ngayXB > $ngayHienTai) {
+            $message = "Ngày xuất bản không được lớn hơn ngày hiện tại.";
         } else {
             // Thêm sách vào cơ sở dữ liệu
             $sql = "INSERT INTO sach (tuaDe, giaThue, tienCoc, maISBN, ngayXB, moTa, tinhTrang, maDauSach) 
@@ -95,6 +98,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             if ($oldTinhTrang != "Con sach" && $tinhTrang != $oldTinhTrang) {
                 $message = "Sách ở tình trạng này không thể sửa !";
+            } elseif ($ngayXB > $ngayHienTai) {
+                $message = "Ngày xuất bản không được lớn hơn ngày hiện tại.";
             } else {
                 $sql = "UPDATE sach SET tuaDe = '$tuaDe', giaThue='$giaThue', tienCoc='$tienCoc', maISBN='$maISBN', 
                         ngayXB='$ngayXB', moTa='$moTa', tinhTrang='$tinhTrang', maDauSach='$maDauSach' WHERE maSach='$maSach'";
