@@ -22,17 +22,11 @@ if (isset($_POST['update_status'])) {
     $sql_update = "UPDATE sach SET tinhTrang = ? WHERE maSach = ?";
     $stmt = $conn->prepare($sql_update);
     $stmt->bind_param("si", $tinhTrang, $maSach);
-    $stmt->execute();
-    // Cập nhật sách khỏi danh sách kiểm tra hư hỏng nếu trạng thái đã thay đổi
-    // if ($tinhTrang == 'Thanh ly' || $tinhTrang == 'Con sach') {
-
-    //     $sql_update_status = "UPDATE chitiethoadon SET tinhTrangThue = 'Hoàn thành' WHERE maSach = ?";
-    //     $stmt_update_status = $conn->prepare($sql_update_status);
-    //     $stmt_update_status->bind_param("i", $maSach);
-    //     $stmt_update_status->execute();
-    //     $stmt_update_status->close();
-    // }
-    echo "<script>alert('Cập nhật thành công!');</script>";
+    if ($stmt->execute()) {
+        echo "<script>alert('Cập nhật thành công!');</script>";
+    } else {
+        echo "<script>alert('Cập nhật thất bại!');</script>";
+    }
     $stmt->close();
 }
 
@@ -50,7 +44,14 @@ $sql = "
     FROM sach s
     JOIN chitiethoadon ct ON s.maSach = ct.maSach
     JOIN donthuesach ds ON ct.maDon = ds.maDon
-    WHERE s.tinhTrang = 'Can kiem tra'";
+    WHERE s.tinhTrang = 'Can kiem tra'
+    AND s.tinhTrang NOT IN ('Thanh ly', 'Con sach')
+    AND ds.maDon = (
+        SELECT MAX(sub_ds.maDon)
+        FROM donthuesach sub_ds
+        JOIN chitiethoadon sub_ct ON sub_ds.maDon = sub_ct.maDon
+        WHERE sub_ct.maSach = s.maSach
+    )";
 $result = $conn->query($sql);
 ?>
 
