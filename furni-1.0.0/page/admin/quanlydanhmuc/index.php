@@ -183,7 +183,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             </div>
                             <div class="mb-3">
                                 <label for="editMoTa" class="form-label">Mô Tả</label>
-                                <textarea class="form-control" name="moTa" id="editMoTa"></textarea>
+                                <textarea class="form-control" name="moTa" id="editMoTa" required></textarea>
                             </div>
                         </div>
                         <div class="modal-footer">
