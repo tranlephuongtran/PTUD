@@ -130,7 +130,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             diaChi='$diaChi', email='$email' WHERE maNguoiDung='$maNguoiDung'");
             if (!empty($passwordNew)) {
                 $hashedPassword = md5($passwordNew);
-                $obj->suadulieu("UPDATE taikhoan SET password='$hashedPassword' 
+                $obj->suadulieu("UPDATE taikhoan SET  email='$email' ,password='$hashedPassword' 
+                WHERE maNguoiDung='$maNguoiDung'");
+            } else {
+                $obj->suadulieu("UPDATE taikhoan SET  email='$email' 
                 WHERE maNguoiDung='$maNguoiDung'");
             }
             $roleResult = $obj->xuatdulieu("SELECT roleId FROM roles WHERE roleName = '$chucVu'");
