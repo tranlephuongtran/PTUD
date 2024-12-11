@@ -70,11 +70,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <i class='bx bxs-lock-alt'></i>
                     </div>
                     <div class="input-field">
-                        <input type="password" name="confirmPassword" placeholder="Xác nhận Password" id="confirmPassword" required>
+                        <input type="password" name="confirmPassword" placeholder="Xác nhận Password"
+                            id="confirmPassword" required>
                         <i class='bx bxs-lock-alt'></i>
                     </div>
                 </div>
-                <a href="index.php?services" target="_blank" rel="noopener noreferrer">Chính sách và điều khoản của chúng tôi</a>
+                <a href="index.php?services" target="_blank" rel="noopener noreferrer">Chính sách và điều khoản của
+                    chúng tôi</a>
                 <label><input type="checkbox" name="agree">Tôi đã đọc và đồng ý với các chính sách.</label>
                 <button type="submit" class="btn" name="btn-regis">Đăng ký</button>
             </form>

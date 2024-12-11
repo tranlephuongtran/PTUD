@@ -32,7 +32,7 @@ $conn = mysqli_connect("localhost", "nhomptud", "123456", "ptud");
 if (isset($_POST['btnLogin'])) {
     // Lấy email và password từ form
     $email = $_POST['CustomerEmail'];
-    $password = $_POST['CustomerPassword'];
+    $password = md5($_POST['CustomerPassword']);
 
     // Kiểm tra thông tin đăng nhập trong bảng 'taikhoan'
     $query = "SELECT * FROM taikhoan WHERE email = '$email' AND password = '$password'";
@@ -50,7 +50,7 @@ if (isset($_POST['btnLogin'])) {
         // Chuyển hướng đến trang home/index.php
         echo '<script>
             alert("Đăng nhập thành công");
-            window.location.href = "index.php?home&maNguoiDung=' . $maNguoiDung. '"; // Chuyển hướng đến trang home
+            window.location.href = "index.php?home&maNguoiDung=' . $maNguoiDung . '"; // Chuyển hướng đến trang home
           </script>';
     } else {
         echo '<script>

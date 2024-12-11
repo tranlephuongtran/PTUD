@@ -39,7 +39,8 @@ class User
                     $maNguoiDung = $this->conn->insert_id;
 
                     // Lưu thông tin vào bảng taikhoan
-                    $taikhoan_query = "INSERT INTO taikhoan (email, Password, maNguoiDung) VALUES ('$email', '$password', '$maNguoiDung')";
+                    $pass_md5 = md5($password);
+                    $taikhoan_query = "INSERT INTO taikhoan (email, Password, maNguoiDung) VALUES ('$email', '$pass_md5', '$maNguoiDung')";
                     if ($this->conn->query($taikhoan_query) === TRUE) {
                         // Lưu thông tin vào bảng khachhang
                         $khachhang_query = "INSERT INTO khachhang (maNguoiDung) VALUES ('$maNguoiDung')";

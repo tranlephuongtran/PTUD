@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $soDienThoai = $_POST['SDT'];
         $diaChi = $_POST['diaChi'];
         $email = $_POST['email'];
-        $password = $_POST['password'];
+        $password = md5($_POST['password']);
 
         // Kiểm tra email trùng lặp
         $checkEmail = "SELECT email FROM nguoidung WHERE email = '$email'";

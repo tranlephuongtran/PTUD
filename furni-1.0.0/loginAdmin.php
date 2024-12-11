@@ -17,7 +17,7 @@ if ($conn->connect_error) {
 // Xử lý khi nhấn Đăng nhập
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
-    $password = $_POST['password'];
+    $password = md5($_POST['password']);
 
     // Tìm tài khoản người dùng
     $sql = "SELECT tk.*, ur.roleId, r.roleName 
@@ -63,9 +63,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <style>
         body {
             font-family: 'Roboto', sans-serif;
-            background-image: url('layout/images/anhnenDN.jpg'); 
+            background-image: url('layout/images/anhnenDN.jpg');
             background-size: cover;
-            background-repeat: no-repeat; 
+            background-repeat: no-repeat;
             display: flex;
             justify-content: center;
             align-items: center;

@@ -8,18 +8,19 @@ if (!$conn) {
 }
 // Kiểm tra nếu form gửi thì xử lý
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $current_password = mysqli_real_escape_string($conn, $_POST['current_password']);
+    $current_password = md5(mysqli_real_escape_string($conn, $_POST['current_password']));
     $new_password = mysqli_real_escape_string($conn, $_POST['new_password']);
     $confirm_new_password = mysqli_real_escape_string($conn, $_POST['confirm_new_password']);
     $query = "SELECT Password FROM taikhoan WHERE email = '$email'";
     $result = mysqli_query($conn, $query);
     if (mysqli_num_rows($result) > 0) {
-        $row = mysqli_fetch_assoc($result);    
+        $row = mysqli_fetch_assoc($result);
         // Kiểm tra mật khẩu cũ
         if ($current_password === $row['Password']) {
             // Kiểm tra mật khẩu mới và mật khẩu xác nhận 
             if ($new_password === $confirm_new_password) {
-                $update_query = "UPDATE taikhoan SET Password = '$new_password' WHERE email = '$email'";
+                $new_password_md5 = md5($new_password);
+                $update_query = "UPDATE taikhoan SET Password = '$new_password_md5' WHERE email = '$email'";
                 if (mysqli_query($conn, $update_query)) {
                     echo "<script>alert('Mật khẩu đã được thay đổi thành công!'); window.location.href = 'index.php';</script>";
                 } else {
@@ -39,6 +40,7 @@ mysqli_close($conn);
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -51,34 +53,41 @@ mysqli_close($conn);
         margin-top: 15px;
         margin-bottom: 20px;
     }
+
     .tnb {
         background-color: #f8f9fa;
         padding: 20px;
         border-radius: 8px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
+
     .menu {
         /* background-color: #f8f9fa; */
         padding: 20px;
         /* border-radius: 8px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
     }
+
     .menu ul {
         list-style-type: none;
         padding: 0;
     }
+
     .menu ul li {
         margin-bottom: 10px;
     }
+
     .menu ul li a {
         color: #333;
         text-decoration: none;
         font-weight: 500;
     }
+
     .menu ul li a:hover {
         color: #007bff;
     }
 </style>
+
 <body>
     <div class="container container-main">
         <div class="row">
@@ -88,7 +97,8 @@ mysqli_close($conn);
                     <ul>
                         <li><a href="index.php?profile">Tài khoản của tôi</a></li>
                         <li><a href="index.php?updateProfile">Cập nhật thông tin</a></li>
-                        <li><a href="index.php?history&maNguoiDung=<?php echo $_SESSION['maNguoiDung']; ?>">Lịch sử thuê sách</a></li>
+                        <li><a href="index.php?history&maNguoiDung=<?php echo $_SESSION['maNguoiDung']; ?>">Lịch sử thuê
+                                sách</a></li>
                         <li><a href="index.php?logout">Đăng Xuất</a></li>
                     </ul>
                 </div>
@@ -120,4 +130,5 @@ mysqli_close($conn);
         </div>
     </div>
 </body>
+
 </html>
