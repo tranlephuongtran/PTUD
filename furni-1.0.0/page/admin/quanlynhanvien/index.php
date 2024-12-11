@@ -106,7 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $diaChi = $_POST['diaChi'];
         $email = $_POST['email'];
         $password = $_POST['password'];
-
+        $passwordNew = $_POST['passwordNew'];
         $maNguoiDung = $obj->xuatdulieu("SELECT maNguoiDung FROM nhanvien WHERE maNhanVien='$maNhanVien'")[0]['maNguoiDung'];
         $checkEmail = "
             SELECT email 
@@ -126,10 +126,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } elseif ($ngayVaoLam > $ngayHienTai) {
             $message = "Ngày vào làm phải nhỏ hơn ngày hiện tại.";
         } else {
-            $obj->suadulieu("UPDATE nguoidung SET ten='$hoTen', SDT='$soDienThoai', diaChi='$diaChi', email='$email' WHERE maNguoiDung='$maNguoiDung'");
-            $obj->suadulieu("UPDATE taikhoan SET email='$email', password='$password' WHERE maNguoiDung='$maNguoiDung'");
-            $obj->suadulieu("UPDATE nhanvien SET chucVu='$chucVu', ngayVaoLam='$ngayVaoLam' WHERE maNhanVien='$maNhanVien'");
+            $obj->suadulieu("UPDATE nguoidung SET ten='$hoTen', SDT='$soDienThoai', 
+            diaChi='$diaChi', email='$email' WHERE maNguoiDung='$maNguoiDung'");
+            if (!empty($passwordNew)) {
+                $hashedPassword = md5($passwordNew);
+                $obj->suadulieu("UPDATE taikhoan SET password='$hashedPassword' 
+                WHERE maNguoiDung='$maNguoiDung'");
+            }
+            $roleResult = $obj->xuatdulieu("SELECT roleId FROM roles WHERE roleName = '$chucVu'");
+            if ($roleResult) {
+                $roleId = $roleResult[0]['roleId'];
+            } else {
+                $obj->themdulieu("INSERT INTO roles (roleName) VALUES ('$chucVu')");
+                $roleId = $obj->layMaNguoiDungMoiNhat(); // Giả sử hàm này lấy ID mới nhất
+            }
+            $obj->suadulieu("UPDATE userroles SET roleId='$roleId' WHERE userId='$maNguoiDung'");
+
+            $obj->suadulieu("UPDATE nhanvien SET chucVu='$chucVu', ngayVaoLam='$ngayVaoLam' 
+            WHERE maNhanVien='$maNhanVien'");
             $message = "Cập nhật nhân viên thành công";
+
         }
     }
 }
@@ -236,7 +252,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                                         document.getElementById('SDTEdit').value='<?= $item['SDT'] ?>';
                                                         document.getElementById('diaChiEdit').value='<?= $item['diaChi'] ?>';
                                                         document.getElementById('emailEdit').value='<?= $item['email'] ?>';
-                                                        document.getElementById('passwordEdit').value='<?= $item['password'] ?>';
+                                                        document.getElementById('passwordOld').value='<?= $item['password'] ?>';
                                                         document.getElementById('ngayVaoLamEdit').value='<?= $item['ngayVaoLam'] ?>';">
                                                     Cập nhật
                                                 </button>
@@ -338,9 +354,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 <input type="email" class="form-control" id="emailEdit" name="email" required>
                             </div>
                             <div class="mb-3">
-                                <label for="passwordEdit" class="form-label">Mật Khẩu</label>
-                                <input type="password" class="form-control" id="passwordEdit" name="password">
+                                <label for="passwordOld" class="form-label">Mật Khẩu Cũ</label>
+                                <input type="password" class="form-control" id="passwordOld" name="passwordOld"
+                                    readonly>
                             </div>
+                            <div class="mb-3">
+                                <label for="passwordNew" class="form-label">Mật Khẩu Mới</label>
+                                <input type="password" class="form-control" id="passwordNew" name="passwordNew"
+                                    placeholder="Nhập mật khẩu mới nếu thay đổi">
+                            </div>
+
                             <div class="mb-3">
                                 <label for="EditChucVu" class="form-label">Chức Vụ</label>
                                 <select name="roleName" id="EditChucVu" class="form-control" style="height: 50px;"
