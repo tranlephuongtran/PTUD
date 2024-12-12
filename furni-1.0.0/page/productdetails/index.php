@@ -39,7 +39,7 @@ if (isset($_POST['add_to_cart'])) {
             $totalStock = intval($stockData['total']); // Tổng số sách còn trong cơ sở dữ liệu
 
             if ($quantity > $totalStock) {
-                echo "<script>alert('Sách đã hết hàng!');</script>";
+                echo "<script>alert('Số lượng sách trong kho không đủ!');</script>";
             } else {
                 // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
                 $item = [
@@ -60,7 +60,7 @@ if (isset($_POST['add_to_cart'])) {
                 foreach ($_SESSION['cart'] as &$cart_item) {
                     if ($cart_item['id'] == $item['id']) {
                         if ($cart_item['quantity'] + $quantity > $totalStock) {
-                            echo "<script>alert('Sách đã hết hàng!');</script>";
+                            echo "<script>alert('Số lượng sách trong kho không đủ!');</script>";
                             $found = true;
                             break;
                         }
@@ -73,7 +73,7 @@ if (isset($_POST['add_to_cart'])) {
                 // Nếu sách chưa tìm thấy trong giỏ hàng và giỏ hàng còn đủ sách trong kho
                 if (!$found) {
                     if ($quantity > $totalStock) {
-                        echo "<script>alert('Sách đã hết hàng!');</script>";
+                        echo "<script>alert('Số lượng sách trong kho không đủ!');</script>";
                     } else {
                         $_SESSION['cart'][] = $item;
                         echo "<script>alert('Sách đã được thêm vào giỏ hàng thành công!');</script>";
