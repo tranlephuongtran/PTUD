@@ -390,13 +390,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="editGiaThue" class="form-label">Giá Thuê</label>
-                                    <input type="text" class="form-control" name="giaThue" id="editGiaThue" required>
+                                    <input type="number" class="form-control" name="giaThue" id="editGiaThue" required>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class=" col-md-6 mb-3">
                                     <label for="editTienCoc" class="form-label">Tiền Cọc</label>
-                                    <input type="text" class="form-control" name="tienCoc" id="editTienCoc" required>
+                                    <input type="number" class="form-control" name="tienCoc" id="editTienCoc" required>
                                 </div>
                                 <div class=" col-md-6 mb-3">
                                     <label for="editMaISBN" class="form-label">Mã ISBN</label>
