@@ -47,8 +47,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Insert new member card
             $sql = "INSERT INTO thethanhvien (maThe, hoTen, email) VALUES ('$maThe', '$hoTen', '$email')";
             if ($obj->themdulieu($sql)) {
+
+                $userSql = "SELECT maNguoiDung FROM nguoidung WHERE email='$email'";
+                $userResult = $obj->xuatdulieu($userSql);
+                if ($userResult) {
+                    $maNguoiDung = $userResult[0]['maNguoiDung'];
+
+                    // Kiểm tra nếu người dùng đã tồn tại trong bảng khachhang
+                    $checkKhachHangSql = "SELECT * FROM khachhang WHERE maNguoiDung='$maNguoiDung'";
+                    $khachHangExists = $obj->xuatdulieu($checkKhachHangSql);
+
+                    if ($khachHangExists) {
+
+                        $updateKhachHangSql = "UPDATE khachhang SET maThe='$maThe' WHERE maNguoiDung='$maNguoiDung'";
+                        $obj->themdulieu($updateKhachHangSql);
+                    } else {
+                        $insertKhachHangSql = "INSERT INTO khachhang (maNguoiDung, maThe) VALUES ('$maNguoiDung', '$maThe')";
+                        $obj->themdulieu($insertKhachHangSql);
+                    }
+                } else {
+                    $message .= " Không tìm thấy người dùng có email tương ứng.";
+                }
+
                 $message = "Thêm mới thẻ thành viên thành công.";
-                // Reset values after success
+                // Reset giá trị
                 $hoTen = '';
                 $email = '';
                 $maThe = '';
@@ -83,9 +105,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $hoTen = $email = '';
         }
     }
-} else {
-    $hoTen = '';
-    $email = '';
 }
 
 ?>
