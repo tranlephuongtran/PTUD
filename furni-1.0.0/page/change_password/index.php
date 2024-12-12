@@ -1,42 +1,55 @@
 <?php
 session_start();
 error_reporting(0);
+$errMsg = '';  
+
 $email = $_SESSION['user'];
 $conn = mysqli_connect("localhost", "nhomptud", "123456", "ptud");
 if (!$conn) {
     die("Kết nối thất bại: " . mysqli_connect_error());
 }
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $current_password = md5(mysqli_real_escape_string($conn, $_POST['current_password']));
     $new_password = mysqli_real_escape_string($conn, $_POST['new_password']);
     $confirm_new_password = mysqli_real_escape_string($conn, $_POST['confirm_new_password']);
-    $query = "SELECT Password FROM taikhoan WHERE email = '$email'";
-    $result = mysqli_query($conn, $query);
-    if (mysqli_num_rows($result) > 0) {
-        $row = mysqli_fetch_assoc($result);
-        // Kiểm tra mật khẩu cũ
-        if ($current_password === $row['Password']) {
-            // Kiểm tra mật khẩu mới và mật khẩu xác nhận 
-            if ($new_password === $confirm_new_password) {
-                $new_password_md5 = md5($new_password);
-                $update_query = "UPDATE taikhoan SET Password = '$new_password_md5' WHERE email = '$email'";
-                if (mysqli_query($conn, $update_query)) {
-                    echo "<script>alert('Mật khẩu đã được thay đổi thành công!'); window.location.href = 'index.php';</script>";
+
+    // Kiểm tra định dạng mật khẩu mới
+    $password_pattern = '/^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/';
+    if (!preg_match($password_pattern, $new_password)) {
+        $errMsg = 'Mật khẩu mới phải có ít nhất 8 ký tự, 1 ký tự đặc biệt, 1 ký tự hoa và 1 số.';
+    } else {
+        $query = "SELECT Password FROM taikhoan WHERE email = '$email'";
+        $result = mysqli_query($conn, $query);
+        if (mysqli_num_rows($result) > 0) {
+            $row = mysqli_fetch_assoc($result);
+            // Kiểm tra mật khẩu cũ
+            if ($current_password === $row['Password']) {
+                // Kiểm tra mật khẩu mới và mật khẩu xác nhận 
+                if ($new_password === $confirm_new_password) {
+                    $new_password_md5 = md5($new_password);
+                    $update_query = "UPDATE taikhoan SET Password = '$new_password_md5' WHERE email = '$email'";
+                    if (mysqli_query($conn, $update_query)) {
+                        echo "<script>alert('Mật khẩu đã được thay đổi thành công!'); window.location.href = 'index.php';</script>";
+                        exit();
+                    } else {
+                        $errMsg = 'Vui lòng thử lại!';
+                    }
                 } else {
-                    echo "<script>alert('Vui lòng thử lại!');</script>";
+                    $errMsg = 'Mật khẩu mới và xác nhận mật khẩu không khớp.';
                 }
             } else {
-                echo "<script>alert('Mật khẩu mới và xác nhận mật khẩu không khớp.');</script>";
+                $errMsg = 'Mật khẩu cũ không chính xác.';
             }
         } else {
-            echo "<script>alert('Mật khẩu cũ không chính xác.');</script>";
+            $errMsg = 'Không tìm thấy tài khoản.';
         }
-    } else {
-        echo "<script>alert('Không tìm thấy tài khoản.');</script>";
     }
 }
+
 mysqli_close($conn);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -61,10 +74,7 @@ mysqli_close($conn);
     }
 
     .menu {
-        /* background-color: #f8f9fa; */
         padding: 20px;
-        /* border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
     }
 
     .menu ul {
@@ -96,16 +106,24 @@ mysqli_close($conn);
                     <ul>
                         <li><a href="index.php?profile">Tài khoản của tôi</a></li>
                         <li><a href="index.php?updateProfile">Cập nhật thông tin</a></li>
-                        <li><a href="index.php?history&maNguoiDung=<?php echo $_SESSION['maNguoiDung']; ?>">Lịch sử thuê
-                                sách</a></li>
+                        <li><a href="index.php?history&maNguoiDung=<?php echo $_SESSION['maNguoiDung']; ?>">Lịch sử thuê sách</a></li>
                         <li><a href="index.php?logout">Đăng Xuất</a></li>
                     </ul>
                 </div>
             </div>
+
             <!-- Form đổi mật khẩu -->
             <div class="col-md-10">
                 <div class="tnb">
                     <h2 class="mb-4">Đổi Mật Khẩu</h2>
+                    
+                    <!-- Hiển thị thông báo lỗi nếu có -->
+                    <?php if ($errMsg): ?>
+                        <div class="alert alert-danger" role="alert">
+                            <?php echo $errMsg; ?>
+                        </div>
+                    <?php endif; ?>
+
                     <form method="POST" action="index.php?change_password">
                         <div class="mb-3">
                             <label for="current_password" class="form-label">Mật khẩu cũ</label>
