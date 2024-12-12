@@ -123,7 +123,8 @@ if (isset($_POST['checkout'])) {
 												<input type="number" class="form-control quantity-input" name="quantity"
 													style="width: 100px; text-align: center; position: relative; left: 20px"
 													value="<?php echo $cart_item['quantity']; ?>" min="1">
-												<button type="submit" class="btn btn-primary btn-sm">Cập nhật</button>
+												<button type="submit" class="btn btn-primary btn-sm"
+													style="position: relative; left:15px">Cập nhật</button>
 											</form>
 										</td>
 										<td><span
