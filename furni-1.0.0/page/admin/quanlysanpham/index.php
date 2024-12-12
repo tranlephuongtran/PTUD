@@ -54,25 +54,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
 
-    if (isset($_POST['btXoa'])) {
-        $maSach = $_POST['btXoa'];
+    // Xử lý xóa sách
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['btXoa'])) {
+        $maSachXoa = $_POST['btXoa']; // Lấy mã sách cần xóa
 
-        // Lấy mã đầu sách của sách cần xóa
-        $currentData = $obj->xuatdulieu("SELECT maDauSach FROM sach WHERE maSach = '$maSach'");
-        $maDauSach = $currentData[0]['maDauSach'];
+        // Kiểm tra nếu có chi tiết hóa đơn liên quan
+        $checkDetailsSQL = "SELECT COUNT(*) as count FROM chitiethoadon WHERE maSach = '$maSachXoa'";
+        $result = $obj->xuatdulieu($checkDetailsSQL);
 
-        // Xóa sách
-        $sql = "DELETE FROM sach WHERE maSach = '$maSach'";
-        if ($obj->xoadulieu($sql)) {
-            // Giảm tongSoLuong cho đầu sách
-            $updateSQL = "UPDATE dausach SET tongSoLuong = tongSoLuong - 1 WHERE maDauSach = '$maDauSach'";
-            $obj->suadulieu($updateSQL);
-
-            $message = "Xóa sách thành công";
+        if ($result[0]['count'] > 0) {
+            $message = "Không thể xóa sách cần cho dữ liệu chi tiết hóa đó !";
         } else {
-            $message = "Xóa sách thất bại";
+            // Xóa sách khỏi cơ sở dữ liệu
+            $deleteSQL = "DELETE FROM sach WHERE maSach = '$maSachXoa'";
+            if ($obj->suadulieu($deleteSQL)) {
+                $message = "Xóa sách thành công";
+            } else {
+                $message = "Xóa sách thất bại";
+            }
         }
     }
+
 
 
     if (isset($_POST['btSua'])) {
