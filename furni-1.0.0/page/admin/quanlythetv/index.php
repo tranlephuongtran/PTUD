@@ -8,6 +8,7 @@ if (!isset($_GET['quanlythetv'])) {
 }
 
 $obj = new database();
+error_reporting(E_ERROR | E_PARSE);
 
 // Query to get user list
 $sqlNguoiDung = "SELECT maNguoiDung, ten FROM nguoidung";
