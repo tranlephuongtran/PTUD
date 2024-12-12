@@ -6,7 +6,6 @@ $conn = mysqli_connect("localhost", "nhomptud", "123456", "ptud");
 if (!$conn) {
     die("Kết nối thất bại: " . mysqli_connect_error());
 }
-// Kiểm tra nếu form gửi thì xử lý
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $current_password = md5(mysqli_real_escape_string($conn, $_POST['current_password']));
     $new_password = mysqli_real_escape_string($conn, $_POST['new_password']);
@@ -24,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if (mysqli_query($conn, $update_query)) {
                     echo "<script>alert('Mật khẩu đã được thay đổi thành công!'); window.location.href = 'index.php';</script>";
                 } else {
-                    echo "<script>alert('Có lỗi xảy ra khi cập nhật mật khẩu. Vui lòng thử lại!');</script>";
+                    echo "<script>alert('Vui lòng thử lại!');</script>";
                 }
             } else {
                 echo "<script>alert('Mật khẩu mới và xác nhận mật khẩu không khớp.');</script>";
