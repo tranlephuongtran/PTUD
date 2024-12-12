@@ -50,13 +50,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         SET tinhTrang = 'Can kiem tra'       
                         WHERE maSach = '$maSach'
                     ";
-                    $updateDauSachQuery = "
-                        UPDATE dausach d
-                        JOIN sach s ON d.maDauSach = s.maDauSach
-                        SET d.soLuongDangThue = d.soLuongDangThue - 1
-                        WHERE s.maSach = '$maSach'
-                    ";
-                    if ($conn->query($updateQuery) && $conn->query($updateSachQuery) && $conn->query($updateDauSachQuery)) {
+
+                    if ($conn->query($updateQuery) && $conn->query($updateSachQuery)) {
                         echo "<script>alert('Tình trạng thuê và ảnh đã được cập nhật thành công.');</script>";
                     } else {
                         echo "<script>alert('Lỗi khi cập nhật thông tin: " . $conn->error . "');</script>";
