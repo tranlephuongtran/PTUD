@@ -303,6 +303,7 @@ if (isset($_POST['confirm'])) {
 					if ($conn->query($str)) {
 					}
 				}
+				unset($_SESSION['cart']);
 				echo "<script>alert('Xác nhận thành công'); window.location.href = 'index.php?confirmpayment'</script>";
 			}
 		} else
