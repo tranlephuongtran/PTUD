@@ -23,6 +23,19 @@ if (isset($_POST['update_status'])) {
     $stmt = $conn->prepare($sql_update);
     $stmt->bind_param("si", $tinhTrang, $maSach);
     if ($stmt->execute()) {
+        if ($tinhTrang == 'Con sach') {
+            // Cập nhật soLuongDangThue trong bảng dausach
+            $updateDauSachQuery = "
+                UPDATE dausach d
+                JOIN sach s ON d.maDauSach = s.maDauSach
+                SET d.soLuongDangThue = d.soLuongDangThue - 1
+                WHERE s.maSach = ?
+            ";
+            $stmtDauSach = $conn->prepare($updateDauSachQuery);
+            $stmtDauSach->bind_param("i", $maSach);
+            $stmtDauSach->execute();
+            $stmtDauSach->close();
+        }
         echo "<script>alert('Cập nhật thành công!');</script>";
     } else {
         echo "<script>alert('Cập nhật thất bại!');</script>";
