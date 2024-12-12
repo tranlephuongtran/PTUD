@@ -105,11 +105,41 @@ class Product
 
     public function updateBookStatus($maSach)
     {
-        $sql = "UPDATE sach SET tinhTrang = 'Đã Thanh Lý' WHERE maSach = ?";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("i", $maSach);
-        $stmt->execute();
-        $stmt->close();
+        // Bắt đầu transaction 
+        $this->conn->begin_transaction();
+
+        try {
+            // Cập nhật trạng thái của sách thành "Đã Thanh Lý" 
+            $sql = "UPDATE sach SET tinhTrang = 'Đã Thanh Lý' WHERE maSach = ?";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bind_param("i", $maSach);
+            $stmt->execute();
+
+            // Lấy maDauSach của sách để cập nhật dausach 
+            $sql = "SELECT maDauSach FROM sach WHERE maSach = ?";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bind_param("i", $maSach);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $maDauSach = $result->fetch_assoc()['maDauSach'];
+
+            // Cập nhật tongSoLuong và soLuongDangThue của dausach 
+            $sql = "UPDATE dausach 
+                    SET tongSoLuong = CASE WHEN tongSoLuong > 0 THEN tongSoLuong - 1 ELSE 0 END, 
+                        soLuongDangThue = CASE WHEN soLuongDangThue > 0 THEN soLuongDangThue - 1 ELSE 0 END 
+                    WHERE maDauSach = ?";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bind_param("i", $maDauSach);
+            $stmt->execute();
+
+            // Commit transaction 
+            $this->conn->commit();
+            $stmt->close();
+        } catch (Exception $e) {
+            // Rollback transaction nếu có lỗi 
+            $this->conn->rollback();
+            throw $e;
+        }
     }
 
     public function __destruct()
