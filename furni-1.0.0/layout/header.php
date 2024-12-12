@@ -245,7 +245,7 @@ error_reporting(0);
                                 JOIN chitiethoadon ctdh ON ds.maDon = ctdh.maDon
                                 WHERE DATEDIFF(CURDATE(), ds.ngayThue) >= 12
                                 AND ctdh.tinhTrangThue = 'Đang thuê'
-                                AND ds.maKH = '$maKH'";
+                                AND ds.maKH = '$maKH' GROUP BY ds.maDon";
                                 $result = $conn->query($query);
 
                                 if (mysqli_num_rows($result) > 0) {
