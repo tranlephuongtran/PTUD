@@ -176,7 +176,6 @@ $roleId = isset($_SESSION['roleId']) ? $_SESSION['roleId'] : null; // Lấy role
                                     kho</a>
                                 <a class="dropdown-item" href="indexAdmin.php?kiemtrahuhong">Kiểm tra hư hỏng</a>
                                 <a class="dropdown-item" href="indexAdmin.php?sachthanhly">Thanh lý</a>
-                                <a class="dropdown-item" href="indexAdmin.php?baocao">Báo cáo</a>
                             </div>
                         </li>
                         <li>

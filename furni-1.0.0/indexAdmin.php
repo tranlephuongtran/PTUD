@@ -38,6 +38,7 @@ $pages = [
     'quanlychinhsach' => 1,
     'quanlykhachhang' => 1,
     'chitietkhachhang' => 1,
+    'sachthanhly' => [1, 2],
     'home' => null // Mặc định trang home không cần kiểm tra quyền
 ];
 
