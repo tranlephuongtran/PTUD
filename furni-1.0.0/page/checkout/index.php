@@ -37,6 +37,10 @@
 		width: 100%;
 		/* Bảng chiếm toàn bộ chiều rộng container */
 	}
+
+	#confirm:hover {
+		background-color: black;
+	}
 </style>
 
 <!doctype html>
@@ -248,7 +252,7 @@ if ($thanhvien == 1) {
 
 							<div class="form-group">
 								<form method="post"><button type='submit' class="btn btn-black btn-lg py-3 btn-block"
-										name="confirm">Xác
+										id="btn-confirm" name="confirm" style="background-color: #a76d49">Xác
 										nhận</button></form>
 							</div>
 

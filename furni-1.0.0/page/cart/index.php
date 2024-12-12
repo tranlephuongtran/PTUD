@@ -35,6 +35,10 @@
 		text-align: center;
 		margin: auto;
 	}
+
+	#confirm:hover {
+		background-color: black;
+	}
 </style>
 <!doctype html>
 <html lang="en">
@@ -234,7 +238,8 @@ if (isset($_POST['checkout'])) {
 							<div class="col-md-12">
 								<form method="post" action="">
 									<button type="submit" class="btn btn-lg py-3 btn-block" name="checkout"
-										style="background-color: #a76d49; color: white !important;">THUÊ SÁCH</button>
+										style="background-color: #a76d49; color: white !important;" id="confirm">THUÊ
+										SÁCH</button>
 								</form>
 							</div>
 						</div>
