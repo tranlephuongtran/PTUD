@@ -31,7 +31,7 @@ $total_sql = "
     JOIN chitiethoadon ct ON ds.maDon = ct.maDon
     JOIN khachhang kh ON ds.maKH = kh.maKH
     JOIN nguoidung nd ON kh.maNguoiDung = nd.maNguoiDung
-    WHERE ct.tinhTrangThue = 'Đang thuê'";
+    WHERE ct.tinhTrangThue = 'Đang thuê' AND ds.tinhTrangThanhToan = 'Da thanh toan'";
 
 // Nếu có từ khóa tìm kiếm, thêm điều kiện vào truy vấn
 if (!empty($searchTerm)) {
@@ -49,7 +49,7 @@ $sql = "
     JOIN chitiethoadon ct ON ds.maDon = ct.maDon
     JOIN khachhang kh ON ds.maKH = kh.maKH
     JOIN nguoidung nd ON kh.maNguoiDung = nd.maNguoiDung
-    WHERE ct.tinhTrangThue = 'Đang thuê'";
+    WHERE ct.tinhTrangThue = 'Đang thuê' AND ds.tinhTrangThanhToan = 'Da thanh toan'";
 
 // Nếu có từ khóa tìm kiếm, thêm điều kiện vào truy vấn
 if (!empty($searchTerm)) {
