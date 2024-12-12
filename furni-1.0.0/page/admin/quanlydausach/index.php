@@ -24,8 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $tenDauSach = $_POST['tenDauSach'];
         $tacGia = $_POST['tacGia'];
         $nxb = $_POST['nxb'];
-        $tongSoLuong = $_POST['tongSoLuong'] > 0 ? $_POST['tongSoLuong'] : 1;
-        $soLuongDangThue = $_POST['soLuongDangThue'] > 0 ? $_POST['soLuongDangThue'] : 0;
         $maDM = $_POST['maDM'];
         // Xử lý hình ảnh
         if (isset($_FILES['hinhAnh']) && $_FILES['hinhAnh']['error'] == 0) {
@@ -36,7 +34,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if (move_uploaded_file($_FILES['hinhAnh']['tmp_name'], $targetFilePath)) {
                 $hinhAnh = $fileName;
             } else {
-                // echo '<script>alert("Lỗi khi tải ảnh lên.");</script>';
                 $message = "Lỗi khi tải ảnh lên";
                 $hinhAnh = null;
             }
@@ -45,13 +42,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
         // Thêm đầu sách vào cơ sở dữ liệu
         $sql = "INSERT INTO dausach (tenDauSach, tacGia, nxb, tongSoLuong, soLuongDangThue, maDM, hinhAnh)
-                VALUES ('$tenDauSach', '$tacGia', '$nxb', '$tongSoLuong', '$soLuongDangThue', '$maDM', '$hinhAnh')";
+                VALUES ('$tenDauSach', '$tacGia', '$nxb', 0, 0, '$maDM', '$hinhAnh')";
         if ($obj->themdulieu($sql)) {
-            // echo '<script>alert("Thêm mới đầu sách thành công");</script>';
             $message = "Thêm mới đầu sách thành công";
         } else {
-            // echo '<script>alert("Thêm mới đầu sách thất bại");</script>';
-            $message = "Thêm mới đầu sách thật bại";
+            $message = "Thêm mới đầu sách thất bại";
         }
     }
     // Xử lý xóa đầu sách
@@ -67,8 +62,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $tenDauSach = $_POST['tenDauSach'];
         $tacGia = $_POST['tacGia'];
         $nxb = $_POST['nxb'];
-        $tongSoLuong = $_POST['tongSoLuong'] > 0 ? $_POST['tongSoLuong'] : 1; // Đảm bảo tổng số lượng tối thiểu là 1
-        $soLuongDangThue = $_POST['soLuongDangThue'] > 0 ? $_POST['soLuongDangThue'] : 0; // Đảm bảo số lượng đang thuê là 0
         $maDM = $_POST['maDM'];
         // Xử lý cập nhật hình ảnh
         if (isset($_FILES['hinhAnh']) && $_FILES['hinhAnh']['error'] == 0) {
@@ -87,14 +80,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
         // Cập nhật đầu sách
         $sql = "UPDATE dausach SET tenDauSach='$tenDauSach', tacGia='$tacGia', nxb='$nxb', 
-                tongSoLuong='$tongSoLuong', soLuongDangThue='$soLuongDangThue', maDM='$maDM', hinhAnh='$hinhAnh'
+                maDM='$maDM', hinhAnh='$hinhAnh'
                 WHERE maDauSach='$maDauSach'";
         if ($obj->suadulieu($sql)) {
-            // echo '<script>alert("Cập nhật đầu sách thành công");</script>';
             $message = "Cập nhật đầu sách thành công";
         } else {
-            // echo '<script>alert("Cập nhật đầu sách thất bại");</script>';
-            $message = "Cập nhật đầu sách thật bại";
+            $message = "Cập nhật đầu sách thất bại";
         }
     }
 }
@@ -199,14 +190,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <input type="text" class="form-control" name="nxb" required>
                     </div>
                     <div class="mb-3">
-                        <label for="tongSoLuong" class="form-label">Tổng Số Lượng</label>
-                        <input type="number" class="form-control" name="tongSoLuong" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="soLuongDangThue" class="form-label">Số Lượng Đang Thuê</label>
-                        <input type="number" class="form-control" name="soLuongDangThue" required>
-                    </div>
-                    <div class="mb-3">
                         <label for="maDM" class="form-label">Danh Mục</label>
                         <select class="form-control" name="maDM">
                             <?php foreach ($obj->xuatdulieu("SELECT * FROM danhmuc") as $dm): ?>
@@ -227,6 +210,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </form>
     </div>
 </div>
+
 <!-- Modal Sửa Đầu Sách -->
 <div id="editBookModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
@@ -250,15 +234,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <input type="text" class="form-control" name="nxb" id="editNXB" required>
                     </div>
                     <div class="mb-3">
-                        <label for="editTongSoLuong" class="form-label">Tổng Số Lượng</label>
-                        <input type="number" class="form-control" name="tongSoLuong" id="editTongSoLuong" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editSoLuongDangThue" class="form-label">Số Lượng Đang Thuê</label>
-                        <input type="number" class="form-control" name="soLuongDangThue" id="editSoLuongDangThue"
-                            required>
-                    </div>
-                    <div class="mb-3">
                         <label for="editMaDM" class="form-label">Danh Mục</label>
                         <select class="form-control" name="maDM" id="editMaDM">
                             <?php foreach ($obj->xuatdulieu("SELECT * FROM danhmuc") as $dm): ?>
@@ -280,16 +255,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </form>
     </div>
 </div>
-</div>
-</div>
+
 <script>
     function editBook(item) {
         document.getElementById('editMaDauSach').value = item.maDauSach;
         document.getElementById('editTenDauSach').value = item.tenDauSach;
         document.getElementById('editTacGia').value = item.tacGia;
         document.getElementById('editNXB').value = item.nxb;
-        document.getElementById('editTongSoLuong').value = item.tongSoLuong;
-        document.getElementById('editSoLuongDangThue').value = item.soLuongDangThue;
         document.getElementById('editMaDM').value = item.maDM;
         document.getElementById('editHinhAnh').value = "";
         document.getElementById('oldHinhAnh').value = item.hinhAnh;
