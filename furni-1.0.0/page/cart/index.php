@@ -5,6 +5,37 @@
 * Template URI: https://untree.co/
 * License: https://creativecommons.org/licenses/by/3.0/
 */ -->
+<style>
+	.table {
+		table-layout: fixed;
+		width: 100%;
+	}
+
+	.table th,
+	.table td {
+		text-align: center;
+		vertical-align: middle;
+		word-wrap: break-word;
+	}
+
+	.table .product-name {
+		max-width: 250px;
+		/* Điều chỉnh độ rộng phù hợp */
+		overflow-wrap: break-word;
+		white-space: normal;
+	}
+
+	.table tr {
+		height: auto;
+		/* Để hàng tự động giãn theo nội dung */
+	}
+
+	.quantity-input {
+		width: 100px;
+		text-align: center;
+		margin: auto;
+	}
+</style>
 <!doctype html>
 <html lang="en">
 <?php
@@ -118,13 +149,13 @@ if (isset($_POST['checkout'])) {
 											</h2>
 										</td>
 										<td>
-											<form method="post" class="quantity-form">
+											<form method="post" class="quantity-form"
+												style="display: flex; flex-direction: column; align-items: center;">
 												<input type="hidden" name="id" value="<?php echo $cart_item['id']; ?>">
 												<input type="number" class="form-control quantity-input" name="quantity"
-													style="width: 100px; text-align: center; position: relative; left: 20px"
+													style="width: 100px; text-align: center; "
 													value="<?php echo $cart_item['quantity']; ?>" min="1">
-												<button type="submit" class="btn btn-primary btn-sm"
-													style="position: relative; left:15px">Cập nhật</button>
+												<button type="submit" class="btn btn-primary btn-sm">Cập nhật</button>
 											</form>
 										</td>
 										<td><span

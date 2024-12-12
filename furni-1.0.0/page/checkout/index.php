@@ -5,6 +5,39 @@
 * Template URI: https://untree.co/
 * License: https://creativecommons.org/licenses/by/3.0/
 */ -->
+<style>
+	.table th,
+	.table td {
+		vertical-align: middle;
+		text-align: center;
+		/* Đảm bảo nội dung luôn căn giữa theo chiều ngang */
+	}
+
+	.table td {
+		height: 50px;
+		/* Đặt chiều cao cố định cho tất cả các hàng */
+		overflow: hidden;
+		/* Ngăn văn bản tràn ra ngoài */
+	}
+
+
+	.table td:nth-child(2) {
+		width: 200px;
+		/* Cố định chiều rộng cho cột tên sách */
+	}
+
+	.table td:nth-child(5) {
+		text-align: right;
+		/* Căn phải cho cột tiền cọc */
+	}
+
+	.table {
+		table-layout: fixed;
+		/* Đảm bảo kích thước cố định cho các cột */
+		width: 100%;
+		/* Bảng chiếm toàn bộ chiều rộng container */
+	}
+</style>
 
 <!doctype html>
 <html lang="en">
@@ -73,7 +106,7 @@ if ($thanhvien == 1) {
 							<th>Tên Sách</th>
 							<th>Số Lượng</th>
 							<th>Giá Thuê</th>
-							<th style="text-align: left;">Tiền Cọc</th>
+							<th>Tiền Cọc</th>
 
 						</thead>
 						<tbody>
@@ -110,7 +143,7 @@ if ($thanhvien == 1) {
 										<td style="text-align: right;">
 											<form method="POST" action="">
 												<select name="km" id="km-select" onchange="this.form.submit()"
-													style="border-radius: 10px;width: 200px;height: 30px;">
+													style="border-radius: 10px;width: 150px;height: 30px;">
 													<option value="0">Vui lòng chọn</option>
 													<?php
 													$conn = mysqli_connect("localhost", "nhomptud", "123456", "ptud");
@@ -184,7 +217,7 @@ if ($thanhvien == 1) {
 											<tr>
 												<td class="text-black font-weight-bold"><strong>Phí Ship</strong>
 												</td>
-												<td class="text-black" style="text-align: right;">30.000 VND</td>
+												<td class="text-black" style="text-align: right;">30,000 VND</td>
 											</tr>
 											<tr>
 												<td class="text-black font-weight-bold"><strong>Tổng Cộng Tiền
